@@ -9,7 +9,7 @@
     />
     <link
       rel="icon"
-      href="assets/img/kaiadmin/favicon.ico"
+      href="assets/img/marineops/favicon-primary.svg"
       type="image/x-icon"
     />
 
@@ -50,7 +50,7 @@
           <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
               <img
-                src="assets/img/kaiadmin/logo_light.svg"
+                src="assets/img/marineops/marine-ops-text-light.svg"
                 alt="navbar brand"
                 class="navbar-brand"
                 height="20"
