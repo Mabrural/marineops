@@ -1,25 +1,161 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Forgot Password - MarineOps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="{{ asset('assets/img/marineops/favicon-primary.svg') }}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons"
+                ],
+                urls: ["{{ asset('assets/css/fonts.min.css') }}"]
+            },
+            active: function () { sessionStorage.fonts = true; }
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f2f5;
+        }
+
+        .login-page {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+            background: #ffffff;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo img {
+            margin-top: 1.0rem;
+            max-width: 80%;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            height: 45px;
+            border-radius: 6px;
+        }
+
+        .btn-reset {
+            height: 45px;
+            border-radius: 6px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 1.5rem;
+                border-radius: 8px;
+            }
+
+            .login-logo img {
+                margin-top: 1.0rem;
+                height: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="{{ asset('assets/img/marineops/marine-ops-text-primary.svg') }}" alt="MarineOps Logo">
+            </div>
+
+            <p class="login-subtitle">
+                Forgot your password? No worries.<br>
+                Enter your email address and we’ll send you a link to reset your password.
+            </p>
+
+            <!-- Status Message -->
+            @if (session('status'))
+                <div class="alert alert-success text-sm mb-3">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <!-- Forgot Password Form -->
+            <form method="POST" action="{{ route('password.email') }}">
+                @csrf
+
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon"><i class="fa fa-envelope"></i></span>
+                        <input type="email"
+                               class="form-control @error('email') is-invalid @enderror"
+                               id="email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               required
+                               autofocus
+                               placeholder="Enter your email">
+                    </div>
+                    @error('email')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary btn-reset">
+                        Send Password Reset Link
+                    </button>
+                </div>
+            </form>
+
+        </div>
     </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <!-- Core JS Files -->
+    <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/kaiadmin.min.js') }}"></script>
+</body>
 
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
