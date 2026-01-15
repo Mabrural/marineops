@@ -103,3 +103,29 @@ function getCheckmark() {
   $(".btnSwitch").find("button").empty();
   $(".btnSwitch").find("button.selected").append(checkmark);
 }
+
+$(document).ready(function () {
+
+  // === DEFAULT THEME MARINEOPS ===
+
+  // Logo Header
+  $(".logo-header").attr("data-background-color", "blue2");
+  $(".changeLogoHeaderColor").removeClass("selected");
+  $('.changeLogoHeaderColor[data-color="blue2"]').addClass("selected");
+
+  // Navbar Header
+  $(".main-header .navbar-header").attr("data-background-color", "blue2");
+  $(".changeTopBarColor").removeClass("selected");
+  $('.changeTopBarColor[data-color="blue2"]').addClass("selected");
+
+  // Sidebar
+  $(".sidebar").attr("data-background-color", "white");
+  $(".changeSideBarColor").removeClass("selected");
+  $('.changeSideBarColor[data-color="white"]').addClass("selected");
+
+  // Refresh UI
+  customCheckColor();
+  layoutsColors();
+  getCheckmark();
+});
+

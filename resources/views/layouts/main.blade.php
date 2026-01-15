@@ -15,7 +15,7 @@
             @include('layouts.footer')
         </div>
 
-        @include('layouts.custom-template')
+        {{-- @include('layouts.custom-template') --}}
     </div>
     @include('layouts.script')
 </body>
