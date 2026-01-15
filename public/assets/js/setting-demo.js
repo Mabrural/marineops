@@ -72,9 +72,9 @@ $(".changeBackgroundColor").on("click", function () {
 function customCheckColor() {
   var logoHeader = $(".logo-header").attr("data-background-color");
   if (logoHeader !== "white") {
-    $(".logo-header .navbar-brand").attr("src", "assets/img/marineops/marine-ops-text-light.svg");
+    $(".logo-header .navbar-brand").attr("src", "/assets/img/marineops/marine-ops-text-light.svg");
   } else {
-    $(".logo-header .navbar-brand").attr("src", "assets/img/marineops/marine-ops-text-primary.svg");
+    $(".logo-header .navbar-brand").attr("src", "/assets/img/marineops/marine-ops-text-primary.svg");
   }
 }
 
@@ -104,28 +104,28 @@ function getCheckmark() {
   $(".btnSwitch").find("button.selected").append(checkmark);
 }
 
-// $(document).ready(function () {
+$(document).ready(function () {
 
-//   // === DEFAULT THEME MARINEOPS ===
+  // === DEFAULT THEME MARINEOPS ===
 
-//   // Logo Header
-//   $(".logo-header").attr("data-background-color", "blue2");
-//   $(".changeLogoHeaderColor").removeClass("selected");
-//   $('.changeLogoHeaderColor[data-color="blue2"]').addClass("selected");
+  // Logo Header
+  $(".logo-header").attr("data-background-color", "blue2");
+  $(".changeLogoHeaderColor").removeClass("selected");
+  $('.changeLogoHeaderColor[data-color="blue2"]').addClass("selected");
 
-//   // Navbar Header
-//   $(".main-header .navbar-header").attr("data-background-color", "blue2");
-//   $(".changeTopBarColor").removeClass("selected");
-//   $('.changeTopBarColor[data-color="blue2"]').addClass("selected");
+  // Navbar Header
+  $(".main-header .navbar-header").attr("data-background-color", "blue2");
+  $(".changeTopBarColor").removeClass("selected");
+  $('.changeTopBarColor[data-color="blue2"]').addClass("selected");
 
-//   // Sidebar
-//   $(".sidebar").attr("data-background-color", "white");
-//   $(".changeSideBarColor").removeClass("selected");
-//   $('.changeSideBarColor[data-color="white"]').addClass("selected");
+  // Sidebar
+  $(".sidebar").attr("data-background-color", "white");
+  $(".changeSideBarColor").removeClass("selected");
+  $('.changeSideBarColor[data-color="white"]').addClass("selected");
 
-//   // Refresh UI
-//   customCheckColor();
-//   layoutsColors();
-//   getCheckmark();
-// });
+  // Refresh UI
+  customCheckColor();
+  layoutsColors();
+  getCheckmark();
+});
 
