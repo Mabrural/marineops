@@ -3,7 +3,7 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="/dashboard" class="logo">
+            <a href="{{ route('dashboard') }}" class="logo">
                 <img src="{{ asset('assets/img/marineops/marine-ops-text-light.svg') }}" alt="navbar brand"
                     class="navbar-brand" height="20" />
             </a>

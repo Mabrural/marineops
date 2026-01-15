@@ -18,6 +18,7 @@
         {{-- @include('layouts.custom-template') --}}
     </div>
     @include('layouts.script')
+    @stack('scripts')
 </body>
 
 </html>
