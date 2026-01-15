@@ -26,8 +26,8 @@
             <ul class="nav nav-secondary">
                 <!-- Company Info -->
                 <div class="sidebar-company text-center py-2 mb-2">
-                    <p class="mb-0 text-muted" style="font-size: 11px;">Company</p>
-                    <h6 class="mb-0 text-dark fw-semibold">
+                    <p class="mb-0  text-white" style="font-size: 11px;">Company</p>
+                    <h6 class="mb-0 text-white fw-semibold">
                         PT Global Maritim Nusantara
                     </h6>
                 </div>
