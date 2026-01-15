@@ -27,7 +27,7 @@
                 </div>
 
                 <!-- New Password -->
-                <div class="form-group mt-4">
+                <div class="form-group mt-2">
                     <label for="password">New Password</label>
                     <div class="input-icon">
                         <span class="input-icon-addon"><i class="fa fa-lock"></i></span>
@@ -40,7 +40,7 @@
                 </div>
 
                 <!-- Confirm Password -->
-                <div class="form-group mt-4">
+                <div class="form-group mt-2">
                     <label for="password_confirmation">Confirm Password</label>
                     <div class="input-icon">
                         <span class="input-icon-addon"><i class="fa fa-lock"></i></span>
