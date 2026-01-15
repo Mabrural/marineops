@@ -46,8 +46,8 @@
                     <h4 class="text-section">Master Data</h4>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('company') ? 'active' : '' }}">
-                    <a href="{{ route('company') }}">
+                <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
+                    <a href="{{ route('companies.index') }}">
                         <i class="fas fa-building"></i>
                         <p>Company</p>
                     </a>
