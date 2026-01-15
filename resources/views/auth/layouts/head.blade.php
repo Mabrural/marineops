@@ -74,14 +74,14 @@
 
         .login-logo img {
             margin-top: 1.0rem;
-            max-width: 80%;
+            max-width: 68%;
         }
 
         .login-subtitle {
             text-align: center;
-            font-size: 16px;
+            font-size: 13px;
             color: #6c757d;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .form-control {
@@ -115,7 +115,7 @@
 
             .login-logo img {
                 margin-top: 1.0rem;
-                height: 1.8rem;
+                height: 2.0rem;
             }
         }
     </style>
