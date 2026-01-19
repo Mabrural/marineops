@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
 // internal operasion
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('clients', ClientController::class);
+    Route::resource('ports', PortController::class);
 });
 
 Route::middleware('auth')->group(function () {
