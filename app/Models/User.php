@@ -38,4 +38,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'user_companies')->withPivot('is_active')->withTimestamps();
+    }
 }
