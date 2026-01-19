@@ -55,7 +55,7 @@
                     </a>
                 </li> --}}
 
-                <li class="nav-item">
+                <li class="nav-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
                     <a href="{{ route('clients.index') }}">
                         <i class="fas fa-user-tie"></i>
                         <p>Client</p>
