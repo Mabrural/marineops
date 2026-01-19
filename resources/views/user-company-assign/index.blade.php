@@ -88,16 +88,8 @@
                                 <div>
                                     <div class="d-flex flex-column">
                                         <h6 class="fw-bold mb-1">{{ $user->name }}</h6>
-                                        <p class="text-muted small mb-1">{{ $user->email }}</p>
-                                        <div class="mt-1">
-                                            <span class="badge bg-{{ $user->is_admin ? 'primary' : 'secondary' }}">
-                                                {{ $user->is_admin ? 'Admin' : 'General' }}
-                                            </span>
-                                            <span
-                                                class="badge bg-{{ $user->is_active ? 'success' : 'warning' }} align-self-start">
-                                                {{ $user->is_active ? 'Active' : 'Inactive' }}
-                                            </span>
-                                        </div>
+                                        <p class="text-muted small mb-1">{{ $user->email }}</p><hr>
+                                        <p class="text-muted small mb-1">{{ $user->company->name ?? '-' }}</p>
                                     </div>
                                 </div>
                                 <div class="dropdown">
@@ -105,60 +97,26 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('user-management.edit', $user->id) }}">
-                                                <i class="fas fa-edit me-2"></i>Edit
-                                            </a>
-                                        </li>
-                                        <li>
-                                            @if ($user->is_admin)
-                                                <form action="{{ route('user-management.revoke-admin', $user->id) }}"
-                                                    method="POST" class="revoke-form">
+                                        @if (!$user->company)
+                                            <li>
+                                                <a class="dropdown-item text-primary"
+                                                    href="{{ url('user-company-assign/create/' . $user->id) }}">
+                                                    <i class="fas fa-user-edit me-1"></i> Assign Company
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <form action="{{ route('user-company-assign.destroy', $user->id) }}"
+                                                    method="POST" onsubmit="return confirmDelete(event)">
                                                     @csrf
-                                                    <button type="submit" class="dropdown-item text-warning">
-                                                        <i class="fas fa-user-slash me-1"></i> Revoke Admin
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item text-danger">
+                                                        <i class="fas fa-user-times me-1"></i> Revoke Company
+                                                        Access
                                                     </button>
                                                 </form>
-                                            @else
-                                                <form action="{{ route('user-management.grant-admin', $user->id) }}"
-                                                    method="POST" class="grant-form">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item text-success">
-                                                        <i class="fas fa-user-shield me-1"></i> Grant Admin
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </li>
-                                        <li>
-                                            @if ($user->is_active)
-                                                <form action="{{ route('user-management.deactivate', $user->id) }}"
-                                                    method="POST" class="deactivate-form">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item text-warning">
-                                                        <i class="fas fa-user-times me-1"></i> Deactivate
-                                                    </button>
-                                                </form>
-                                            @else
-                                                <form action="{{ route('user-management.activate', $user->id) }}"
-                                                    method="POST" class="activate-form">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item text-success">
-                                                        <i class="fas fa-user-check me-1"></i> Activate
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </li>
-                                        <li>
-                                            <form action="{{ route('user-management.destroy', $user->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-item text-danger"
-                                                    onclick="return confirmDelete(event)">
-                                                    <i class="fas fa-trash me-2"></i>Delete
-                                                </button>
-                                            </form>
-                                        </li>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
