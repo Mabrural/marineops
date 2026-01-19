@@ -69,8 +69,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item {{ request()->routeIs('vessels.*') ? 'active' : '' }}">
+                    <a href="{{ route('vessels.index') }}">
                         <i class="fas fa-ship"></i>
                         <p>Vessel Registry</p>
                     </a>
