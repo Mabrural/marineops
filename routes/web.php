@@ -15,7 +15,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // super admin
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
     Route::resource('companies', CompanyController::class);
 
     Route::resource('user-management', UserController::class);
