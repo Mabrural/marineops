@@ -56,7 +56,7 @@
                 </li> --}}
 
                 <li class="nav-item">
-                    <a href="#">
+                    <a href="{{ route('clients.index') }}">
                         <i class="fas fa-user-tie"></i>
                         <p>Client</p>
                     </a>

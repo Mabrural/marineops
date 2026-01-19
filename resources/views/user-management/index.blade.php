@@ -127,8 +127,8 @@
                                         <h6 class="fw-bold mb-1">{{ $user->name }}</h6>
                                         <p class="text-muted small mb-1">{{ $user->email }}</p>
                                         <div class="mt-1">
-                                            <span class="badge bg-{{ $user->is_admin ? 'primary' : 'secondary' }}">
-                                                {{ $user->is_admin ? 'Admin' : 'General' }}
+                                            <span class="badge bg-{{ $user->is_platform_admin ? 'primary' : 'secondary' }}">
+                                                {{ $user->is_platform_admin ? 'Administrator' : 'General' }}
                                             </span>
                                             <span
                                                 class="badge bg-{{ $user->is_active ? 'success' : 'warning' }} align-self-start">
@@ -149,7 +149,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            @if ($user->is_admin)
+                                            @if ($user->is_platform_admin)
                                                 <form action="{{ route('user-management.revoke-admin', $user->id) }}" method="POST" class="revoke-form">
                                                     @csrf
                                                     <button type="submit" class="dropdown-item text-warning">
