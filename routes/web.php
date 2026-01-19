@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('ports', PortController::class);
     Route::resource('vessels', VesselController::class);
     Route::resource('cargos', CargoController::class);
+    Route::resource('periods', CargoController::class);
 });
 
 Route::middleware('auth')->group(function () {
