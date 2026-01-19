@@ -48,12 +48,12 @@
                     <h4 class="text-section">Master Data</h4>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
                     <a href="{{ route('companies.index') }}">
                         <i class="fas fa-building"></i>
                         <p>Company</p>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="#">
@@ -170,29 +170,35 @@
                     </div>
                 </li>
 
-                <!-- USER ACCESS -->
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#user">
-                        <i class="fas fa-users-cog"></i>
-                        <p>User & Access</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="user">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('user-management.index') }}">
-                                    <span class="sub-item">User Management</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('user-company-assign.index') }}">
-                                    <span class="sub-item">User Company Assignment</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
+                @if (Auth::user()->is_platform_admin == true)
+                    <!-- USER ACCESS -->
+                    <li class="nav-item {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#user" class="{{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? '' : 'collapsed' }}">
+                            <i class="fas fa-users-cog"></i>
+                            <p>User & Access</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'show' : '' }}" id="user">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ request()->routeIs('companies.*') ? 'active' : '' }}">
+                                    <a href="{{ route('companies.index') }}">
+                                        <span class="sub-item">Company</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('user-management.*') ? 'active' : '' }}">
+                                    <a href="{{ route('user-management.index') }}">
+                                        <span class="sub-item">User Management</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('user-company-assign.*') ? 'active' : '' }}">
+                                    <a href="{{ route('user-company-assign.index') }}">
+                                        <span class="sub-item">User Company Assignment</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif    
             </ul>
 
         </div>
