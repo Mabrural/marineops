@@ -31,6 +31,7 @@
                             <tr>
                                 <th width="5%">#</th>
                                 <th>Client Name</th>
+                                <th>Address</th>
                                 <th>Created By / At</th>
                                 <th width="15%">Actions</th>
                             </tr>
@@ -42,6 +43,9 @@
 
                                     <td>
                                         <strong>{{ $client->name }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $client->address ?? '-' }}</strong>
                                     </td>
 
 
