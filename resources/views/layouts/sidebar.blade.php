@@ -62,8 +62,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item {{ request()->routeIs('ports.*') ? 'active' : '' }}">
+                    <a href="{{ route('ports.index') }}">
                         <i class="fas fa-anchor"></i>
                         <p>Port</p>
                     </a>

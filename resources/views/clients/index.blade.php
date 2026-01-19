@@ -132,7 +132,7 @@
 
         <!-- Pagination -->
         <div class="mt-3">
-            {{ $clients->links() }}
+            {{ $clients->links('pagination::bootstrap-5') }}
         </div>
 
     </div>
