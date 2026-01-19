@@ -83,8 +83,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item {{ request()->routeIs('periods.*') ? 'active' : '' }}">
+                    <a href="{{ route('periods.index') }}">
                         <i class="fas fa-calendar-check"></i>
                         <p>Period</p>
                     </a>
