@@ -76,8 +76,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item {{ request()->routeIs('cargos.*') ? 'active' : '' }}">
+                    <a href="{{ route('cargos.index') }}">
                         <i class="fas fa-boxes"></i>
                         <p>Cargo</p>
                     </a>

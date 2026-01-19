@@ -74,7 +74,7 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="text-center py-4 text-muted">
-                                        No clients registered yet
+                                        No ports registered yet
                                     </td>
                                 </tr>
                             @endforelse
@@ -120,7 +120,7 @@
                 </div>
             @empty
                 <div class="text-center text-muted py-4">
-                    No clients available
+                    No ports available
                 </div>
             @endforelse
         </div>

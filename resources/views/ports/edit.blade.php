@@ -46,7 +46,7 @@
                                             <label for="name">Port Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                                 id="name" name="name" value="{{ old('name', $port->name) }}"
-                                                placeholder="e.g. PT Global Maritim Nusantara" required>
+                                                placeholder="e.g. Batam" required>
 
                                             @error('name')
                                                 <span class="invalid-feedback">{{ $message }}</span>
