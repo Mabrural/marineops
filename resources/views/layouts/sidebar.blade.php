@@ -24,15 +24,15 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                @if (Auth::user()->is_platform_admin == false)
-                    <!-- Company Info -->
+                @if (!Auth::user()->is_platform_admin)
                     <div class="sidebar-company text-center py-2 mb-2">
-                        <p class="mb-0  text-muted" style="font-size: 11px;">Company</p>
+                        <p class="mb-0 text-muted" style="font-size: 11px;">Company Name:</p>
                         <h6 class="mb-0 text-dark fw-semibold">
-                            PT Global Maritim Nusantara
+                            {{ Auth::user()->company?->name ?? 'Not Assign' }}
                         </h6>
                     </div>
                 @endif
+
 
                 <!-- Dashboard -->
                 <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -172,13 +172,16 @@
 
                 @if (Auth::user()->is_platform_admin == true)
                     <!-- USER ACCESS -->
-                    <li class="nav-item {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'active' : '' }}">
-                        <a data-bs-toggle="collapse" href="#user" class="{{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? '' : 'collapsed' }}">
+                    <li
+                        class="nav-item {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#user"
+                            class="{{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? '' : 'collapsed' }}">
                             <i class="fas fa-users-cog"></i>
                             <p>User & Access</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'show' : '' }}" id="user">
+                        <div class="collapse {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'show' : '' }}"
+                            id="user">
                             <ul class="nav nav-collapse">
                                 <li class="{{ request()->routeIs('companies.*') ? 'active' : '' }}">
                                     <a href="{{ route('companies.index') }}">
@@ -198,7 +201,7 @@
                             </ul>
                         </div>
                     </li>
-                @endif    
+                @endif
             </ul>
 
         </div>
