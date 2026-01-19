@@ -13,7 +13,7 @@ class ClientController extends Controller
     {
         $clients = Client::where('company_id', Auth::user()->company->id)
             ->latest()
-            ->get();
+            ->paginate(10); // <- penting
 
         return view('clients.index', compact('clients'));
     }
@@ -32,8 +32,8 @@ class ClientController extends Controller
 
         Client::create([
             'company_id' => Auth::user()->company->id,
-            'name'       => $request->name,
-            'address'    => $request->address,
+            'name' => $request->name,
+            'address' => $request->address,
             'created_by' => Auth::id(),
         ]);
 
