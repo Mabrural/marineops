@@ -185,8 +185,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <span class="sub-item">Roles & Permissions</span>
+                                <a href="{{ route('user-company-assign.index') }}">
+                                    <span class="sub-item">User Company Assignment</span>
                                 </a>
                             </li>
                         </ul>

@@ -43,4 +43,21 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Company::class, 'user_companies')->withPivot('is_active')->withTimestamps();
     }
+
+    public function userCompany()
+    {
+        return $this->hasOne(UserCompany::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOneThrough(
+            Company::class,
+            UserCompany::class,
+            'user_id',     // FK di user_companies
+            'id',          // PK di companies
+            'id',          // PK di users
+            'company_id'   // FK di user_companies ke companies
+        );
+    }
 }
