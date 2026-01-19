@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
@@ -12,8 +13,29 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// super admin
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('companies', CompanyController::class);
+
+    Route::resource('user-management', UserController::class);
+
+    // Custom actions
+    Route::post('/user-management/{user:slug}/grant-admin', [UserController::class, 'grantAdmin'])
+        ->name('user-management.grant-admin');
+    
+    Route::post('/user-management/{user:slug}/revoke-admin', [UserController::class, 'revokeAdmin'])
+        ->name('user-management.revoke-admin');
+
+    Route::post('/user-management/{user:slug}/activate', [UserController::class, 'activate'])
+        ->name('user-management.activate');
+
+    Route::post('/user-management/{user:slug}/deactivate', [UserController::class, 'deactivate'])
+        ->name('user-management.deactivate');
+
+});
+
+// internal operasion
+Route::middleware(['auth', 'verified'])->group(function(){
 });
 
 Route::middleware('auth')->group(function () {

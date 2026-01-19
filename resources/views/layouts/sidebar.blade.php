@@ -178,7 +178,7 @@
                     <div class="collapse" id="user">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('user-management.index') }}">
                                     <span class="sub-item">User Management</span>
                                 </a>
                             </li>
