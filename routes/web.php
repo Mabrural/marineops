@@ -34,6 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('user-management.deactivate');
 
     Route::get('/user-company-assign', [UserCompanyController::class, 'index'])->name('user-company-assign.index');
+
+    Route::get('/user-company-assign/create/{id}', [UserCompanyController::class, 'create'])->name('user-company-assign.create');
+    Route::post('user-company-assign/{id}', [UserCompanyController::class, 'store'])
+        ->name('user-company-assign.store');
+
     Route::delete('/user-company-assign/{user}', [UserCompanyController::class, 'destroy'])
         ->name('user-company-assign.destroy');
 

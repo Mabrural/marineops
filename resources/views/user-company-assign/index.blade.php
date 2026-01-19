@@ -48,7 +48,7 @@
                                                     @if (!$user->company)
                                                         <li>
                                                             <a class="dropdown-item text-primary"
-                                                                href="{{ url('role-permissions/create/' . $user->id) }}">
+                                                                href="{{ url('user-company-assign/create/' . $user->id) }}">
                                                                 <i class="fas fa-user-edit me-1"></i> Assign Company
                                                             </a>
                                                         </li>
