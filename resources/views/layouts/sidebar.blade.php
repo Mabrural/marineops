@@ -96,8 +96,8 @@
                     <h4 class="text-section">Operations</h4>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#">
+                <li class="nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
+                    <a href="{{ route('projects.index') }}">
                         <i class="fas fa-project-diagram"></i>
                         <p>Project</p>
                     </a>

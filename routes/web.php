@@ -9,6 +9,7 @@ use App\Http\Controllers\PortController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('vessels', VesselController::class);
     Route::resource('cargos', CargoController::class);
     Route::resource('periods', PeriodController::class);
+    Route::resource('projects', ProjectController::class);
 });
 
 Route::middleware('auth')->group(function () {
