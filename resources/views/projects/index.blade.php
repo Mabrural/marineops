@@ -50,7 +50,7 @@
                                                 PRJ-{{ $project->period->name ?? '-' }}-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
                                             </strong>
                                             <div class="small text-muted">
-                                                Value: Rp {{ number_format($project->contract_value, 2, ',', '.') }}
+                                                Contract Value: Rp {{ number_format($project->contract_value, 2, ',', '.') }}
                                             </div>
                                         </td>
 
@@ -130,7 +130,7 @@
                                     <p class="mb-1 text-muted small">
                                         Client: {{ $project->client->name ?? '-' }}<br>
                                         Type: {{ str_replace('_', ' ', $project->type) }}<br>
-                                        Value: Rp {{ number_format($project->contract_value, 2, ',', '.') }}
+                                        Contract Value: Rp {{ number_format($project->contract_value, 2, ',', '.') }}
                                     </p>
 
                                     <span class="badge bg-{{ $statusColors[$project->status] ?? 'secondary' }}">
