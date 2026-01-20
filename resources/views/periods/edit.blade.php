@@ -46,7 +46,7 @@
                                             <label for="name">Period Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                                 id="name" name="name" value="{{ old('name', $period->name) }}"
-                                                placeholder="e.g. Periode 2026" required>
+                                                placeholder="e.g. Project 2026" required>
 
                                             @error('name')
                                                 <span class="invalid-feedback">{{ $message }}</span>
