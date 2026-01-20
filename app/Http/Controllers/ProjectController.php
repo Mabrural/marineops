@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Models\Client;
 use App\Models\Period;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +12,14 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        $activePeriodId = session('active_period_id');
+
         $projects = Project::where('company_id', Auth::user()->company->id)
+            ->when($activePeriodId, function ($query) use ($activePeriodId) {
+                $query->where('period_id', $activePeriodId);
+            })
             ->latest()
-            ->paginate(10); // konsisten dengan Cargo
+            ->paginate(10);
 
         return view('projects.index', compact('projects'));
     }
@@ -30,12 +35,12 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'period_id'     => 'required|exists:periods,id',
-            'client_id'     => 'required|exists:clients,id',
-            'type'          => 'required|in:time_charter,freight_charter,shipping_agency',
-            'start_date'    => 'nullable|date',
-            'end_date'      => 'nullable|date|after_or_equal:start_date',
-            'contract_value'=> 'nullable|numeric|min:0',
+            'period_id' => 'required|exists:periods,id',
+            'client_id' => 'required|exists:clients,id',
+            'type' => 'required|in:time_charter,freight_charter,shipping_agency',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'contract_value' => 'nullable|numeric|min:0',
         ]);
 
         /**
@@ -48,16 +53,16 @@ class ProjectController extends Controller
         $projectNumber = $lastNumber ? $lastNumber + 1 : 1;
 
         Project::create([
-            'company_id'     => Auth::user()->company->id,
-            'period_id'      => $request->period_id,
-            'client_id'      => $request->client_id,
+            'company_id' => Auth::user()->company->id,
+            'period_id' => $request->period_id,
+            'client_id' => $request->client_id,
             'project_number' => $projectNumber,
-            'type'           => $request->type,
-            'start_date'     => $request->start_date,
-            'end_date'       => $request->end_date,
+            'type' => $request->type,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
             'contract_value' => $request->contract_value ?? 0,
-            'status'         => 'draft',
-            'created_by'     => Auth::id(),
+            'status' => 'draft',
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->route('projects.index')
@@ -79,11 +84,11 @@ class ProjectController extends Controller
         $this->authorizeCompany($project);
 
         $request->validate([
-            'type'           => 'required|in:time_charter,freight_charter,shipping_agency',
-            'start_date'     => 'nullable|date',
-            'end_date'       => 'nullable|date|after_or_equal:start_date',
+            'type' => 'required|in:time_charter,freight_charter,shipping_agency',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'contract_value' => 'nullable|numeric|min:0',
-            'status'         => 'required|in:draft,active,finished,cancelled',
+            'status' => 'required|in:draft,active,finished,cancelled',
         ]);
 
         $project->update($request->only([
