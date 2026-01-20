@@ -3,8 +3,8 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ asset('assets/img/marineops/marine-ops-text-light.svg') }}" alt="navbar brand" class="navbar-brand"
-                    height="20" />
+                <img src="{{ asset('assets/img/marineops/marine-ops-text-light.svg') }}" alt="navbar brand"
+                    class="navbar-brand" height="20" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -48,8 +48,8 @@
                         </form>
                     </ul>
                 </li>
-     
-                <li class="nav-item topbar-icon dropdown hidden-caret">
+
+                {{-- <li class="nav-item topbar-icon dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
@@ -113,73 +113,54 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                {{-- <li class="nav-item topbar-icon dropdown hidden-caret">
-                    <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fas fa-layer-group"></i>
-                    </a>
-                    <div class="dropdown-menu quick-actions animated fadeIn">
-                        <div class="quick-actions-header">
-                            <span class="title mb-1">Quick Actions</span>
-                            <span class="subtitle op-7">Shortcuts</span>
-                        </div>
-                        <div class="quick-actions-scroll scrollbar-outer">
-                            <div class="quick-actions-items">
-                                <div class="row m-0">
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-danger rounded-circle">
-                                                <i class="far fa-calendar-alt"></i>
-                                            </div>
-                                            <span class="text">Calendar</span>
-                                        </div>
-                                    </a>
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-warning rounded-circle">
-                                                <i class="fas fa-map"></i>
-                                            </div>
-                                            <span class="text">Maps</span>
-                                        </div>
-                                    </a>
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-info rounded-circle">
-                                                <i class="fas fa-file-excel"></i>
-                                            </div>
-                                            <span class="text">Reports</span>
-                                        </div>
-                                    </a>
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-success rounded-circle">
-                                                <i class="fas fa-envelope"></i>
-                                            </div>
-                                            <span class="text">Emails</span>
-                                        </div>
-                                    </a>
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-primary rounded-circle">
-                                                <i class="fas fa-file-invoice-dollar"></i>
-                                            </div>
-                                            <span class="text">Invoice</span>
-                                        </div>
-                                    </a>
-                                    <a class="col-6 col-md-4 p-0" href="#">
-                                        <div class="quick-actions-item">
-                                            <div class="avatar-item bg-secondary rounded-circle">
-                                                <i class="fas fa-credit-card"></i>
-                                            </div>
-                                            <span class="text">Payments</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </li> --}}
+                @php
+                    use Illuminate\Support\Facades\Auth;
 
+                    $periods = \App\Models\Period::where('company_id', Auth::user()->company->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+                    $activePeriodId = session('active_period_id');
+
+                    $activePeriod = $periods->firstWhere('id', $activePeriodId);
+                @endphp
+
+                <li class="nav-item dropdown me-3">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="dropdownPeriod" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ $activePeriod?->name ?? 'Pilih Periode' }}
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownPeriod">
+                        @forelse ($periods as $period)
+                            <li>
+                                <form action="{{ route('set.period') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="period_id" value="{{ $period->id }}">
+
+                                    <button type="submit"
+                                        class="dropdown-item {{ $period->id == $activePeriodId ? 'active fw-bold' : '' }}">
+                                        {{ $period->name }}
+                                    </button>
+                                </form>
+                            </li>
+                        @empty
+                            <li>
+                                <span class="dropdown-item text-muted">
+                                    Belum ada periode
+                                </span>
+                            </li>
+                        @endforelse
+                    </ul>
+                </li>
+
+                <style>
+                    #dropdownPeriod::after {
+                        color: #fff !important;
+                        border-top-color: #fff !important;
+                    }
+                </style>
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">

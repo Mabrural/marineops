@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\CargoController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\PortController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserCompanyController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\PortController;
 use App\Http\Controllers\VesselController;
-use App\Http\Controllers\CargoController;
-use App\Http\Controllers\PeriodController;
-use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -59,6 +59,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('periods', PeriodController::class);
     Route::resource('projects', ProjectController::class);
 });
+
+// filter global session set period
+Route::post('/set-period', function (\Illuminate\Http\Request $request) {
+    session([
+        'active_period_id' => $request->period_id,
+    ]);
+
+    return redirect()->back();
+})->name('set.period');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
