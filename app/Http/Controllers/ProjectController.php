@@ -26,16 +26,50 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $clients = Client::where('company_id', Auth::user()->company->id)->get();
-        $periods = Period::where('company_id', Auth::user()->company->id)->get();
+        $companyId = Auth::user()->company->id;
 
-        return view('projects.create', compact('clients', 'periods'));
+        $clients = Client::where('company_id', $companyId)->get();
+
+        $activePeriodId = session('active_period_id');
+
+        $activePeriod = null;
+
+        if ($activePeriodId) {
+            $activePeriod = Period::where('company_id', $companyId)
+                ->where('id', $activePeriodId)
+                ->first();
+        }
+
+        // Kalau session tidak ada atau period invalid
+        if (! $activePeriod) {
+            return redirect()->route('projects.index')
+                ->with('error', 'Active period not set. Please create or select a period first.');
+        }
+
+        return view('projects.create', compact('clients', 'activePeriod'));
     }
 
     public function store(Request $request)
     {
+        $companyId = Auth::user()->company->id;
+        $activePeriodId = session('active_period_id');
+
+        // Guard keras
+        if (! $activePeriodId) {
+            return redirect()->route('projects.index')
+                ->with('error', 'Active period not set. Cannot create project.');
+        }
+
+        $activePeriod = Period::where('company_id', $companyId)
+            ->where('id', $activePeriodId)
+            ->first();
+
+        if (! $activePeriod) {
+            return redirect()->route('projects.index')
+                ->with('error', 'Active period is invalid or no longer exists.');
+        }
+
         $request->validate([
-            'period_id' => 'required|exists:periods,id',
             'client_id' => 'required|exists:clients,id',
             'type' => 'required|in:time_charter,freight_charter,shipping_agency',
             'start_date' => 'nullable|date',
@@ -44,17 +78,17 @@ class ProjectController extends Controller
         ]);
 
         /**
-         * Generate project number (reset per period)
+         * Generate project number (reset per active period)
          */
-        $lastNumber = Project::where('company_id', Auth::user()->company->id)
-            ->where('period_id', $request->period_id)
+        $lastNumber = Project::where('company_id', $companyId)
+            ->where('period_id', $activePeriod->id)
             ->max('project_number');
 
         $projectNumber = $lastNumber ? $lastNumber + 1 : 1;
 
         Project::create([
-            'company_id' => Auth::user()->company->id,
-            'period_id' => $request->period_id,
+            'company_id' => $companyId,
+            'period_id' => $activePeriod->id, // 🔒 dari session
             'client_id' => $request->client_id,
             'project_number' => $projectNumber,
             'type' => $request->type,
@@ -79,15 +113,37 @@ class ProjectController extends Controller
     {
         $this->authorizeCompany($project);
 
-        $clients = Client::where('company_id', Auth::user()->company->id)->get();
-        $periods = Period::where('company_id', Auth::user()->company->id)->get();
+        $activePeriodId = session('active_period_id');
 
-        return view('projects.edit', compact('project', 'clients', 'periods'));
+        if (! $activePeriodId) {
+            return redirect()->route('projects.index')
+                ->with('error', 'Active period not set. Please select a period first.');
+        }
+
+        // Project HARUS di period aktif
+        if ($project->period_id != $activePeriodId) {
+            return redirect()->route('projects.index')
+                ->with('error', 'You cannot edit a project outside the active period.');
+        }
+
+        return view('projects.edit', compact('project'));
     }
 
     public function update(Request $request, Project $project)
     {
         $this->authorizeCompany($project);
+
+        $activePeriodId = session('active_period_id');
+
+        if (! $activePeriodId) {
+            return redirect()->route('projects.index')
+                ->with('error', 'Active period not set. Cannot update project.');
+        }
+
+        if ($project->period_id != $activePeriodId) {
+            return redirect()->route('projects.index')
+                ->with('error', 'You cannot update a project outside the active period.');
+        }
 
         $request->validate([
             'type' => 'required|in:time_charter,freight_charter,shipping_agency',
@@ -97,13 +153,13 @@ class ProjectController extends Controller
             'status' => 'required|in:draft,active,finished,cancelled',
         ]);
 
-        $project->update($request->only([
-            'type',
-            'start_date',
-            'end_date',
-            'contract_value',
-            'status',
-        ]));
+        $project->update([
+            'type' => $request->type,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'contract_value' => $request->contract_value ?? 0,
+            'status' => $request->status,
+        ]);
 
         return redirect()->route('projects.index')
             ->with('success', 'Project updated successfully.');
