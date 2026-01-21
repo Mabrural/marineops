@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'platform.admin' => \App\Http\Middleware\PlatformAdmin::class,
+            'non.platform.admin' => \App\Http\Middleware\NonPlatformAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
