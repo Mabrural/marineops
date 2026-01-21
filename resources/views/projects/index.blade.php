@@ -17,7 +17,7 @@
                 <div>
                     <a href="{{ route('projects.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus me-1"></i>
-                        Add Project
+                        New Project
                     </a>
                 </div>
             </div>

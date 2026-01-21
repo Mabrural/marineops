@@ -55,4 +55,9 @@ class Project extends Model
             $project->uuid = Str::uuid();
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 }
