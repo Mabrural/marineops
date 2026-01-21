@@ -103,12 +103,12 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#">
                         <i class="fas fa-route"></i>
                         <p>Voyage</p>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="#">
