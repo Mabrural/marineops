@@ -116,44 +116,48 @@
                 </li> --}}
                 @php
                     use Illuminate\Support\Facades\Auth;
-
-                    $periods = \App\Models\Period::where('company_id', Auth::user()->company->id)
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-
-                    $activePeriodId = session('active_period_id');
-
-                    $activePeriod = $periods->firstWhere('id', $activePeriodId);
                 @endphp
 
-                <li class="nav-item dropdown me-3">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="dropdownPeriod" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ $activePeriod?->name ?? 'Pilih Periode' }}
-                    </a>
+                @if (!Auth::user()->is_platform_admin)
+                    @php
+                        $periods = \App\Models\Period::where('company_id', Auth::user()->company->id)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownPeriod">
-                        @forelse ($periods as $period)
-                            <li>
-                                <form action="{{ route('set.period') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="period_id" value="{{ $period->id }}">
+                        $activePeriodId = session('active_period_id');
+                        $activePeriod = $periods->firstWhere('id', $activePeriodId);
+                    @endphp
 
-                                    <button type="submit"
-                                        class="dropdown-item {{ $period->id == $activePeriodId ? 'active fw-bold' : '' }}">
-                                        {{ $period->name }}
-                                    </button>
-                                </form>
-                            </li>
-                        @empty
-                            <li>
-                                <span class="dropdown-item text-muted">
-                                    Belum ada periode
-                                </span>
-                            </li>
-                        @endforelse
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="dropdownPeriod" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $activePeriod?->name ?? 'Pilih Periode' }}
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownPeriod">
+                            @forelse ($periods as $period)
+                                <li>
+                                    <form action="{{ route('set.period') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="period_id" value="{{ $period->id }}">
+
+                                        <button type="submit"
+                                            class="dropdown-item {{ $period->id == $activePeriodId ? 'active fw-bold' : '' }}">
+                                            {{ $period->name }}
+                                        </button>
+                                    </form>
+                                </li>
+                            @empty
+                                <li>
+                                    <span class="dropdown-item text-muted">
+                                        Belum ada periode
+                                    </span>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </li>
+                @endif
+
 
                 <style>
                     #dropdownPeriod::after {

@@ -36,18 +36,23 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        // ================================
-        // AUTO SET ACTIVE PERIOD (FIX)
-        // ================================
         $user = Auth::user();
 
-        $latestPeriod = Period::where('company_id', $user->company->id)
-            ->latest('created_at')
-            ->first();
+        // ==================================================
+        // SET ACTIVE PERIOD HANYA JIKA BUKAN PLATFORM ADMIN
+        // ==================================================
+        if (! $user->is_platform_admin) {
+            $latestPeriod = Period::where('company_id', $user->company->id)
+                ->latest('created_at')
+                ->first();
 
-        if ($latestPeriod) {
-            session(['active_period_id' => $latestPeriod->id]);
+            if ($latestPeriod) {
+                session(['active_period_id' => $latestPeriod->id]);
+            } else {
+                session()->forget('active_period_id');
+            }
         } else {
+            // Pastikan admin platform TIDAK punya period
             session()->forget('active_period_id');
         }
 
