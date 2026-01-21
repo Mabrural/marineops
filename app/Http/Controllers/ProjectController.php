@@ -69,6 +69,12 @@ class ProjectController extends Controller
             ->with('success', 'Project created successfully.');
     }
 
+    public function show(Project $project)
+    {
+        // Nanti: load voyage, timesheet, dll
+        return view('projects.show', compact('project'));
+    }
+
     public function edit(Project $project)
     {
         $this->authorizeCompany($project);

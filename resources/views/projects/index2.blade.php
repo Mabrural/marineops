@@ -34,7 +34,7 @@
                                     <th>Client</th>
                                     <th>Type</th>
                                     <th>Status</th>
-                                    {{-- <th>Created By / At</th> --}}
+                                    <th>Created By / At</th>
                                     <th width="15%">Actions</th>
                                 </tr>
                             </thead>
@@ -46,15 +46,13 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ route('projects.show', $project) }}"
-                                                class="fw-bold text-decoration-none">
+                                            <strong>
                                                 PRJ-{{ $project->period->name ?? '-' }}-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
-                                            </a>
+                                            </strong>
                                             <div class="small text-muted">
-                                                Contract: Rp {{ number_format($project->contract_value, 0, ',', '.') }}
+                                                Contract Value: Rp {{ number_format($project->contract_value, 2, ',', '.') }}
                                             </div>
                                         </td>
-
 
                                         <td>
                                             {{ $project->client->name ?? '-' }}
@@ -80,48 +78,30 @@
                                             </span>
                                         </td>
 
-                                        {{-- <td>
+                                        <td>
                                             <div class="small">
                                                 {{ $project->creator->name ?? '-' }}<br>
                                                 <span class="text-muted">
                                                     {{ $project->created_at->format('d M Y') }}
                                                 </span>
                                             </div>
-                                        </td> --}}
-
-                                        <td class="text-nowrap">
-                                            <a href="{{ route('projects.show', $project) }}"
-                                                class="btn btn-sm btn-primary">
-                                                Open
-                                            </a>
-
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                                    data-bs-toggle="dropdown">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('projects.edit', $project) }}">
-                                                            Edit Project
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <form action="{{ route('projects.destroy', $project) }}"
-                                                            method="POST"
-                                                            onsubmit="return confirm('Delete this project?')">
-                                                            @csrf @method('DELETE')
-                                                            <button class="dropdown-item text-danger">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </div>
                                         </td>
 
+                                        <td>
+                                            <a href="{{ route('projects.edit', $project) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <form action="{{ route('projects.destroy', $project) }}" method="POST"
+                                                class="d-inline" onsubmit="return confirm('Delete this project?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -157,18 +137,13 @@
                                         {{ ucfirst($project->status) }}
                                     </span>
 
-                                    {{-- <p class="mb-0 text-muted small mt-2">
+                                    <p class="mb-0 text-muted small mt-2">
                                         Created by {{ $project->creator->name ?? '-' }}<br>
                                         {{ $project->created_at->format('d M Y') }}
-                                    </p> --}}
+                                    </p>
                                 </div>
 
                                 <div class="text-end">
-                                    <a href="{{ route('projects.show', $project) }}"
-                                        class="btn btn-sm btn-primary w-100 mb-2">
-                                        Open Project
-                                    </a>
-
                                     <a href="{{ route('projects.edit', $project) }}" class="btn btn-sm btn-warning mb-1">
                                         <i class="fas fa-edit"></i>
                                     </a>
