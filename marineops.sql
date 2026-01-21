@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 19, 2026 at 10:41 AM
+-- Generation Time: Jan 21, 2026 at 03:53 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -90,7 +90,8 @@ CREATE TABLE `clients` (
 INSERT INTO `clients` (`id`, `company_id`, `name`, `address`, `created_by`, `created_at`, `updated_at`) VALUES
 (6, 9, 'PT Tamatech Waste Industry', 'Nongsa', 6, '2026-01-19 02:09:29', '2026-01-19 02:14:02'),
 (7, 9, 'PT Berkat Cahaya Indah', 'Dumai', 6, '2026-01-19 02:09:40', '2026-01-19 02:13:53'),
-(9, 9, 'PT Mito Energi Indonesia', NULL, 6, '2026-01-19 02:12:24', '2026-01-19 02:15:12');
+(9, 9, 'PT Mito Energi Indonesia', NULL, 6, '2026-01-19 02:12:24', '2026-01-19 02:15:12'),
+(10, 11, 'PT Berkat Cahaya Indah', NULL, 7, '2026-01-19 20:55:55', '2026-01-19 20:55:55');
 
 -- --------------------------------------------------------
 
@@ -195,7 +196,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2026_01_19_092148_create_ports_table', 7),
 (10, '2026_01_19_094517_create_vessels_table', 8),
 (11, '2026_01_19_100258_create_cargos_table', 9),
-(12, '2026_01_19_102929_create_periods_table', 10);
+(12, '2026_01_19_102929_create_periods_table', 10),
+(14, '2026_01_20_025442_create_projects_table', 11);
 
 -- --------------------------------------------------------
 
@@ -236,7 +238,8 @@ CREATE TABLE `periods` (
 --
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, 11, 'Periode 2026', 7, '2026-01-19 03:40:20', '2026-01-19 03:40:20');
+(3, 9, 'Project 2026', 6, '2026-01-19 19:40:59', '2026-01-19 20:00:26'),
+(10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32');
 
 -- --------------------------------------------------------
 
@@ -296,6 +299,37 @@ INSERT INTO `ports` (`id`, `company_id`, `name`, `created_by`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `projects`
+--
+
+CREATE TABLE `projects` (
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `period_id` bigint UNSIGNED NOT NULL,
+  `client_id` bigint UNSIGNED NOT NULL,
+  `project_number` int UNSIGNED NOT NULL COMMENT 'Nomor project, reset per periode (diatur di backend)',
+  `type` enum('time_charter','freight_charter','shipping_agency') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Jenis project / kontrak',
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `contract_value` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT 'Nilai kontrak / nilai jual project',
+  `status` enum('draft','active','finished','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft' COMMENT 'Status project operasional',
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `projects`
+--
+
+INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
+(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-01-20 20:38:26'),
+(3, '1a992176-5b8f-4588-8359-d52d290dbda7', 9, 3, 6, 1, 'freight_charter', '2026-01-21', '2026-01-31', 457000000.00, 'active', 6, '2026-01-20 20:47:20', '2026-01-20 20:48:51');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -313,7 +347,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('zaEER6Hi0vbkALV2SqYFHE56CprMPXuQYoZ1wZDY', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUXp4WWZJNGVJMmszWEdkMVY4a2MwNjB5MDZONXJCWmRkZGNWTHRtZSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wZXJpb2RzIjtzOjU6InJvdXRlIjtzOjEzOiJwZXJpb2RzLmluZGV4Ijt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Nzt9', 1768819220);
+('BFqtyiNSIA4fSbfqvMrWj0g8XRplumkWMs29pT26', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVWM1SklkV1pnZ3czRUtOazJtamFYUk8xTWZQOEZRb2RBVFh0aEM3TSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO3M6MToiMyI7fQ==', 1768967579);
 
 -- --------------------------------------------------------
 
@@ -487,6 +521,17 @@ ALTER TABLE `ports`
   ADD KEY `ports_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `projects_uuid_unique` (`uuid`),
+  ADD KEY `projects_company_id_foreign` (`company_id`),
+  ADD KEY `projects_period_id_foreign` (`period_id`),
+  ADD KEY `projects_client_id_foreign` (`client_id`),
+  ADD KEY `projects_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -531,7 +576,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -555,13 +600,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -574,6 +619,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `ports`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -630,6 +681,15 @@ ALTER TABLE `periods`
 ALTER TABLE `ports`
   ADD CONSTRAINT `ports_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ports_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `projects`
+--
+ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projects_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projects_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projects_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_companies`
