@@ -42,133 +42,137 @@
                     </a>
                 </li>
 
-                <!-- MASTER DATA -->
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                    <h4 class="text-section">Master Data</h4>
-                </li>
+                @if (!Auth::user()->is_platform_admin)
+                    <!-- MASTER DATA -->
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                        <h4 class="text-section">Master Data</h4>
+                    </li>
 
-                {{-- <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
+
+                    {{-- <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
                     <a href="{{ route('companies.index') }}">
                         <i class="fas fa-building"></i>
                         <p>Company</p>
                     </a>
                 </li> --}}
 
-                <li class="nav-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
-                    <a href="{{ route('clients.index') }}">
-                        <i class="fas fa-user-tie"></i>
-                        <p>Client</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
+                        <a href="{{ route('clients.index') }}">
+                            <i class="fas fa-user-tie"></i>
+                            <p>Client</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('ports.*') ? 'active' : '' }}">
-                    <a href="{{ route('ports.index') }}">
-                        <i class="fas fa-anchor"></i>
-                        <p>Port</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('ports.*') ? 'active' : '' }}">
+                        <a href="{{ route('ports.index') }}">
+                            <i class="fas fa-anchor"></i>
+                            <p>Port</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('vessels.*') ? 'active' : '' }}">
-                    <a href="{{ route('vessels.index') }}">
-                        <i class="fas fa-ship"></i>
-                        <p>Vessel Registry</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('vessels.*') ? 'active' : '' }}">
+                        <a href="{{ route('vessels.index') }}">
+                            <i class="fas fa-ship"></i>
+                            <p>Vessel Registry</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('cargos.*') ? 'active' : '' }}">
-                    <a href="{{ route('cargos.index') }}">
-                        <i class="fas fa-boxes"></i>
-                        <p>Cargo</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('cargos.*') ? 'active' : '' }}">
+                        <a href="{{ route('cargos.index') }}">
+                            <i class="fas fa-boxes"></i>
+                            <p>Cargo</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('periods.*') ? 'active' : '' }}">
-                    <a href="{{ route('periods.index') }}">
-                        <i class="fas fa-calendar-check"></i>
-                        <p>Period</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('periods.*') ? 'active' : '' }}">
+                        <a href="{{ route('periods.index') }}">
+                            <i class="fas fa-calendar-check"></i>
+                            <p>Period</p>
+                        </a>
+                    </li>
 
-                <!-- OPERATIONS -->
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                    <h4 class="text-section">Operations</h4>
-                </li>
+                    <!-- OPERATIONS -->
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                        <h4 class="text-section">Operations</h4>
+                    </li>
 
-                <li class="nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
-                    <a href="{{ route('projects.index') }}">
-                        <i class="fas fa-project-diagram"></i>
-                        <p>Project</p>
-                    </a>
-                </li>
+                    <li class="nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
+                        <a href="{{ route('projects.index') }}">
+                            <i class="fas fa-project-diagram"></i>
+                            <p>Project</p>
+                        </a>
+                    </li>
 
-                {{-- <li class="nav-item">
+                    {{-- <li class="nav-item">
                     <a href="#">
                         <i class="fas fa-route"></i>
                         <p>Voyage</p>
                     </a>
                 </li> --}}
 
-                <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-users"></i>
-                        <p>Crew</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-users"></i>
+                            <p>Crew</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-clock"></i>
-                        <p>Timesheet</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-clock"></i>
+                            <p>Timesheet</p>
+                        </a>
+                    </li>
 
-                <!-- MONITORING -->
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                    <h4 class="text-section">Monitoring</h4>
-                </li>
+                    <!-- MONITORING -->
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                        <h4 class="text-section">Monitoring</h4>
+                    </li>
 
-                <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-certificate"></i>
-                        <p>Certificate Monitoring</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-certificate"></i>
+                            <p>Certificate Monitoring</p>
+                        </a>
+                    </li>
 
-                <!-- REPORT -->
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#report">
-                        <i class="fas fa-chart-bar"></i>
-                        <p>Reports</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="report">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Project Performance Report</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Voyage Activity Report</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Vessel Utilization Report</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Crew Timesheet Report</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+
+                    <!-- REPORT -->
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#report">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>Reports</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="report">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Project Performance Report</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Voyage Activity Report</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Vessel Utilization Report</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Crew Timesheet Report</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
                 @if (Auth::user()->is_platform_admin == true)
                     <!-- USER ACCESS -->
