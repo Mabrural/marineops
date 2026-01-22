@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 21, 2026 at 03:53 AM
+-- Generation Time: Jan 22, 2026 at 06:07 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -238,8 +238,8 @@ CREATE TABLE `periods` (
 --
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(3, 9, 'Project 2026', 6, '2026-01-19 19:40:59', '2026-01-19 20:00:26'),
-(10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32');
+(10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32'),
+(13, 9, 'Project 2026', 6, '2026-01-20 21:07:13', '2026-01-20 21:07:13');
 
 -- --------------------------------------------------------
 
@@ -325,7 +325,9 @@ CREATE TABLE `projects` (
 
 INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
 (2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-01-20 20:38:26'),
-(3, '1a992176-5b8f-4588-8359-d52d290dbda7', 9, 3, 6, 1, 'freight_charter', '2026-01-21', '2026-01-31', 457000000.00, 'active', 6, '2026-01-20 20:47:20', '2026-01-20 20:48:51');
+(5, '9ecd6e93-1f28-4880-83bc-f0838514b1e1', 9, 13, 6, 1, 'freight_charter', '2026-01-21', '2026-01-31', 457000000.00, 'active', 6, '2026-01-20 21:08:06', '2026-01-20 21:08:30'),
+(6, '098339e4-144d-4186-9dc8-a487b73579ac', 9, 13, 9, 2, 'time_charter', '2026-01-21', '2026-01-31', 575000000.00, 'active', 6, '2026-01-20 21:18:08', '2026-01-20 21:18:18'),
+(7, '0f8bb994-12cc-4d3a-b394-495f823f1551', 9, 13, 7, 3, 'shipping_agency', '2026-01-21', '2026-01-31', 250000000.00, 'active', 6, '2026-01-20 21:18:48', '2026-01-20 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -347,7 +349,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BFqtyiNSIA4fSbfqvMrWj0g8XRplumkWMs29pT26', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVWM1SklkV1pnZ3czRUtOazJtamFYUk8xTWZQOEZRb2RBVFh0aEM3TSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO3M6MToiMyI7fQ==', 1768967579);
+('MKK5vTXM73rDA3CzaespqbCsUlF0p6EUMgZaPqVo', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiekpGMUVpNzFOQ2tZeTRrWjc0ZFR4QVlpbVFhYkZsVkQ0Qlg5akxoTSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTA7fQ==', 1769062014);
 
 -- --------------------------------------------------------
 
@@ -398,7 +400,7 @@ CREATE TABLE `user_companies` (
 
 INSERT INTO `user_companies` (`id`, `user_id`, `company_id`, `is_active`, `created_at`, `updated_at`) VALUES
 (13, 6, 9, 1, '2026-01-19 00:20:07', '2026-01-19 00:20:07'),
-(16, 7, 11, 1, '2026-01-19 00:39:28', '2026-01-19 00:39:28');
+(18, 7, 11, 1, '2026-01-21 02:37:48', '2026-01-21 02:37:48');
 
 -- --------------------------------------------------------
 
@@ -606,7 +608,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -624,7 +626,7 @@ ALTER TABLE `ports`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -636,7 +638,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_companies`
 --
 ALTER TABLE `user_companies`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `vessels`
