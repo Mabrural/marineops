@@ -132,8 +132,8 @@
                         <h4 class="text-section">Monitoring</h4>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="#">
+                    <li class="nav-item {{ request()->routeIs('vessel-certificates.*') ? 'active' : '' }}">
+                        <a href="{{ route('vessel-certificates.index') }}">
                             <i class="fas fa-certificate"></i>
                             <p>Certificate Monitoring</p>
                         </a>
