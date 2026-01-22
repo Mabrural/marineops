@@ -10,6 +10,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserCompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
+use App\Http\Controllers\VesselCertificateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -58,6 +59,9 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::resource('cargos', CargoController::class);
     Route::resource('periods', PeriodController::class);
     Route::resource('projects', ProjectController::class);
+    
+    
+    Route::resource('vessel-certificates', VesselCertificateController::class);
 });
 
 // filter global session set period
