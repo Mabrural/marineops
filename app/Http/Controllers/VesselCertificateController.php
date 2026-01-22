@@ -32,10 +32,10 @@ class VesselCertificateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vessel_id' => 'required|exists:vessels,id',
-            'name' => 'required|string|max:100',
-            'issue_date' => 'required|date',
-            'expiry_date' => 'required|date|after_or_equal:issue_date',
+            'vessel_id'        => 'required|exists:vessels,id',
+            'name'             => 'required|string|max:100',
+            'issue_date'       => 'required|date',
+            'expiry_date'      => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
@@ -47,13 +47,13 @@ class VesselCertificateController extends Controller
         }
 
         VesselCertificate::create([
-            'company_id' => Auth::user()->company->id,
-            'vessel_id' => $request->vessel_id,
-            'name' => $request->name,
-            'issue_date' => $request->issue_date,
-            'expiry_date' => $request->expiry_date,
+            'company_id'       => Auth::user()->company->id,
+            'vessel_id'        => $request->vessel_id,
+            'name'             => $request->name,
+            'issue_date'       => $request->issue_date,
+            'expiry_date'      => $request->expiry_date,
             'certificate_file' => $filePath,
-            'created_by' => Auth::id(),
+            'created_by'       => Auth::id(),
         ]);
 
         return redirect()->route('vessel-certificates.index')
@@ -76,10 +76,10 @@ class VesselCertificateController extends Controller
         $this->authorizeCompany($vesselCertificate);
 
         $request->validate([
-            'vessel_id' => 'required|exists:vessels,id',
-            'name' => 'required|string|max:100',
-            'issue_date' => 'required|date',
-            'expiry_date' => 'required|date|after_or_equal:issue_date',
+            'vessel_id'        => 'required|exists:vessels,id',
+            'name'             => 'required|string|max:100',
+            'issue_date'       => 'required|date',
+            'expiry_date'      => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
