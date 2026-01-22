@@ -55,13 +55,19 @@ class VesselCertificate extends Model
 
     public function isExpired(): bool
     {
-        return $this->expiry_date && $this->expiry_date->isPast();
+        return $this->expiry_date
+            && $this->expiry_date->isBefore(now()->startOfDay());
     }
 
     public function isExpiringSoon(int $days = 30): bool
     {
-        return $this->expiry_date
-            && ! $this->isExpired()
-            && $this->expiry_date->diffInDays(now()) <= $days;
+        if (! $this->expiry_date) {
+            return false;
+        }
+
+        return $this->expiry_date->isBetween(
+            now()->startOfDay(),
+            now()->addDays($days)->endOfDay()
+        );
     }
 }
