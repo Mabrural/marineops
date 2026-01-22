@@ -119,12 +119,12 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="#">
                             <i class="fas fa-clock"></i>
                             <p>Timesheet</p>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <!-- MONITORING -->
                     <li class="nav-section">
