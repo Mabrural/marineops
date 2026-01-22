@@ -10,14 +10,46 @@ use Illuminate\Support\Facades\Storage;
 
 class VesselCertificateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $certificates = VesselCertificate::where('company_id', Auth::user()->company->id)
-            ->with('vessel')
-            ->latest()
-            ->paginate(10); // <- penting
+        $query = VesselCertificate::where('company_id', Auth::user()->company->id)
+            ->with(['vessel', 'creator']);
 
-        return view('vessel_certificates.index', compact('certificates'));
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhereHas('vessel', function ($v) use ($request) {
+                        $v->where('name', 'like', '%'.$request->search.'%');
+                    });
+            });
+        }
+
+        if ($request->filled('vessel_id')) {
+            $query->where('vessel_id', $request->vessel_id);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'expired') {
+                $query->whereDate('expiry_date', '<', now()->startOfDay());
+            }
+
+            if ($request->status === 'expiring') {
+                $query->whereBetween('expiry_date', [
+                    now()->startOfDay(),
+                    now()->addDays(30)->endOfDay(),
+                ]);
+            }
+
+            if ($request->status === 'valid') {
+                $query->whereDate('expiry_date', '>', now()->addDays(30)->endOfDay());
+            }
+        }
+
+        $certificates = $query->latest()->paginate(10)->withQueryString();
+
+        $vessels = Vessel::where('company_id', Auth::user()->company->id)->orderBy('name')->get();
+
+        return view('vessel_certificates.index', compact('certificates', 'vessels'));
     }
 
     public function create()
@@ -32,10 +64,10 @@ class VesselCertificateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vessel_id'        => 'required|exists:vessels,id',
-            'name'             => 'required|string|max:100',
-            'issue_date'       => 'required|date',
-            'expiry_date'      => 'required|date|after_or_equal:issue_date',
+            'vessel_id' => 'required|exists:vessels,id',
+            'name' => 'required|string|max:100',
+            'issue_date' => 'required|date',
+            'expiry_date' => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
@@ -47,13 +79,13 @@ class VesselCertificateController extends Controller
         }
 
         VesselCertificate::create([
-            'company_id'       => Auth::user()->company->id,
-            'vessel_id'        => $request->vessel_id,
-            'name'             => $request->name,
-            'issue_date'       => $request->issue_date,
-            'expiry_date'      => $request->expiry_date,
+            'company_id' => Auth::user()->company->id,
+            'vessel_id' => $request->vessel_id,
+            'name' => $request->name,
+            'issue_date' => $request->issue_date,
+            'expiry_date' => $request->expiry_date,
             'certificate_file' => $filePath,
-            'created_by'       => Auth::id(),
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->route('vessel-certificates.index')
@@ -76,10 +108,10 @@ class VesselCertificateController extends Controller
         $this->authorizeCompany($vesselCertificate);
 
         $request->validate([
-            'vessel_id'        => 'required|exists:vessels,id',
-            'name'             => 'required|string|max:100',
-            'issue_date'       => 'required|date',
-            'expiry_date'      => 'required|date|after_or_equal:issue_date',
+            'vessel_id' => 'required|exists:vessels,id',
+            'name' => 'required|string|max:100',
+            'issue_date' => 'required|date',
+            'expiry_date' => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
