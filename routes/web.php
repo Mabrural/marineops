@@ -7,6 +7,7 @@ use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\PortController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CrewController;
 use App\Http\Controllers\UserCompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::resource('cargos', CargoController::class);
     Route::resource('periods', PeriodController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('crews', CrewController::class);
     
     
     Route::resource('vessel-certificates', VesselCertificateController::class);
