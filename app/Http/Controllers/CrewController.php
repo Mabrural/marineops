@@ -9,14 +9,45 @@ use Illuminate\Support\Facades\Auth;
 
 class CrewController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $crews = Crew::where('company_id', Auth::user()->company->id)
-            ->with('vessel')
-            ->latest()
-            ->paginate(10); // <- penting
+        $query = Crew::where('company_id', Auth::user()->company->id)
+            ->with(['vessel', 'creator']);
 
-        return view('crews.index', compact('crews'));
+        // SEARCH (name / nationality / vessel)
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('nationality', 'like', '%'.$request->search.'%')
+                    ->orWhereHas('vessel', function ($v) use ($request) {
+                        $v->where('name', 'like', '%'.$request->search.'%');
+                    });
+            });
+        }
+
+        // FILTER VESSEL
+        if ($request->filled('vessel_id')) {
+            $query->where('vessel_id', $request->vessel_id);
+        }
+
+        // FILTER STATUS
+        if ($request->filled('status')) {
+            if ($request->status === 'active') {
+                $query->where('is_active', true);
+            }
+
+            if ($request->status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        }
+
+        $crews = $query->latest()->paginate(10)->withQueryString();
+
+        $vessels = Vessel::where('company_id', Auth::user()->company->id)
+            ->orderBy('name')
+            ->get();
+
+        return view('crews.index', compact('crews', 'vessels'));
     }
 
     public function create()
