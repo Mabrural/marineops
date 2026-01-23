@@ -167,7 +167,7 @@
                                     </div>
 
                                     <!-- Position -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="position">Position</label>
                                             <input type="text"
@@ -203,6 +203,27 @@
                                                 id="certificate_number" name="certificate_number"
                                                 value="{{ old('certificate_number', $crew->certificate_number) }}">
                                             @error('certificate_number')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Card -->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="is_active">Status</label>
+                                            <select class="form-select @error('is_active') is-invalid @enderror"
+                                                id="is_active" name="is_active">
+                                                <option value="1"
+                                                    {{ old('is_active', $crew->is_active) == 1 ? 'selected' : '' }}>
+                                                    Active
+                                                </option>
+                                                <option value="0"
+                                                    {{ old('is_active', $crew->is_active) == 0 ? 'selected' : '' }}>
+                                                    Inactive
+                                                </option>
+                                            </select>
+                                            @error('is_active')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
