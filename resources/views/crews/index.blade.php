@@ -138,6 +138,9 @@
                                 </div>
 
                                 <div class="text-end">
+                                    <a href="{{ route('crews.show', $crew) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                     <a href="{{ route('crews.edit', $crew) }}" class="btn btn-sm btn-warning mb-1">
                                         <i class="fas fa-edit"></i>
                                     </a>
