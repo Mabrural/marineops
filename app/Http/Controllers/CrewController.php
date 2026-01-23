@@ -114,6 +114,15 @@ class CrewController extends Controller
             ->with('success', 'Crew updated successfully.');
     }
 
+    public function show(Crew $crew)
+    {
+        $this->authorizeClient($crew);
+
+        $crew->load(['vessel', 'company', 'creator']);
+
+        return view('crews.show', compact('crew'));
+    }
+
     public function destroy(Crew $crew)
     {
         $this->authorizeClient($crew);
