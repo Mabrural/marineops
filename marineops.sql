@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 22, 2026 at 06:07 AM
+-- Generation Time: Jan 23, 2026 at 07:19 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -65,7 +65,8 @@ CREATE TABLE `cargos` (
 --
 
 INSERT INTO `cargos` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(3, 9, 'POME', 6, '2026-01-19 03:15:01', '2026-01-19 03:15:01');
+(3, 9, 'POME', 6, '2026-01-19 03:15:01', '2026-01-19 03:15:01'),
+(4, 9, 'PFAD', 6, '2026-01-22 19:29:12', '2026-01-22 19:29:12');
 
 -- --------------------------------------------------------
 
@@ -116,6 +117,49 @@ INSERT INTO `companies` (`id`, `name`, `is_active`, `created_by`, `created_at`, 
 (9, 'PT Global Maritim Nusantara', 1, 1, '2026-01-18 21:20:17', '2026-01-18 21:20:17'),
 (10, 'PT Global Petro Pasifik', 1, 1, '2026-01-19 00:18:19', '2026-01-19 00:18:19'),
 (11, 'PT Mitra Maritim Mandiri', 1, 1, '2026-01-19 00:34:57', '2026-01-19 00:34:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `crews`
+--
+
+CREATE TABLE `crews` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `vessel_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` enum('Male','Female') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Male',
+  `date_of_birth` date DEFAULT NULL,
+  `nationality` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Indonesia',
+  `seafarer_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `seafarer_book_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `seafarer_book_expired_at` date DEFAULT NULL,
+  `position` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `certificate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `certificate_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `crews`
+--
+
+INSERT INTO `crews` (`id`, `company_id`, `vessel_id`, `name`, `gender`, `date_of_birth`, `nationality`, `seafarer_code`, `seafarer_book_number`, `seafarer_book_expired_at`, `position`, `certificate`, `certificate_number`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
+(3, 11, 9, 'RINO SAPUTRA', 'Male', '1998-03-19', 'Indonesia', '6211752302', 'F113215', '2026-02-26', 'KKM', 'ATT III', '6211752302530122', 1, 7, '2026-01-22 20:36:32', '2026-01-22 20:49:08'),
+(4, 11, 8, 'ANDI', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:19', '2026-01-22 20:56:19'),
+(5, 11, 8, 'ANDI', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:19', '2026-01-22 20:56:19'),
+(6, 11, 8, 'ALLL', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:26', '2026-01-22 20:56:26'),
+(7, 11, 8, 'LLLL', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:34', '2026-01-22 20:56:34'),
+(8, 11, 8, 'LLLL', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:35', '2026-01-22 20:56:35'),
+(9, 11, 8, 'AA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:40', '2026-01-22 20:56:40'),
+(10, 11, 8, 'AA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:41', '2026-01-22 20:56:41'),
+(11, 11, 9, 'AAA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:47', '2026-01-22 21:45:08'),
+(12, 11, 8, 'AAA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:47', '2026-01-22 20:56:47'),
+(13, 11, 9, 'ASDA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 0, 7, '2026-01-22 20:56:53', '2026-01-22 21:11:24');
 
 -- --------------------------------------------------------
 
@@ -197,7 +241,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2026_01_19_094517_create_vessels_table', 8),
 (11, '2026_01_19_100258_create_cargos_table', 9),
 (12, '2026_01_19_102929_create_periods_table', 10),
-(14, '2026_01_20_025442_create_projects_table', 11);
+(14, '2026_01_20_025442_create_projects_table', 11),
+(15, '2026_01_22_062942_create_vessel_certificates_table', 12),
+(16, '2026_01_23_030121_create_crews_table', 13);
 
 -- --------------------------------------------------------
 
@@ -239,7 +285,8 @@ CREATE TABLE `periods` (
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
 (10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32'),
-(13, 9, 'Project 2026', 6, '2026-01-20 21:07:13', '2026-01-20 21:07:13');
+(13, 9, 'Project 2026', 6, '2026-01-20 21:07:13', '2026-01-20 21:07:13'),
+(15, 11, 'Project 2026', 7, '2026-01-23 06:30:47', '2026-01-23 06:30:47');
 
 -- --------------------------------------------------------
 
@@ -324,10 +371,7 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-01-20 20:38:26'),
-(5, '9ecd6e93-1f28-4880-83bc-f0838514b1e1', 9, 13, 6, 1, 'freight_charter', '2026-01-21', '2026-01-31', 457000000.00, 'active', 6, '2026-01-20 21:08:06', '2026-01-20 21:08:30'),
-(6, '098339e4-144d-4186-9dc8-a487b73579ac', 9, 13, 9, 2, 'time_charter', '2026-01-21', '2026-01-31', 575000000.00, 'active', 6, '2026-01-20 21:18:08', '2026-01-20 21:18:18'),
-(7, '0f8bb994-12cc-4d3a-b394-495f823f1551', 9, 13, 7, 3, 'shipping_agency', '2026-01-21', '2026-01-31', 250000000.00, 'active', 6, '2026-01-20 21:18:48', '2026-01-20 21:19:17');
+(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-01-20 20:38:26');
 
 -- --------------------------------------------------------
 
@@ -349,7 +393,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('MKK5vTXM73rDA3CzaespqbCsUlF0p6EUMgZaPqVo', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiekpGMUVpNzFOQ2tZeTRrWjc0ZFR4QVlpbVFhYkZsVkQ0Qlg5akxoTSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTA7fQ==', 1769062014);
+('TaIIjzBQ3zkOa6oiGAMpc5Ur3hlL8Fy6e0h8wSXP', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSk1DaXNacG9kbVNKWlk5RGhmMlNyS1JqWnp3WWlPdTl2dVBwc2JkYiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO3M6MjoiMTAiO30=', 1769151887);
 
 -- --------------------------------------------------------
 
@@ -376,7 +420,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `is_platform_admin`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Super Admin', 'superadmin@marineops.id', NULL, '$2y$12$Baywm5M0PKwRUJQwH7s4zuu0T.e3Th93sVbICWmfyQ2kaDRV54yZi', NULL, 1, 1, '2026-01-13 21:11:34', '2026-01-19 01:31:59'),
-(6, 'Operasion Global Maritim', 'operasion@globalmaritim.com', NULL, '$2y$12$EO/aTjNo1j51.el88TpOXuavX0mBH/mbmVe1/QKwaroo.YkTp5992', NULL, 0, 1, '2026-01-18 21:56:35', '2026-01-19 01:19:20'),
+(6, 'Operasion Global Maritim', 'operasion@globalmaritim.com', NULL, '$2y$12$EO/aTjNo1j51.el88TpOXuavX0mBH/mbmVe1/QKwaroo.YkTp5992', NULL, 0, 1, '2026-01-18 21:56:35', '2026-01-22 01:17:36'),
 (7, 'Operasion Mitra Maritim', 'operasion@mitramaritim.com', NULL, '$2y$12$UKsKyob8GdqACYMO0XnB1erzlDkNYAZ94fr8YCoFs/vhCWW4csTGi', NULL, 0, 1, '2026-01-19 00:29:49', '2026-01-19 01:19:44');
 
 -- --------------------------------------------------------
@@ -422,8 +466,28 @@ CREATE TABLE `vessels` (
 --
 
 INSERT INTO `vessels` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 9, 'OB Selaras 01', 6, '2026-01-19 02:58:52', '2026-01-19 02:58:52'),
-(3, 9, 'TB Tiga Permata', 6, '2026-01-19 03:00:16', '2026-01-19 03:01:33');
+(7, 9, 'SPOB NORLHA 6', 6, '2026-01-22 19:47:21', '2026-01-22 19:47:21'),
+(8, 11, 'TB Tiga Permata', 7, '2026-01-22 20:23:01', '2026-01-22 20:23:01'),
+(9, 11, 'TK Selaras 01', 7, '2026-01-22 20:23:06', '2026-01-22 20:23:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vessel_certificates`
+--
+
+CREATE TABLE `vessel_certificates` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `vessel_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `issue_date` date NOT NULL,
+  `expiry_date` date NOT NULL,
+  `certificate_file` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -464,6 +528,15 @@ ALTER TABLE `companies`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `companies_created_by_foreign` (`created_by`);
+
+--
+-- Indexes for table `crews`
+--
+ALTER TABLE `crews`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `crews_company_id_foreign` (`company_id`),
+  ADD KEY `crews_vessel_id_foreign` (`vessel_id`),
+  ADD KEY `crews_created_by_foreign` (`created_by`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -565,6 +638,15 @@ ALTER TABLE `vessels`
   ADD KEY `vessels_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `vessel_certificates`
+--
+ALTER TABLE `vessel_certificates`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `vessel_certificates_company_id_foreign` (`company_id`),
+  ADD KEY `vessel_certificates_vessel_id_foreign` (`vessel_id`),
+  ADD KEY `vessel_certificates_created_by_foreign` (`created_by`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -572,7 +654,7 @@ ALTER TABLE `vessels`
 -- AUTO_INCREMENT for table `cargos`
 --
 ALTER TABLE `cargos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -585,6 +667,12 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `companies`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `crews`
+--
+ALTER TABLE `crews`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -602,13 +690,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -644,7 +732,13 @@ ALTER TABLE `user_companies`
 -- AUTO_INCREMENT for table `vessels`
 --
 ALTER TABLE `vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `vessel_certificates`
+--
+ALTER TABLE `vessel_certificates`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -669,6 +763,14 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `companies`
   ADD CONSTRAINT `companies_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `crews`
+--
+ALTER TABLE `crews`
+  ADD CONSTRAINT `crews_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `crews_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `crews_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `periods`
@@ -706,6 +808,14 @@ ALTER TABLE `user_companies`
 ALTER TABLE `vessels`
   ADD CONSTRAINT `vessels_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `vessels_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `vessel_certificates`
+--
+ALTER TABLE `vessel_certificates`
+  ADD CONSTRAINT `vessel_certificates_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `vessel_certificates_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `vessel_certificates_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
