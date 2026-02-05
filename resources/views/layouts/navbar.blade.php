@@ -33,6 +33,14 @@
                     <input type="text" placeholder="Search ..." class="form-control" />
                 </div>
             </nav> --}}
+            @if (!Auth::user()->is_platform_admin)
+                <nav class="navbar navbar-header-left navbar-expand-lg p-0 d-none d-lg-flex">
+                    <span class="fw-semibold text-white">
+                        Monitor Your Marine Operations <br>
+                        <small>{{ Auth::user()->company?->name ?? 'Not Assign' }}</small>
+                    </span>
+                </nav>
+            @endif
 
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 {{-- <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
