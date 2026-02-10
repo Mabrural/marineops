@@ -14,9 +14,7 @@ use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselCertificateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/login');
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     $allowedFolders = ['vessel-certificates'];
