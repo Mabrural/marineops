@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 23, 2026 at 07:19 AM
+-- Generation Time: Feb 25, 2026 at 07:07 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -32,6 +32,18 @@ CREATE TABLE `cache` (
   `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('marineops-cache-mabruralmutaqi@gmail.com|127.0.0.1', 'i:1;', 1769398685),
+('marineops-cache-mabruralmutaqi@gmail.com|127.0.0.1:timer', 'i:1769398685;', 1769398685),
+('marineops-cache-operasional@globalmaritim.com|127.0.0.1', 'i:1;', 1772000442),
+('marineops-cache-operasional@globalmaritim.com|127.0.0.1:timer', 'i:1772000442;', 1772000442),
+('marineops-cache-ptglobalmaritimnusantara@gmail.com|127.0.0.1', 'i:5;', 1770264640),
+('marineops-cache-ptglobalmaritimnusantara@gmail.com|127.0.0.1:timer', 'i:1770264640;', 1770264640);
 
 -- --------------------------------------------------------
 
@@ -115,7 +127,6 @@ CREATE TABLE `companies` (
 
 INSERT INTO `companies` (`id`, `name`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
 (9, 'PT Global Maritim Nusantara', 1, 1, '2026-01-18 21:20:17', '2026-01-18 21:20:17'),
-(10, 'PT Global Petro Pasifik', 1, 1, '2026-01-19 00:18:19', '2026-01-19 00:18:19'),
 (11, 'PT Mitra Maritim Mandiri', 1, 1, '2026-01-19 00:34:57', '2026-01-19 00:34:57');
 
 -- --------------------------------------------------------
@@ -243,7 +254,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2026_01_19_102929_create_periods_table', 10),
 (14, '2026_01_20_025442_create_projects_table', 11),
 (15, '2026_01_22_062942_create_vessel_certificates_table', 12),
-(16, '2026_01_23_030121_create_crews_table', 13);
+(16, '2026_01_23_030121_create_crews_table', 13),
+(18, '2026_02_25_104409_create_project_document_types_table', 14);
 
 -- --------------------------------------------------------
 
@@ -285,8 +297,7 @@ CREATE TABLE `periods` (
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
 (10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32'),
-(13, 9, 'Project 2026', 6, '2026-01-20 21:07:13', '2026-01-20 21:07:13'),
-(15, 11, 'Project 2026', 7, '2026-01-23 06:30:47', '2026-01-23 06:30:47');
+(13, 9, 'Project-2026', 6, '2026-01-20 21:07:13', '2026-02-18 08:14:31');
 
 -- --------------------------------------------------------
 
@@ -371,7 +382,54 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-01-20 20:38:26');
+(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'shipping_agency', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-02-25 07:00:18'),
+(10, '15fe81e8-7a56-47ee-92e1-23f97a6df29a', 9, 13, 9, 1, 'freight_charter', '2026-02-02', '2026-02-17', 650000000.00, 'finished', 6, '2026-02-05 03:55:50', '2026-02-05 07:35:46'),
+(11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'draft', 6, '2026-02-05 07:32:26', '2026-02-05 07:32:26'),
+(12, '52a10a60-cf83-4b45-8c83-d3d808d8d8cc', 9, 13, 7, 3, 'freight_charter', NULL, NULL, 450000000.00, 'draft', 6, '2026-02-05 07:32:37', '2026-02-05 07:32:37'),
+(13, '94204dd0-c571-4aec-b68b-b05e6d1c7fc9', 9, 13, 7, 4, 'freight_charter', NULL, NULL, 500000000.00, 'draft', 6, '2026-02-05 07:32:53', '2026-02-05 07:32:53'),
+(14, '9ef7213d-b51b-42e2-aacc-33a6af5863c4', 9, 13, 9, 5, 'freight_charter', NULL, NULL, 600000000.00, 'draft', 6, '2026-02-05 07:33:04', '2026-02-05 07:33:04'),
+(15, '9187bc83-1aed-43ea-9bfb-0f77644894b0', 9, 13, 9, 6, 'freight_charter', NULL, NULL, 540000000.00, 'draft', 6, '2026-02-05 07:33:17', '2026-02-05 07:33:17'),
+(16, '58e0673b-701c-4e26-b054-6ef19a0b5c4f', 9, 13, 6, 7, 'time_charter', NULL, NULL, 458000000.00, 'draft', 6, '2026-02-05 07:33:31', '2026-02-05 07:33:31'),
+(17, '512b3d2a-168d-4625-856b-c8e3e6f0fa6b', 9, 13, 7, 8, 'freight_charter', NULL, NULL, 490000000.00, 'draft', 6, '2026-02-05 07:33:48', '2026-02-05 07:33:48'),
+(18, '43defc56-3632-4bd0-820e-8b8bb589b97d', 9, 13, 7, 9, 'freight_charter', NULL, NULL, 590000000.00, 'draft', 6, '2026-02-05 07:34:02', '2026-02-05 07:34:02'),
+(19, 'e433a8ab-20ae-45a5-ada4-f4a866e0306d', 9, 13, 7, 10, 'shipping_agency', NULL, NULL, 460000000.00, 'active', 6, '2026-02-05 07:34:15', '2026-02-25 06:07:45'),
+(20, 'f0002472-088b-4624-8213-49ff3d02385c', 9, 13, 6, 11, 'freight_charter', NULL, NULL, 650000000.00, 'draft', 6, '2026-02-05 07:34:26', '2026-02-05 07:34:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_document_types`
+--
+
+CREATE TABLE `project_document_types` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` enum('time_charter','freight_charter','shipping_agency') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `project_document_types`
+--
+
+INSERT INTO `project_document_types` (`id`, `name`, `type`, `created_by`, `created_at`, `updated_at`) VALUES
+(2, 'RAB Keagenan', 'freight_charter', 1, '2026-02-25 04:29:41', '2026-02-25 04:29:41'),
+(3, 'Surat Perjanjian Angkutan Laut (SPAL)', 'freight_charter', 1, '2026-02-25 04:30:13', '2026-02-25 04:30:13'),
+(4, 'PETA (Jarak Nautical Miles)', 'freight_charter', 1, '2026-02-25 04:30:36', '2026-02-25 04:30:36'),
+(5, 'Time Sheet Loading', 'freight_charter', 1, '2026-02-25 04:30:55', '2026-02-25 04:30:55'),
+(6, 'Dokumen Muatan (Loading)', 'freight_charter', 1, '2026-02-25 04:31:13', '2026-02-25 04:31:13'),
+(7, 'Surat Persetujuan Berlayar Port Loading', 'freight_charter', 1, '2026-02-25 04:31:37', '2026-02-25 04:31:37'),
+(8, 'Invoice Keagenan Port Loading', 'freight_charter', 1, '2026-02-25 04:32:05', '2026-02-25 04:32:05'),
+(9, 'Invoice Pengurusan Dokumen Kapal Port Loading', 'freight_charter', 1, '2026-02-25 04:32:27', '2026-02-25 04:32:27'),
+(10, 'Time Sheet Discharge', 'freight_charter', 1, '2026-02-25 04:32:45', '2026-02-25 04:32:45'),
+(11, 'Dokumen Muatan (Discharge)', 'freight_charter', 1, '2026-02-25 04:33:18', '2026-02-25 04:33:18'),
+(12, 'Surat Persetujuan Berlayar Port Discharge', 'freight_charter', 1, '2026-02-25 04:33:46', '2026-02-25 04:33:46'),
+(13, 'Invoice Keagenan Port Discharge', 'freight_charter', 1, '2026-02-25 04:34:15', '2026-02-25 04:34:15'),
+(14, 'Invoice Pengurusan Dokumen Kapal Port Discharge', 'freight_charter', 1, '2026-02-25 04:34:48', '2026-02-25 04:34:48'),
+(15, 'Demurrage', 'freight_charter', 1, '2026-02-25 04:35:03', '2026-02-25 06:40:52'),
+(23, 'Pelabuhan Tujuan', 'shipping_agency', 1, '2026-02-25 06:55:59', '2026-02-25 06:56:14');
 
 -- --------------------------------------------------------
 
@@ -393,7 +451,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('TaIIjzBQ3zkOa6oiGAMpc5Ur3hlL8Fy6e0h8wSXP', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSk1DaXNacG9kbVNKWlk5RGhmMlNyS1JqWnp3WWlPdTl2dVBwc2JkYiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO3M6MjoiMTAiO30=', 1769151887);
+('SOlbdlltjpgZB5ZVa4tYwNw1s3qSwU6pvBLpdcle', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTFZ0U0wySUtFR01hWUZ6SWNZbFZtWjBjdlRkM2RQY0hYeUc0R25rWCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Njc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy9mMDAwMjQ3Mi0wODhiLTQ2MjQtODIxMy00OWZmM2QwMjM4NWMiO3M6NToicm91dGUiO3M6MTM6InByb2plY3RzLnNob3ciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772003074);
 
 -- --------------------------------------------------------
 
@@ -466,7 +524,7 @@ CREATE TABLE `vessels` (
 --
 
 INSERT INTO `vessels` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(7, 9, 'SPOB NORLHA 6', 6, '2026-01-22 19:47:21', '2026-01-22 19:47:21'),
+(7, 9, 'SPOB AAA MARINE 05', 6, '2026-01-22 19:47:21', '2026-02-05 03:54:58'),
 (8, 11, 'TB Tiga Permata', 7, '2026-01-22 20:23:01', '2026-01-22 20:23:01'),
 (9, 11, 'TK Selaras 01', 7, '2026-01-22 20:23:06', '2026-01-22 20:23:06');
 
@@ -488,6 +546,13 @@ CREATE TABLE `vessel_certificates` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vessel_certificates`
+--
+
+INSERT INTO `vessel_certificates` (`id`, `company_id`, `vessel_id`, `name`, `issue_date`, `expiry_date`, `certificate_file`, `created_by`, `created_at`, `updated_at`) VALUES
+(15, 9, 7, 'Anti Fouling', '2026-01-01', '2026-02-22', 'vessel-certificates/ggmAFRfDSML51cE3px3MruVZaLTmim6WZndbct6j.pdf', 6, '2026-02-05 03:57:27', '2026-02-05 03:57:27');
 
 --
 -- Indexes for dumped tables
@@ -607,6 +672,13 @@ ALTER TABLE `projects`
   ADD KEY `projects_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `project_document_types`
+--
+ALTER TABLE `project_document_types`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_document_types_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -672,7 +744,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `crews`
 --
 ALTER TABLE `crews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -690,13 +762,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -714,7 +786,13 @@ ALTER TABLE `ports`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `project_document_types`
+--
+ALTER TABLE `project_document_types`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -738,7 +816,7 @@ ALTER TABLE `vessels`
 -- AUTO_INCREMENT for table `vessel_certificates`
 --
 ALTER TABLE `vessel_certificates`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -794,6 +872,12 @@ ALTER TABLE `projects`
   ADD CONSTRAINT `projects_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `projects_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `projects_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_document_types`
+--
+ALTER TABLE `project_document_types`
+  ADD CONSTRAINT `project_document_types_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_companies`
