@@ -284,8 +284,9 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('change', function(e) {
+        document.addEventListener('change', async function(e) {
             if (!e.target.classList.contains('auto-upload')) return;
 
             const input = e.target;
@@ -298,29 +299,50 @@
             const formData = new FormData();
             formData.append('file', file);
 
-            fetch(url, {
+            try {
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     },
                     body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        row.querySelector('td:nth-child(3)').innerHTML =
-                            `<span class="badge bg-success">Uploaded</span>`;
+                });
 
-                        row.querySelector('td:nth-child(4)').innerHTML =
-                            `<a href="${data.file_url}" target="_blank"
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message ?? 'Upload failed');
+                }
+
+                // ✅ Update UI
+                row.querySelector('td:nth-child(3)').innerHTML =
+                    `<span class="badge bg-success">Uploaded</span>`;
+
+                row.querySelector('td:nth-child(4)').innerHTML =
+                    `<a href="${data.file_url}" target="_blank"
                     class="btn btn-outline-success btn-sm">
                     <i class="fas fa-eye me-1"></i> View
                 </a>`;
-                    }
-                })
-                .catch(() => {
-                    alert('Upload failed. Please try again.');
+
+                // ✅ Success Alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Upload Successful',
+                    text: 'Document has been uploaded successfully.',
+                    timer: 1500,
+                    showConfirmButton: false
                 });
+
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: error.message ?? 'Please try again.',
+                });
+            } finally {
+                // reset input supaya bisa upload ulang file yang sama
+                input.value = '';
+            }
         });
     </script>
 @endpush
