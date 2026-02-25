@@ -13,7 +13,7 @@ class ProjectDocumentTypeController extends Controller
      */
     public function index()
     {
-        $documentTypes = ProjectDocumentType::oldest()->paginate(20);
+        $documentTypes = ProjectDocumentType::orderBy('id')->get();
 
         return view('document-types.index', compact('documentTypes'));
     }
