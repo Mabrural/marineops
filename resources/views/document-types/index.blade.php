@@ -57,18 +57,29 @@
                             <tbody>
                                 @forelse ($documentTypes as $documentType)
                                     <tr data-type="{{ $documentType->type }}">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center row-number"></td>
                                         <td><strong>{{ $documentType->name }}</strong></td>
                                         <td>
                                             <span class="badge bg-secondary">
                                                 {{ str_replace('_', ' ', ucfirst($documentType->type)) }}
                                             </span>
                                         </td>
-                                        <td>
-                                            <a href="{{ route('document-types.edit', $documentType) }}"
-                                                class="btn btn-sm btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="{{ route('document-types.edit', $documentType) }}"
+                                                    class="btn btn-warning btn-sm" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                <form action="{{ route('document-types.destroy', $documentType) }}"
+                                                    method="POST" onsubmit="return confirm('Delete this document type?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -87,33 +98,40 @@
             <!-- Mobile Card List -->
             <div class="d-lg-none mt-3">
                 @forelse ($documentTypes as $documentType)
-                    <div class="card mb-2 document-card" data-type="{{ $documentType->type }}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="mb-1">{{ $documentType->name }}</h5>
+                    <div class="card mb-2 shadow-sm document-card" data-type="{{ $documentType->type }}">
+                        <div class="card-body py-2 px-3">
 
-
-                                    <p class="mb-0 text-muted small">
-                                        Created by {{ $documentType->creator->name ?? '-' }}<br>
-                                        {{ $documentType->created_at->format('d M Y') }}
-                                    </p>
+                            <!-- Top row: title + badge -->
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="fw-semibold text-truncate pe-2">
+                                    {{ $documentType->name }}
                                 </div>
-                                <div class="text-end">
-                                    <a href="{{ route('ports.edit', $documentType) }}" class="btn btn-sm btn-warning mb-1">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
 
-                                    <form action="{{ route('ports.destroy', $documentType) }}" method="POST"
-                                        onsubmit="return confirm('Delete this company?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                                <span class="badge bg-light text-dark border text-capitalize">
+                                    {{ str_replace('_', ' ', $documentType->type) }}
+                                </span>
                             </div>
+
+                            <!-- Divider -->
+                            <div class="border-top my-2"></div>
+
+                            <!-- Bottom row: actions -->
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('document-types.edit', $documentType) }}"
+                                    class="btn btn-outline-warning btn-sm px-3" title="Edit">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </a>
+
+                                <form action="{{ route('document-types.destroy', $documentType) }}" method="POST"
+                                    onsubmit="return confirm('Delete this document type?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm px-3" title="Delete">
+                                        <i class="fas fa-trash me-1"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 @empty
@@ -245,12 +263,33 @@
             const STORAGE_KEY = 'activeDocumentTypeTab';
 
             function filterByType(type) {
+                let counter = 1;
+
+                // Desktop table
                 rows.forEach(row => {
-                    row.style.display = row.dataset.type === type ? '' : 'none';
+                    if (row.dataset.type === type) {
+                        row.style.display = '';
+                        const numberCell = row.querySelector('.row-number');
+                        if (numberCell) {
+                            numberCell.textContent = counter++;
+                        }
+                    } else {
+                        row.style.display = 'none';
+                    }
                 });
 
+                // Mobile cards
+                let mobileCounter = 1;
                 cards.forEach(card => {
-                    card.style.display = card.dataset.type === type ? '' : 'none';
+                    if (card.dataset.type === type) {
+                        card.style.display = '';
+                        const badge = card.querySelector('.mobile-number');
+                        if (badge) {
+                            badge.textContent = mobileCounter++;
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
 
                 localStorage.setItem(STORAGE_KEY, type);
@@ -265,9 +304,9 @@
                 });
             });
 
-            // Load last active tab
+            // Restore last active tab
             const savedType = localStorage.getItem(STORAGE_KEY) || 'time_charter';
-            const activeTab = document.querySelector(`[data-type="${savedType}"]`);
+            const activeTab = document.querySelector(`#documentTypeTabs [data-type="${savedType}"]`);
 
             if (activeTab) {
                 activeTab.classList.add('active');
