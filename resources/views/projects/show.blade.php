@@ -154,7 +154,7 @@
                                             <th style="width: 60px;">No</th>
                                             <th>Document Name</th>
                                             <th style="width: 160px;">Status</th>
-                                            <th style="width: 160px;">#</th>
+                                            <th style="width: 160px; text-align:center;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
