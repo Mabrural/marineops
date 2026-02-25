@@ -92,6 +92,8 @@
                         </a>
                     </li>
 
+
+
                     <!-- OPERATIONS -->
                     <li class="nav-section">
                         <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
@@ -126,19 +128,19 @@
                         </a>
                     </li> --}}
 
+
+
                     <!-- MONITORING -->
                     <li class="nav-section">
                         <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
                         <h4 class="text-section">Monitoring</h4>
                     </li>
-
                     <li class="nav-item {{ request()->routeIs('vessel-certificates.*') ? 'active' : '' }}">
                         <a href="{{ route('vessel-certificates.index') }}">
                             <i class="fas fa-certificate"></i>
                             <p>Certificate Monitoring</p>
                         </a>
                     </li>
-
 
                     <!-- REPORT -->
                     <li class="nav-item">
@@ -175,6 +177,13 @@
                 @endif
 
                 @if (Auth::user()->is_platform_admin == true)
+                    <li class="nav-item {{ request()->routeIs('document-types.*') ? 'active' : '' }}">
+                        <a href="{{ route('document-types.index') }}">
+                            <i class="fas fa-file-alt"></i>
+                            <p>Document Types</p>
+                        </a>
+                    </li>
+
                     <!-- USER ACCESS -->
                     <li
                         class="nav-item {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'active' : '' }}">

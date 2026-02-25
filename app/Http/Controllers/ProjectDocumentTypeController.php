@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjectDocumentType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectDocumentTypeController extends Controller
 {
@@ -12,7 +13,9 @@ class ProjectDocumentTypeController extends Controller
      */
     public function index()
     {
-        return "document type";
+        $documentTypes = ProjectDocumentType::oldest()->paginate(10);
+
+        return view('document-types.index', compact('documentTypes'));
     }
 
     /**
@@ -20,7 +23,7 @@ class ProjectDocumentTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('document-types.create');
     }
 
     /**
@@ -28,7 +31,19 @@ class ProjectDocumentTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'type' => 'required|in:time_charter,freight_charter,shipping_agency',
+        ]);
+
+        ProjectDocumentType::create([
+            'name' => $request->name,
+            'type' => $request->type,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('document-types.index')
+            ->with('success', 'Document type created successfully.');
     }
 
     /**
@@ -58,8 +73,11 @@ class ProjectDocumentTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectDocumentType $projectDocumentType)
+    public function destroy(ProjectDocumentType $documentType)
     {
-        //
+        $documentType->delete();
+
+        return redirect()->route('document-types.index')
+            ->with('success', 'Document type deleted successfully.');
     }
 }
