@@ -7,6 +7,7 @@ use App\Models\ProjectDocumentType;
 use App\Models\ProjectDocumentUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectDocumentUploadController extends Controller
 {
@@ -48,7 +49,7 @@ class ProjectDocumentUploadController extends Controller
                 'document_type_id' => $documentType->id,
             ],
             [
-                'company_id' => auth()->user()->company_id,
+                'company_id' => Auth::user()->company->id,
                 'period_id' => $project->period_id,
                 'attachment' => $path,
                 'created_by' => auth()->id(),

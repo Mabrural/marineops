@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
-    $allowedFolders = ['vessel-certificates'];
+    $allowedFolders = ['vessel-certificates', 'project-documents'];
 
     if (!in_array($folder, $allowedFolders)) {
         abort(403);
