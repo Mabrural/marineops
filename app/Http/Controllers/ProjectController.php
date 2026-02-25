@@ -106,8 +106,10 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        // Nanti: load voyage, timesheet, dll
-        $documentTypes = ProjectDocumentType::orderBy('id')->get();
+        $documentTypes = ProjectDocumentType::where('type', $project->type)
+            ->orderBy('id')
+            ->get();
+
         return view('projects.show', compact('project', 'documentTypes'));
     }
 
