@@ -159,63 +159,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse ($documentTypes as $index => $document)
+                                            <tr>
+                                                <td class="text-center">
+                                                    {{ $index + 1 }}
+                                                </td>
 
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td>RAB Keagenan</td>
-                                            <td>
-                                                <span class="badge bg-success">Original</span>
-                                            </td>
-                                        </tr>
+                                                <td>
+                                                    {{ $document->name }}
+                                                </td>
 
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td>Surat Perjanjian Angkutan Laut (SPAL)</td>
-                                            <td>
-                                                <span class="badge bg-success">Original</span>
-                                            </td>
-                                        </tr>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark">
+                                                        Belum diupload
+                                                    </span>
+                                                </td>
 
-                                        <tr>
-                                            <td class="text-center">3</td>
-                                            <td>PETA (Jarak Nautical Miles)</td>
-                                            <td>
-                                                <span class="badge bg-primary">Copy</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td>Timesheet Loading</td>
-                                            <td>
-                                                <span class="badge bg-primary">Copy</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="text-center">5</td>
-                                            <td>Timesheet Discharging</td>
-                                            <td>
-                                                <span class="badge bg-primary">Copy</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="text-center">6</td>
-                                            <td>Invoice Keagenan</td>
-                                            <td>
-                                                <span class="badge bg-secondary">Pending</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="text-center">6</td>
-                                            <td>Invoice Keagenan</td>
-                                            <td>
-                                                <span class="badge bg-secondary">Pending</span>
-                                            </td>
-                                        </tr>
-
+                                                <td class="text-center">
+                                                    <label class="btn btn-outline-secondary btn-xs mb-0">
+                                                        <i class="fas fa-upload fa-sm me-1"></i> Upload
+                                                        <input type="file" name="upload" class="d-none">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center text-muted py-3">
+                                                    No document types available
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

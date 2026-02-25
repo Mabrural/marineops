@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Period;
 use App\Models\Project;
+use App\Models\ProjectDocumentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -106,7 +107,8 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         // Nanti: load voyage, timesheet, dll
-        return view('projects.show', compact('project'));
+        $documentTypes = ProjectDocumentType::orderBy('id')->get();
+        return view('projects.show', compact('project', 'documentTypes'));
     }
 
     public function edit(Project $project)
