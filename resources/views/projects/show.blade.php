@@ -170,7 +170,7 @@
                                                 <td>
                                                     @if ($upload)
                                                         <span class="badge bg-success">
-                                                            Uploaded
+                                                            Sudah diupload
                                                         </span>
                                                     @else
                                                         <span class="badge bg-warning text-dark">
