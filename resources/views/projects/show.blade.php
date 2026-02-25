@@ -180,7 +180,7 @@
                     </div>
                 </div>
 
-                {{-- ================= DOCUMENTS ================= --}}
+                {{-- ================= DOCUMENTS =================
                 <div class="tab-pane fade" id="documents" role="tabpanel">
                     <div class="card">
                         <div class="card-body text-center p-5">
@@ -200,6 +200,96 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                {{-- ================= DOCUMENTS ================= --}}
+                <div class="tab-pane fade" id="documents" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-semibold mb-0">Project Documents</h5>
+
+                                <button class="btn btn-primary btn-sm" disabled>
+                                    + Upload Document
+                                </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 60px;">No</th>
+                                            <th>Document Name</th>
+                                            <th style="width: 180px;">Document Type</th>
+                                            <th style="width: 160px;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td class="text-center">1</td>
+                                            <td>RAB Keagenan</td>
+                                            <td>Financial</td>
+                                            <td>
+                                                <span class="badge bg-success">Original</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">2</td>
+                                            <td>Surat Perjanjian Angkutan Laut (SPAL)</td>
+                                            <td>Contract</td>
+                                            <td>
+                                                <span class="badge bg-success">Original</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">3</td>
+                                            <td>PETA (Jarak Nautical Miles)</td>
+                                            <td>Operational</td>
+                                            <td>
+                                                <span class="badge bg-primary">Copy</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">4</td>
+                                            <td>Timesheet Loading</td>
+                                            <td>Operational</td>
+                                            <td>
+                                                <span class="badge bg-primary">Copy</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">5</td>
+                                            <td>Timesheet Discharging</td>
+                                            <td>Operational</td>
+                                            <td>
+                                                <span class="badge bg-primary">Copy</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-center">6</td>
+                                            <td>Invoice Keagenan</td>
+                                            <td>Financial</td>
+                                            <td>
+                                                <span class="badge bg-secondary">Pending</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="text-muted small mt-2">
+                                Document upload and verification will be enabled once the document module is active.
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -207,3 +297,28 @@
         </div>
     </div>
 @endsection
+
+{{-- dibawah ini agar tab nya tidak balik ke awal ketika di refresh --}}
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabLinks = document.querySelectorAll('a[data-bs-toggle="tab"]');
+
+            // 🔹 Restore last active tab
+            const activeTab = localStorage.getItem('projectDetailActiveTab');
+            if (activeTab) {
+                const triggerEl = document.querySelector(`a[href="${activeTab}"]`);
+                if (triggerEl) {
+                    new bootstrap.Tab(triggerEl).show();
+                }
+            }
+
+            // 🔹 Save active tab on change
+            tabLinks.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function(e) {
+                    localStorage.setItem('projectDetailActiveTab', e.target.getAttribute('href'));
+                });
+            });
+        });
+    </script>
+@endpush
