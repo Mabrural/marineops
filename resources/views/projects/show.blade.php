@@ -142,12 +142,11 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="fw-semibold mb-0">Project Documents</h5>
-
-                                <button class="btn btn-primary btn-sm" disabled>
-                                    + Upload Document
-                                </button>
                             </div>
 
+                            <div class="text-muted small mb-2">
+                                Document upload and verification will be enabled once the document module is active.
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover align-middle">
                                     <thead class="table-light">
@@ -193,9 +192,7 @@
                                 </table>
                             </div>
 
-                            <div class="text-muted small mt-2">
-                                Document upload and verification will be enabled once the document module is active.
-                            </div>
+                            
 
                         </div>
                     </div>
