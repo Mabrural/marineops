@@ -50,28 +50,66 @@
                                     {{-- Project Type --}}
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="type">Project Type <span class="text-danger">*</span></label>
-                                            <select id="type" class="form-control @error('type') is-invalid @enderror"
-                                                name="type" required>
-                                                <option value="">-- Select Type --</option>
-                                                <option value="time_charter"
-                                                    {{ old('type') == 'time_charter' ? 'selected' : '' }}>
+                                            <label class="d-block mb-2">
+                                                Project Type <span class="text-danger">*</span>
+                                            </label>
+
+                                            <div class="btn-group project-type-group" role="group">
+                                                <input type="radio" class="btn-check" name="type" id="time_charter"
+                                                    value="time_charter"
+                                                    {{ old('type') == 'time_charter' ? 'checked' : '' }} required>
+                                                <label class="btn btn-outline-primary" for="time_charter">
                                                     Time Charter
-                                                </option>
-                                                <option value="freight_charter"
-                                                    {{ old('type') == 'freight_charter' ? 'selected' : '' }}>
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="type" id="freight_charter"
+                                                    value="freight_charter"
+                                                    {{ old('type') == 'freight_charter' ? 'checked' : '' }}>
+                                                <label class="btn btn-outline-primary" for="freight_charter">
                                                     Freight Charter
-                                                </option>
-                                                <option value="shipping_agency"
-                                                    {{ old('type') == 'shipping_agency' ? 'selected' : '' }}>
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="type" id="shipping_agency"
+                                                    value="shipping_agency"
+                                                    {{ old('type') == 'shipping_agency' ? 'checked' : '' }}>
+                                                <label class="btn btn-outline-primary" for="shipping_agency">
                                                     Shipping Agency
-                                                </option>
-                                            </select>
+                                                </label>
+                                            </div>
+
                                             @error('type')
-                                                <span class="invalid-feedback">{{ $message }}</span>
+                                                <div class="text-danger small mt-1">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                     </div>
+                                    <style>
+                                        /* Default (desktop) */
+                                        .project-type-group .btn {
+                                            min-width: 160px;
+                                        }
+
+                                        /* Mobile behavior */
+                                        @media (max-width: 576px) {
+                                            .project-type-group {
+                                                display: flex;
+                                                flex-direction: column;
+                                                width: 100%;
+                                            }
+
+                                            .project-type-group .btn {
+                                                width: 100%;
+                                                margin-bottom: 0.5rem;
+                                                border-radius: 0.375rem !important;
+                                            }
+
+                                            /* Fix border when stacked */
+                                            .project-type-group .btn+.btn {
+                                                margin-left: 0 !important;
+                                            }
+                                        }
+                                    </style>
                                 </div>
                             </div>
 
