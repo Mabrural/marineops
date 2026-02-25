@@ -12,6 +12,7 @@ use App\Http\Controllers\UserCompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselCertificateController;
+use App\Http\Controllers\ProjectDocumentTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::resource('projects', ProjectController::class);
     Route::resource('crews', CrewController::class);
     
+    Route::resource('document-types', ProjectDocumentTypeController::class);
     
     Route::resource('vessel-certificates', VesselCertificateController::class);
 });
