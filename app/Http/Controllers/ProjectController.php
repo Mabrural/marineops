@@ -104,14 +104,25 @@ class ProjectController extends Controller
             ->with('success', 'Project created successfully.');
     }
 
-    public function show(Project $project)
-    {
-        $documentTypes = ProjectDocumentType::where('type', $project->type)
-            ->orderBy('id')
-            ->get();
+    // public function show(Project $project)
+    // {
+    //     $documentTypes = ProjectDocumentType::where('type', $project->type)
+    //         ->orderBy('id')
+    //         ->get();
 
-        return view('projects.show', compact('project', 'documentTypes'));
-    }
+    //     return view('projects.show', compact('project', 'documentTypes'));
+    // }
+    public function show(Project $project)
+{
+    $documentTypes = ProjectDocumentType::where('type', $project->type)
+        ->with(['uploads' => function ($q) use ($project) {
+            $q->where('project_id', $project->id);
+        }])
+        ->orderBy('id')
+        ->get();
+
+    return view('projects.show', compact('project', 'documentTypes'));
+}
 
     public function edit(Project $project)
     {

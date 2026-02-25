@@ -242,29 +242,6 @@
                     </div>
                 </div>
 
-                {{-- ================= DOCUMENTS =================
-                <div class="tab-pane fade" id="documents" role="tabpanel">
-                    <div class="card">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-file-alt fa-2x text-muted mb-3"></i>
-
-                            <h6 class="fw-semibold">No Documents Uploaded</h6>
-                            <p class="text-muted small mb-4">
-                                Contracts, invoices, and voyage documents will be stored here.
-                            </p>
-
-                            <button class="btn btn-primary btn-sm" disabled>
-                                + Upload Document
-                            </button>
-
-                            <div class="small text-muted mt-2">
-                                (Document management coming soon)
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
-
             </div>
 
         </div>
