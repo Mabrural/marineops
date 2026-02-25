@@ -57,17 +57,26 @@ class ProjectDocumentTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProjectDocumentType $projectDocumentType)
+    public function edit(ProjectDocumentType $documentType)
     {
-        //
+        return view('document-types.edit', compact('documentType'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProjectDocumentType $projectDocumentType)
+    public function update(Request $request, ProjectDocumentType $documentType)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'type' => 'required|in:time_charter,freight_charter,shipping_agency',
+        ]);
+
+        $documentType->update([
+            'name' => $request->name,
+            'type' => $request->type,
+        ]);
+
+        return redirect()
+            ->route('document-types.index')
+            ->with('success', 'Document type updated successfully.');
     }
 
     /**
