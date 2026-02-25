@@ -159,26 +159,39 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($documentTypes as $index => $document)
+                                            @php
+                                                $upload = $document->uploads->first();
+                                            @endphp
                                             <tr>
-                                                <td class="text-center">
-                                                    {{ $index + 1 }}
-                                                </td>
+                                                <td class="text-center">{{ $index + 1 }}</td>
+
+                                                <td>{{ $document->name }}</td>
 
                                                 <td>
-                                                    {{ $document->name }}
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-warning text-dark">
-                                                        Belum diupload
-                                                    </span>
+                                                    @if ($upload)
+                                                        <span class="badge bg-success">
+                                                            Uploaded
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark">
+                                                            Belum diupload
+                                                        </span>
+                                                    @endif
                                                 </td>
 
                                                 <td class="text-center">
-                                                    <label class="btn btn-outline-secondary btn-xs mb-0">
-                                                        <i class="fas fa-upload fa-sm me-1"></i> Upload
-                                                        <input type="file" name="upload" class="d-none">
-                                                    </label>
+                                                    @if ($upload)
+                                                        <a href="{{ asset('storage/' . $upload->attachment) }}"
+                                                            target="_blank" class="btn btn-outline-success btn-sm">
+                                                            <i class="fas fa-eye me-1"></i> View
+                                                        </a>
+                                                    @else
+                                                        <label class="btn btn-outline-secondary btn-sm mb-0">
+                                                            <i class="fas fa-upload me-1"></i> Upload
+                                                            <input type="file" class="d-none auto-upload"
+                                                                data-url="{{ route('project-documents.upload', [$project->uuid, $document->id]) }}">
+                                                        </label>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @empty
@@ -192,7 +205,7 @@
                                 </table>
                             </div>
 
-                            
+
 
                         </div>
                     </div>
@@ -269,6 +282,45 @@
                     localStorage.setItem('projectDetailActiveTab', e.target.getAttribute('href'));
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('change', function(e) {
+            if (!e.target.classList.contains('auto-upload')) return;
+
+            const input = e.target;
+            const file = input.files[0];
+            if (!file) return;
+
+            const url = input.dataset.url;
+            const row = input.closest('tr');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        row.querySelector('td:nth-child(3)').innerHTML =
+                            `<span class="badge bg-success">Uploaded</span>`;
+
+                        row.querySelector('td:nth-child(4)').innerHTML =
+                            `<a href="${data.file_url}" target="_blank"
+                    class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-eye me-1"></i> View
+                </a>`;
+                    }
+                })
+                .catch(() => {
+                    alert('Upload failed. Please try again.');
+                });
         });
     </script>
 @endpush
