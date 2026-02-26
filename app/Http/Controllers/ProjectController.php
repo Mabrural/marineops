@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectVessel;
 use App\Models\Vessel;
 use App\Models\ProjectDocumentType;
+use App\Models\ProjectVoyage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -95,25 +96,6 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
-
-    // public function show(Project $project)
-    // {
-    //     $documentTypes = ProjectDocumentType::where('type', $project->type)
-    //         ->with([
-    //             'uploads' => function ($q) use ($project) {
-    //                 $q->where('project_id', $project->id);
-    //             },
-    //         ])
-    //         ->orderBy('id')
-    //         ->get();
-
-    //     $projectVessels = ProjectVessel::with('vessel') // penting
-    //         ->where('project_id', $project->id)
-    //         ->orderBy('id')
-    //         ->get();
-
-    //     return view('projects.show', compact('project', 'documentTypes', 'projectVessels'));
-    // }
 
     public function show(Project $project)
     {
