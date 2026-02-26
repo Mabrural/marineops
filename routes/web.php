@@ -14,6 +14,7 @@ use App\Http\Controllers\VesselController;
 use App\Http\Controllers\VesselCertificateController;
 use App\Http\Controllers\ProjectDocumentTypeController;
 use App\Http\Controllers\ProjectDocumentUploadController;
+use App\Http\Controllers\ProjectVesselController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -76,10 +77,8 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::resource('crews', CrewController::class);
 
     Route::post('/projects/{project}/documents/{documentType}/upload', [ProjectDocumentUploadController::class, 'store'])->name('project-documents.upload');
-    Route::delete(
-    '/projects/{project}/documents/{documentType}',
-    [ProjectDocumentUploadController::class, 'destroy']
-)->name('project-documents.destroy');
+    Route::delete('/projects/{project}/documents/{documentType}', [ProjectDocumentUploadController::class, 'destroy'])->name('project-documents.destroy');
+    Route::delete('/projects/{project}/vessels/{projectVessel}', [ProjectVesselController::class, 'destroy'])->name('projects.vessels.destroy');
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
 });

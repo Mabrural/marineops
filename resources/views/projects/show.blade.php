@@ -172,7 +172,7 @@
                                                     </div>
 
                                                     <button class="btn btn-sm btn-light text-danger remove-vessel"
-                                                        data-url="#">
+                                                        data-url="{{ route('projects.vessels.destroy', [$project->uuid, $pv->id]) }}">
                                                         <i class="fas fa-times"></i>
                                                     </button>
 
@@ -506,6 +506,39 @@
                 });
 
             }
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.remove-vessel').forEach(button => {
+
+                button.addEventListener('click', function() {
+
+                    let url = this.dataset.url;
+
+                    if (confirm('Remove this vessel from project?')) {
+
+                        fetch(url, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    location.reload();
+                                }
+                            });
+
+                    }
+                });
+
+            });
 
         });
     </script>

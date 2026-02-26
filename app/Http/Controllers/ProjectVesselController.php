@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectVessel;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,23 @@ class ProjectVesselController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectVessel $projectVessel)
+    public function destroy(Project $project, ProjectVessel $projectVessel)
     {
-        //
+        if ($projectVessel->project_id !== $project->id) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Invalid vessel for this project.',
+                ],
+                403,
+            );
+        }
+
+        $projectVessel->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Vessel removed successfully.',
+        ]);
     }
 }
