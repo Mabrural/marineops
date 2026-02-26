@@ -148,31 +148,45 @@
                     <div class="tab-pane fade" id="vessel" role="tabpanel">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="fw-semibold mb-3">Vessel Registration</h5>
 
-                                <p class="text-muted mb-4">
-                                    Register a vessel under this project to manage operational activities,
-                                    including voyage details, cargo information, and timesheet records.
-                                    All vessel-related data will be centralized here.
-                                </p>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="fw-semibold mb-0">Project Vessels</h5>
 
-                                <div class="border rounded p-4 text-center">
-                                    <i class="fas fa-ship fa-2x text-muted mb-2"></i>
-
-                                    <h6 class="fw-semibold mb-1">No Vessel Registered</h6>
-                                    <p class="text-muted small mb-3">
-                                        There is currently no vessel assigned to this project.
-                                        Please register a vessel to begin operational tracking.
-                                    </p>
-
-                                    <button class="btn btn-primary btn-sm" disabled>
-                                        + Register Vessel
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus me-1"></i> Register Vessel
                                     </button>
-
-                                    <div class="small text-muted mt-2">
-                                        (Vessel registration module coming soon)
-                                    </div>
                                 </div>
+
+                                @if ($projectVessels->count() > 0)
+                                    <div class="row g-3">
+                                        @foreach ($projectVessels as $pv)
+                                            <div class="col-md-6 col-lg-4">
+                                                <div
+                                                    class="border rounded px-3 py-3 d-flex justify-content-between align-items-center">
+
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-ship text-primary me-2"></i>
+                                                        <span class="fw-medium">
+                                                            {{ $pv->vessel->name ?? '-' }}
+                                                        </span>
+                                                    </div>
+
+                                                    <button class="btn btn-sm btn-light text-danger remove-vessel"
+                                                        data-url="#">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="text-center text-muted py-5 border rounded">
+                                        <i class="fas fa-ship fa-lg mb-2"></i>
+                                        <div class="small">No vessel registered.</div>
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>

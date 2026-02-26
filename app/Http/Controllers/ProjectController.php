@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Period;
 use App\Models\Project;
+use App\Models\ProjectVessel;
 use App\Models\ProjectDocumentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,15 +37,12 @@ class ProjectController extends Controller
         $activePeriod = null;
 
         if ($activePeriodId) {
-            $activePeriod = Period::where('company_id', $companyId)
-                ->where('id', $activePeriodId)
-                ->first();
+            $activePeriod = Period::where('company_id', $companyId)->where('id', $activePeriodId)->first();
         }
 
         // Kalau session tidak ada atau period invalid
-        if (! $activePeriod) {
-            return redirect()->route('projects.index')
-                ->with('error', 'Active period not set. Please create or select a period first.');
+        if (!$activePeriod) {
+            return redirect()->route('projects.index')->with('error', 'Active period not set. Please create or select a period first.');
         }
 
         return view('projects.create', compact('clients', 'activePeriod'));
@@ -56,18 +54,14 @@ class ProjectController extends Controller
         $activePeriodId = session('active_period_id');
 
         // Guard keras
-        if (! $activePeriodId) {
-            return redirect()->route('projects.index')
-                ->with('error', 'Active period not set. Cannot create project.');
+        if (!$activePeriodId) {
+            return redirect()->route('projects.index')->with('error', 'Active period not set. Cannot create project.');
         }
 
-        $activePeriod = Period::where('company_id', $companyId)
-            ->where('id', $activePeriodId)
-            ->first();
+        $activePeriod = Period::where('company_id', $companyId)->where('id', $activePeriodId)->first();
 
-        if (! $activePeriod) {
-            return redirect()->route('projects.index')
-                ->with('error', 'Active period is invalid or no longer exists.');
+        if (!$activePeriod) {
+            return redirect()->route('projects.index')->with('error', 'Active period is invalid or no longer exists.');
         }
 
         $request->validate([
@@ -81,9 +75,7 @@ class ProjectController extends Controller
         /**
          * Generate project number (reset per active period)
          */
-        $lastNumber = Project::where('company_id', $companyId)
-            ->where('period_id', $activePeriod->id)
-            ->max('project_number');
+        $lastNumber = Project::where('company_id', $companyId)->where('period_id', $activePeriod->id)->max('project_number');
 
         $projectNumber = $lastNumber ? $lastNumber + 1 : 1;
 
@@ -100,20 +92,37 @@ class ProjectController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        return redirect()->route('projects.index')
-            ->with('success', 'Project created successfully.');
+        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
+    // public function show(Project $project)
+    // {
+    //     $documentTypes = ProjectDocumentType::where('type', $project->type)
+    //         ->with(['uploads' => function ($q) use ($project) {
+    //             $q->where('project_id', $project->id);
+    //         }])
+    //         ->orderBy('id')
+    //         ->get();
+
+    //     return view('projects.show', compact('project', 'documentTypes'));
+    // }
     public function show(Project $project)
     {
         $documentTypes = ProjectDocumentType::where('type', $project->type)
-            ->with(['uploads' => function ($q) use ($project) {
-                $q->where('project_id', $project->id);
-            }])
+            ->with([
+                'uploads' => function ($q) use ($project) {
+                    $q->where('project_id', $project->id);
+                },
+            ])
             ->orderBy('id')
             ->get();
 
-        return view('projects.show', compact('project', 'documentTypes'));
+        $projectVessels = ProjectVessel::with('vessel') // penting
+            ->where('project_id', $project->id)
+            ->orderBy('id')
+            ->get();
+
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels'));
     }
 
     public function edit(Project $project)
@@ -122,15 +131,13 @@ class ProjectController extends Controller
 
         $activePeriodId = session('active_period_id');
 
-        if (! $activePeriodId) {
-            return redirect()->route('projects.index')
-                ->with('error', 'Active period not set. Please select a period first.');
+        if (!$activePeriodId) {
+            return redirect()->route('projects.index')->with('error', 'Active period not set. Please select a period first.');
         }
 
         // Project HARUS di period aktif
         if ($project->period_id != $activePeriodId) {
-            return redirect()->route('projects.index')
-                ->with('error', 'You cannot edit a project outside the active period.');
+            return redirect()->route('projects.index')->with('error', 'You cannot edit a project outside the active period.');
         }
 
         return view('projects.edit', compact('project'));
@@ -142,14 +149,12 @@ class ProjectController extends Controller
 
         $activePeriodId = session('active_period_id');
 
-        if (! $activePeriodId) {
-            return redirect()->route('projects.index')
-                ->with('error', 'Active period not set. Cannot update project.');
+        if (!$activePeriodId) {
+            return redirect()->route('projects.index')->with('error', 'Active period not set. Cannot update project.');
         }
 
         if ($project->period_id != $activePeriodId) {
-            return redirect()->route('projects.index')
-                ->with('error', 'You cannot update a project outside the active period.');
+            return redirect()->route('projects.index')->with('error', 'You cannot update a project outside the active period.');
         }
 
         $request->validate([
@@ -168,8 +173,7 @@ class ProjectController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('projects.index')
-            ->with('success', 'Project updated successfully.');
+        return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
     public function destroy(Project $project)
@@ -178,8 +182,7 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('projects.index')
-            ->with('success', 'Project deleted successfully.');
+        return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
     }
 
     /**
