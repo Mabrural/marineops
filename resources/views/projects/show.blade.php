@@ -127,11 +127,11 @@
 
             <!-- Tabs -->
             <ul class="nav nav-tabs mb-3" role="tablist">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#overview" role="tab">
                         Overview
                     </a>
-                </li>
+                </li> --}}
                 @if ($project->type !== 'shipping_agency')
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#vessel" role="tab">
@@ -159,7 +159,7 @@
             <div class="tab-content">
 
                 {{-- ================= OVERVIEW ================= --}}
-                <div class="tab-pane fade" id="overview" role="tabpanel">
+                {{-- <div class="tab-pane fade" id="overview" role="tabpanel">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="fw-semibold mb-3">Project Overview</h5>
@@ -187,7 +187,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 @if ($project->type !== 'shipping_agency')
                     {{-- ================= VESSEL ================= --}}
@@ -567,14 +567,13 @@
                                 </div>
                             @else
                                 <div class="table-responsive">
-                                    <table class="table table-sm align-middle">
+                                    <table class="table table-bordered table-sm align-middle">
                                         <thead class="table-light">
                                             <tr>
+                                                <th width="5%">No</th>
                                                 <th>Date & Time</th>
-                                                <th>Period</th>
                                                 <th>Position</th>
                                                 <th>Status</th>
-                                                <th>Created By</th>
                                                 <th class="text-end">Action</th>
                                             </tr>
                                         </thead>
@@ -582,10 +581,10 @@
                                             @foreach ($timesheets as $timesheet)
                                                 <tr>
                                                     <td>
-                                                        {{ $timesheet->datetime->format('d M Y H:i') }}
+                                                        {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        {{ $timesheet->period->name ?? '-' }}
+                                                        {{ $timesheet->datetime->format('d M Y H:i') }}
                                                     </td>
                                                     <td>
                                                         {{ $timesheet->position }}
@@ -595,13 +594,11 @@
                                                             {{ $timesheet->status }}
                                                         </span>
                                                     </td>
-                                                    <td>
-                                                        {{ $timesheet->creator->name ?? '-' }}
-                                                    </td>
                                                     <td class="text-end">
                                                         <div class="btn-group btn-group-sm">
 
-                                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                            <button class="btn btn-outline-primary btn-sm"
+                                                                data-bs-toggle="modal"
                                                                 data-bs-target="#editTimesheetModal{{ $timesheet->id }}">
                                                                 <i class="fas fa-pen"></i>
                                                             </button>
@@ -613,7 +610,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
 
-                                                                <button class="btn btn-outline-danger">
+                                                                <button class="btn btn-outline-danger btn-sm">
                                                                     <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </form>
