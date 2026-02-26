@@ -145,7 +145,11 @@
                             </div>
 
                             <div class="text-muted small mb-2">
-                                Document upload and verification will be enabled once the document module is active.
+                                Upload dan verifikasi dokumen hanya dapat dilakukan dalam format .PDF dengan ukuran maksimal
+                                10 MB.
+
+                                Jika dokumen terdiri dari lebih dari satu file, harap digabung (merge) terlebih dahulu
+                                menjadi satu file PDF sebelum diunggah.
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover align-middle">
