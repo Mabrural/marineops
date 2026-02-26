@@ -167,9 +167,8 @@ class ProjectController extends Controller
             ->latest('datetime')
             ->get();
 
-        $periods = Period::where('company_id', $project->company_id)->orderByDesc('id')->get();
 
-        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports', 'timesheets', 'periods'));
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports', 'timesheets'));
     }
 
     public function edit(Project $project)

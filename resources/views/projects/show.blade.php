@@ -554,7 +554,8 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="fw-semibold mb-0">Project Timesheet</h5>
 
-                                <button class="btn btn-primary btn-sm">
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addTimesheetModal">
                                     + Add Timesheet
                                 </button>
                             </div>
@@ -628,6 +629,54 @@
                             @endif
 
                         </div>
+                    </div>
+                </div>
+
+                <!-- Add Timesheet Modal -->
+                <div class="modal fade" id="addTimesheetModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <form method="POST" action="{{ route('projects.timesheets.store', $project->uuid) }}">
+                            @csrf
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Timesheet</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Date & Time</label>
+                                        <input type="datetime-local" name="datetime" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Position</label>
+                                        <input type="text" name="position" class="form-control" maxlength="50"
+                                            required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Status</label>
+                                        <input type="text" name="status" class="form-control" maxlength="255"
+                                            placeholder="On Duty / Standby / Sailing" required>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Save Timesheet
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
                     </div>
                 </div>
 
