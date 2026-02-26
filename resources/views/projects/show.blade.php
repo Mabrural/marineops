@@ -601,7 +601,6 @@
                                                     <td class="text-end">
                                                         <div class="btn-group btn-group-sm">
 
-                                                            <!-- Edit -->
                                                             <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                                                 data-bs-target="#editTimesheetModal{{ $timesheet->id }}">
                                                                 <i class="fas fa-pen"></i>
@@ -622,6 +621,64 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <!-- Edit Timesheet Modal -->
+                                                <div class="modal fade" id="editTimesheetModal{{ $timesheet->id }}"
+                                                    tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <form method="POST"
+                                                            action="{{ route('projects.timesheets.update', [$project->uuid, $timesheet->id]) }}">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Timesheet</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Date & Time</label>
+                                                                        <input type="datetime-local" name="datetime"
+                                                                            class="form-control"
+                                                                            value="{{ $timesheet->datetime->format('Y-m-d\TH:i') }}"
+                                                                            required>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Position</label>
+                                                                        <input type="text" name="position"
+                                                                            class="form-control"
+                                                                            value="{{ $timesheet->position }}"
+                                                                            maxlength="50" required>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Status</label>
+                                                                        <input type="text" name="status"
+                                                                            class="form-control"
+                                                                            value="{{ $timesheet->status }}"
+                                                                            maxlength="255" required>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light btn-sm"
+                                                                        data-bs-dismiss="modal">
+                                                                        Cancel
+                                                                    </button>
+
+                                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                                        Update
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -679,6 +736,8 @@
                         </form>
                     </div>
                 </div>
+
+
 
                 {{-- ================= DOCUMENTS ================= --}}
                 <div class="tab-pane fade" id="documents" role="tabpanel">
