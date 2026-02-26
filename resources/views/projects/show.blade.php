@@ -82,10 +82,17 @@
             <!-- Tabs -->
             <ul class="nav nav-tabs mb-3" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#overview" role="tab">
+                    <a class="nav-link" data-bs-toggle="tab" href="#overview" role="tab">
                         Overview
                     </a>
                 </li>
+                @if ($project->type !== 'shipping_agency')
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#vessel" role="tab">
+                            Vessel
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#documents" role="tab">
                         Documents
@@ -106,7 +113,7 @@
             <div class="tab-content">
 
                 {{-- ================= OVERVIEW ================= --}}
-                <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                <div class="tab-pane fade" id="overview" role="tabpanel">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="fw-semibold mb-3">Project Overview</h5>
@@ -135,6 +142,42 @@
                         </div>
                     </div>
                 </div>
+
+                @if ($project->type !== 'shipping_agency')
+                    {{-- ================= VESSEL ================= --}}
+                    <div class="tab-pane fade" id="vessel" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="fw-semibold mb-3">Vessel Registration</h5>
+
+                                <p class="text-muted mb-4">
+                                    Register a vessel under this project to manage operational activities,
+                                    including voyage details, cargo information, and timesheet records.
+                                    All vessel-related data will be centralized here.
+                                </p>
+
+                                <div class="border rounded p-4 text-center">
+                                    <i class="fas fa-ship fa-2x text-muted mb-2"></i>
+
+                                    <h6 class="fw-semibold mb-1">No Vessel Registered</h6>
+                                    <p class="text-muted small mb-3">
+                                        There is currently no vessel assigned to this project.
+                                        Please register a vessel to begin operational tracking.
+                                    </p>
+
+                                    <button class="btn btn-primary btn-sm" disabled>
+                                        + Register Vessel
+                                    </button>
+
+                                    <div class="small text-muted mt-2">
+                                        (Vessel registration module coming soon)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 {{-- ================= DOCUMENTS ================= --}}
                 <div class="tab-pane fade" id="documents" role="tabpanel">
                     <div class="card">
