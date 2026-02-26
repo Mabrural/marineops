@@ -82,7 +82,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::delete('/projects/{project}/vessels/{projectVessel}', [ProjectVesselController::class, 'destroy'])->name('projects.vessels.destroy');
     Route::post('/projects/{project}/vessels', [ProjectVesselController::class, 'store'])->name('projects.vessels.store');
     Route::delete('/projects/{project}/voyage/{voyage}', [ProjectVoyageController::class, 'destroy'])->name('projects.voyage.destroy');
-    Route::post('/projects/{project:uuid}/voyage', [ProjectVoyageController::class, 'store'])->name('projects.voyage.store');
+    Route::post('/projects/{project}/voyage', [ProjectVoyageController::class, 'store'])->name('projects.voyage.store');
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
 });
