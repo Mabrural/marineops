@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 25, 2026 at 07:07 AM
+-- Generation Time: Feb 26, 2026 at 05:07 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -255,7 +255,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2026_01_20_025442_create_projects_table', 11),
 (15, '2026_01_22_062942_create_vessel_certificates_table', 12),
 (16, '2026_01_23_030121_create_crews_table', 13),
-(18, '2026_02_25_104409_create_project_document_types_table', 14);
+(18, '2026_02_25_104409_create_project_document_types_table', 14),
+(19, '2026_02_25_141345_create_project_document_uploads_table', 15),
+(20, '2026_02_26_105205_create_project_vessels_table', 16);
 
 -- --------------------------------------------------------
 
@@ -382,18 +384,10 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'shipping_agency', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-02-25 07:00:18'),
+(2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-02-26 03:50:22'),
 (10, '15fe81e8-7a56-47ee-92e1-23f97a6df29a', 9, 13, 9, 1, 'freight_charter', '2026-02-02', '2026-02-17', 650000000.00, 'finished', 6, '2026-02-05 03:55:50', '2026-02-05 07:35:46'),
-(11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'draft', 6, '2026-02-05 07:32:26', '2026-02-05 07:32:26'),
-(12, '52a10a60-cf83-4b45-8c83-d3d808d8d8cc', 9, 13, 7, 3, 'freight_charter', NULL, NULL, 450000000.00, 'draft', 6, '2026-02-05 07:32:37', '2026-02-05 07:32:37'),
-(13, '94204dd0-c571-4aec-b68b-b05e6d1c7fc9', 9, 13, 7, 4, 'freight_charter', NULL, NULL, 500000000.00, 'draft', 6, '2026-02-05 07:32:53', '2026-02-05 07:32:53'),
-(14, '9ef7213d-b51b-42e2-aacc-33a6af5863c4', 9, 13, 9, 5, 'freight_charter', NULL, NULL, 600000000.00, 'draft', 6, '2026-02-05 07:33:04', '2026-02-05 07:33:04'),
-(15, '9187bc83-1aed-43ea-9bfb-0f77644894b0', 9, 13, 9, 6, 'freight_charter', NULL, NULL, 540000000.00, 'draft', 6, '2026-02-05 07:33:17', '2026-02-05 07:33:17'),
-(16, '58e0673b-701c-4e26-b054-6ef19a0b5c4f', 9, 13, 6, 7, 'time_charter', NULL, NULL, 458000000.00, 'draft', 6, '2026-02-05 07:33:31', '2026-02-05 07:33:31'),
-(17, '512b3d2a-168d-4625-856b-c8e3e6f0fa6b', 9, 13, 7, 8, 'freight_charter', NULL, NULL, 490000000.00, 'draft', 6, '2026-02-05 07:33:48', '2026-02-05 07:33:48'),
-(18, '43defc56-3632-4bd0-820e-8b8bb589b97d', 9, 13, 7, 9, 'freight_charter', NULL, NULL, 590000000.00, 'draft', 6, '2026-02-05 07:34:02', '2026-02-05 07:34:02'),
-(19, 'e433a8ab-20ae-45a5-ada4-f4a866e0306d', 9, 13, 7, 10, 'shipping_agency', NULL, NULL, 460000000.00, 'active', 6, '2026-02-05 07:34:15', '2026-02-25 06:07:45'),
-(20, 'f0002472-088b-4624-8213-49ff3d02385c', 9, 13, 6, 11, 'freight_charter', NULL, NULL, 650000000.00, 'draft', 6, '2026-02-05 07:34:26', '2026-02-05 07:34:26');
+(11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'active', 6, '2026-02-05 07:32:26', '2026-02-26 03:44:26'),
+(25, '7a1f91f0-d938-41a9-af02-9d59f22c334d', 11, 10, 10, 2, 'freight_charter', NULL, NULL, 150000000.00, 'draft', 7, '2026-02-26 04:29:10', '2026-02-26 04:29:10');
 
 -- --------------------------------------------------------
 
@@ -434,6 +428,41 @@ INSERT INTO `project_document_types` (`id`, `name`, `type`, `created_by`, `creat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_document_uploads`
+--
+
+CREATE TABLE `project_document_uploads` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `period_id` bigint UNSIGNED NOT NULL,
+  `project_id` bigint UNSIGNED NOT NULL,
+  `document_type_id` bigint UNSIGNED NOT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_vessels`
+--
+
+CREATE TABLE `project_vessels` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `period_id` bigint UNSIGNED NOT NULL,
+  `project_id` bigint UNSIGNED NOT NULL,
+  `vessel_id` bigint UNSIGNED NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -451,7 +480,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('SOlbdlltjpgZB5ZVa4tYwNw1s3qSwU6pvBLpdcle', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTFZ0U0wySUtFR01hWUZ6SWNZbFZtWjBjdlRkM2RQY0hYeUc0R25rWCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Njc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy9mMDAwMjQ3Mi0wODhiLTQ2MjQtODIxMy00OWZmM2QwMjM4NWMiO3M6NToicm91dGUiO3M6MTM6InByb2plY3RzLnNob3ciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772003074);
+('RiSW3OwRiIuFIM8zCzHQoXO08NchjkkaGFxWLKyY', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicGNIdEJ0ZTNyb3RabzZtMVdhTThCbDJFQ1RCT2J3ZFhlWDE3ZEFabSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772082444);
 
 -- --------------------------------------------------------
 
@@ -679,6 +708,28 @@ ALTER TABLE `project_document_types`
   ADD KEY `project_document_types_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `project_document_uploads`
+--
+ALTER TABLE `project_document_uploads`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_document_uploads_company_id_foreign` (`company_id`),
+  ADD KEY `project_document_uploads_period_id_foreign` (`period_id`),
+  ADD KEY `project_document_uploads_project_id_foreign` (`project_id`),
+  ADD KEY `project_document_uploads_document_type_id_foreign` (`document_type_id`),
+  ADD KEY `project_document_uploads_created_by_foreign` (`created_by`);
+
+--
+-- Indexes for table `project_vessels`
+--
+ALTER TABLE `project_vessels`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_vessels_company_id_foreign` (`company_id`),
+  ADD KEY `project_vessels_period_id_foreign` (`period_id`),
+  ADD KEY `project_vessels_project_id_foreign` (`project_id`),
+  ADD KEY `project_vessels_vessel_id_foreign` (`vessel_id`),
+  ADD KEY `project_vessels_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -762,7 +813,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -786,13 +837,25 @@ ALTER TABLE `ports`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `project_document_types`
 --
 ALTER TABLE `project_document_types`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `project_document_uploads`
+--
+ALTER TABLE `project_document_uploads`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `project_vessels`
+--
+ALTER TABLE `project_vessels`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -878,6 +941,26 @@ ALTER TABLE `projects`
 --
 ALTER TABLE `project_document_types`
   ADD CONSTRAINT `project_document_types_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_document_uploads`
+--
+ALTER TABLE `project_document_uploads`
+  ADD CONSTRAINT `project_document_uploads_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_document_uploads_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_document_uploads_document_type_id_foreign` FOREIGN KEY (`document_type_id`) REFERENCES `project_document_types` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_document_uploads_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_document_uploads_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_vessels`
+--
+ALTER TABLE `project_vessels`
+  ADD CONSTRAINT `project_vessels_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_vessels_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_vessels_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_vessels_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_vessels_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_companies`
