@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 26, 2026 at 05:07 AM
+-- Generation Time: Feb 26, 2026 at 07:39 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -78,7 +78,8 @@ CREATE TABLE `cargos` (
 
 INSERT INTO `cargos` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
 (3, 9, 'POME', 6, '2026-01-19 03:15:01', '2026-01-19 03:15:01'),
-(4, 9, 'PFAD', 6, '2026-01-22 19:29:12', '2026-01-22 19:29:12');
+(4, 9, 'PFAD', 6, '2026-01-22 19:29:12', '2026-01-22 19:29:12'),
+(5, 11, 'POME', 7, '2026-02-26 07:18:58', '2026-02-26 07:34:12');
 
 -- --------------------------------------------------------
 
@@ -257,7 +258,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2026_01_23_030121_create_crews_table', 13),
 (18, '2026_02_25_104409_create_project_document_types_table', 14),
 (19, '2026_02_25_141345_create_project_document_uploads_table', 15),
-(20, '2026_02_26_105205_create_project_vessels_table', 16);
+(20, '2026_02_26_105205_create_project_vessels_table', 16),
+(22, '2026_02_26_133113_create_project_voyages_table', 17);
 
 -- --------------------------------------------------------
 
@@ -387,7 +389,7 @@ INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `p
 (2, '97203bb4-3f0c-4b8b-8c2b-3509e0c795f8', 11, 10, 10, 1, 'freight_charter', '2026-01-01', '2026-01-31', 457000000.00, 'active', 7, '2026-01-20 20:38:19', '2026-02-26 03:50:22'),
 (10, '15fe81e8-7a56-47ee-92e1-23f97a6df29a', 9, 13, 9, 1, 'freight_charter', '2026-02-02', '2026-02-17', 650000000.00, 'finished', 6, '2026-02-05 03:55:50', '2026-02-05 07:35:46'),
 (11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'active', 6, '2026-02-05 07:32:26', '2026-02-26 03:44:26'),
-(25, '7a1f91f0-d938-41a9-af02-9d59f22c334d', 11, 10, 10, 2, 'freight_charter', NULL, NULL, 150000000.00, 'draft', 7, '2026-02-26 04:29:10', '2026-02-26 04:29:10');
+(25, '7a1f91f0-d938-41a9-af02-9d59f22c334d', 11, 10, 10, 2, 'freight_charter', NULL, NULL, 150000000.00, 'active', 7, '2026-02-26 04:29:10', '2026-02-26 07:28:05');
 
 -- --------------------------------------------------------
 
@@ -460,6 +462,47 @@ CREATE TABLE `project_vessels` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `project_vessels`
+--
+
+INSERT INTO `project_vessels` (`id`, `company_id`, `period_id`, `project_id`, `vessel_id`, `created_by`, `created_at`, `updated_at`) VALUES
+(10, 11, 10, 2, 8, 7, '2026-02-26 05:16:50', '2026-02-26 05:16:50'),
+(11, 11, 10, 2, 9, 7, '2026-02-26 05:16:54', '2026-02-26 05:16:54'),
+(12, 11, 10, 25, 8, 7, '2026-02-26 05:25:10', '2026-02-26 05:25:10'),
+(13, 11, 10, 25, 9, 7, '2026-02-26 05:25:14', '2026-02-26 05:25:14'),
+(14, 9, 13, 11, 7, 6, '2026-02-26 07:37:45', '2026-02-26 07:37:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_voyages`
+--
+
+CREATE TABLE `project_voyages` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `period_id` bigint UNSIGNED NOT NULL,
+  `project_id` bigint UNSIGNED NOT NULL,
+  `spal_number` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cargo_id` bigint UNSIGNED NOT NULL,
+  `loading_port_id` bigint UNSIGNED NOT NULL,
+  `discharge_port_id` bigint UNSIGNED NOT NULL,
+  `quantity` decimal(18,0) NOT NULL,
+  `unit` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `project_voyages`
+--
+
+INSERT INTO `project_voyages` (`id`, `company_id`, `period_id`, `project_id`, `spal_number`, `cargo_id`, `loading_port_id`, `discharge_port_id`, `quantity`, `unit`, `created_by`, `created_at`, `updated_at`) VALUES
+(6, 11, 10, 25, '002/MMM-BCI/VI/2026', 5, 16, 17, 1800225, 'L', 7, '2026-02-26 07:34:03', '2026-02-26 07:34:43'),
+(7, 9, 13, 11, '002/MMM-BCI/VI/2026', 4, 7, 2, 1800226, 'L', 6, '2026-02-26 07:37:26', '2026-02-26 07:37:33');
+
 -- --------------------------------------------------------
 
 --
@@ -480,7 +523,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('RiSW3OwRiIuFIM8zCzHQoXO08NchjkkaGFxWLKyY', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicGNIdEJ0ZTNyb3RabzZtMVdhTThCbDJFQ1RCT2J3ZFhlWDE3ZEFabSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cyI7czo1OiJyb3V0ZSI7czoxNDoicHJvamVjdHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772082444);
+('CK5KsDpNnXpBxfM2xFBnL7m9Bvex36DHMPBx8jr7', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiV2dGSk5OcExLSnlvY2J6V3p5TU5IUWVPaTlMbHlEaHI3azVuNTNLWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Njc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy8xNWZlODFlOC03YTU2LTQ3ZWUtOTJlMS0yM2Y5N2E2ZGYyOWEiO3M6NToicm91dGUiO3M6MTM6InByb2plY3RzLnNob3ciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772091545);
 
 -- --------------------------------------------------------
 
@@ -730,6 +773,19 @@ ALTER TABLE `project_vessels`
   ADD KEY `project_vessels_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `project_voyages`
+--
+ALTER TABLE `project_voyages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_voyages_company_id_foreign` (`company_id`),
+  ADD KEY `project_voyages_period_id_foreign` (`period_id`),
+  ADD KEY `project_voyages_project_id_foreign` (`project_id`),
+  ADD KEY `project_voyages_cargo_id_foreign` (`cargo_id`),
+  ADD KEY `project_voyages_loading_port_id_foreign` (`loading_port_id`),
+  ADD KEY `project_voyages_discharge_port_id_foreign` (`discharge_port_id`),
+  ADD KEY `project_voyages_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -777,7 +833,7 @@ ALTER TABLE `vessel_certificates`
 -- AUTO_INCREMENT for table `cargos`
 --
 ALTER TABLE `cargos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -813,7 +869,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -855,7 +911,13 @@ ALTER TABLE `project_document_uploads`
 -- AUTO_INCREMENT for table `project_vessels`
 --
 ALTER TABLE `project_vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `project_voyages`
+--
+ALTER TABLE `project_voyages`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -961,6 +1023,18 @@ ALTER TABLE `project_vessels`
   ADD CONSTRAINT `project_vessels_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_vessels_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_vessels_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_voyages`
+--
+ALTER TABLE `project_voyages`
+  ADD CONSTRAINT `project_voyages_cargo_id_foreign` FOREIGN KEY (`cargo_id`) REFERENCES `cargos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_voyages_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_voyages_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `project_voyages_discharge_port_id_foreign` FOREIGN KEY (`discharge_port_id`) REFERENCES `ports` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_voyages_loading_port_id_foreign` FOREIGN KEY (`loading_port_id`) REFERENCES `ports` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_voyages_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_voyages_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_companies`
