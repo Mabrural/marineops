@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectTimesheet;
 use App\Models\Cargo;
 use App\Models\Port;
 use App\Models\Client;
@@ -160,7 +161,15 @@ class ProjectController extends Controller
 
         $ports = Port::where('company_id', $project->company_id)->orderBy('name')->get();
 
-        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports'));
+        $timesheets = ProjectTimesheet::with(['period', 'creator'])
+            ->where('project_id', $project->id)
+            ->where('company_id', $project->company_id)
+            ->latest('datetime')
+            ->get();
+
+        $periods = Period::where('company_id', $project->company_id)->orderByDesc('id')->get();
+
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports', 'timesheets', 'periods'));
     }
 
     public function edit(Project $project)

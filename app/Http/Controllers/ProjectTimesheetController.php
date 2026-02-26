@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectTimesheet;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,14 @@ class ProjectTimesheetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectTimesheet $projectTimesheet)
+    public function destroy(Project $project, ProjectTimesheet $timesheet)
     {
-        //
+        if ($timesheet->project_id !== $project->id) {
+            abort(403);
+        }
+
+        $timesheet->delete();
+
+        return redirect()->route('projects.show', $project->uuid)->with('success', 'Timesheet deleted successfully.');
     }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\ProjectDocumentTypeController;
 use App\Http\Controllers\ProjectDocumentUploadController;
 use App\Http\Controllers\ProjectVesselController;
 use App\Http\Controllers\ProjectVoyageController;
+use App\Http\Controllers\ProjectTimesheetController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -84,6 +85,8 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::delete('/projects/{project}/voyage/{voyage}', [ProjectVoyageController::class, 'destroy'])->name('projects.voyage.destroy');
     Route::post('/projects/{project}/voyage', [ProjectVoyageController::class, 'store'])->name('projects.voyage.store');
     Route::put('/projects/{project}/voyage/{voyage}', [ProjectVoyageController::class, 'update'])->name('projects.voyage.update');
+
+    Route::delete('/projects/{project}/timesheets/{timesheet}', [ProjectTimesheetController::class, 'destroy'])->name('projects.timesheets.destroy');
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
 });

@@ -549,21 +549,84 @@
                 {{-- ================= TIMESHEET ================= --}}
                 <div class="tab-pane fade" id="timesheet" role="tabpanel">
                     <div class="card">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-clock fa-2x text-muted mb-3"></i>
+                        <div class="card-body">
 
-                            <h6 class="fw-semibold">No Timesheet Available</h6>
-                            <p class="text-muted small mb-4">
-                                Crew working hours and operational logs will appear here.
-                            </p>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-semibold mb-0">Project Timesheet</h5>
 
-                            <button class="btn btn-primary btn-sm" disabled>
-                                + Add Timesheet
-                            </button>
-
-                            <div class="small text-muted mt-2">
-                                (Timesheet module coming soon)
+                                <button class="btn btn-primary btn-sm">
+                                    + Add Timesheet
+                                </button>
                             </div>
+
+                            @if ($timesheets->isEmpty())
+                                <div class="text-center text-muted py-5 border rounded">
+                                    <i class="fas fa-clock fa-lg mb-2"></i>
+                                    <div class="small">No timesheet data available.</div>
+                                </div>
+                            @else
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Date & Time</th>
+                                                <th>Period</th>
+                                                <th>Position</th>
+                                                <th>Status</th>
+                                                <th>Created By</th>
+                                                <th class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($timesheets as $timesheet)
+                                                <tr>
+                                                    <td>
+                                                        {{ $timesheet->datetime->format('d M Y H:i') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $timesheet->period->name ?? '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $timesheet->position }}
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-secondary">
+                                                            {{ $timesheet->status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ $timesheet->creator->name ?? '-' }}
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div class="btn-group btn-group-sm">
+
+                                                            <!-- Edit -->
+                                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                                data-bs-target="#editTimesheetModal{{ $timesheet->id }}">
+                                                                <i class="fas fa-pen"></i>
+                                                            </button>
+
+                                                            <!-- Delete -->
+                                                            <form method="POST"
+                                                                action="{{ route('projects.timesheets.destroy', [$project->uuid, $timesheet->id]) }}"
+                                                                onsubmit="return confirm('Delete this timesheet?')">
+                                                                @csrf
+                                                                @method('DELETE')
+
+                                                                <button class="btn btn-outline-danger">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
