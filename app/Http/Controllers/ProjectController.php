@@ -119,7 +119,16 @@ class ProjectController extends Controller
 
     //     $availableVessels = Vessel::where('company_id', $project->company_id)->whereNotIn('id', $registeredIds)->orderBy('name')->get();
 
-    //     return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels'));
+    //     $voyages = ProjectVoyage::with(['cargo', 'loadingPort', 'dischargePort'])
+    //         ->where('project_id', $project->id)
+    //         ->orderByDesc('id')
+    //         ->get();
+
+    //     $cargos = Cargo::where('company_id', $project->company_id)->orderBy('name')->get();
+
+    //     $ports = Port::where('company_id', $project->company_id)->orderBy('name')->get();
+
+    //     return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports'));
     // }
 
     public function show(Project $project)
