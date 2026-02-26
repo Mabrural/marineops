@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Period;
 use App\Models\Project;
 use App\Models\ProjectVessel;
+use App\Models\Vessel;
 use App\Models\ProjectDocumentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,7 +131,11 @@ class ProjectController extends Controller
             ->orderBy('id')
             ->get();
 
-        return view('projects.show', compact('project', 'documentTypes', 'projectVessels'));
+        $registeredIds = $projectVessels->pluck('vessel_id');
+
+        $availableVessels = Vessel::where('company_id', $project->company_id)->whereNotIn('id', $registeredIds)->orderBy('name')->get();
+
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels'));
     }
 
     public function edit(Project $project)

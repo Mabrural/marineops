@@ -152,7 +152,8 @@
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <h5 class="fw-semibold mb-0">Project Vessels</h5>
 
-                                    <button class="btn btn-primary btn-sm">
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#registerVesselModal">
                                         <i class="fas fa-plus me-1"></i> Register Vessel
                                     </button>
                                 </div>
@@ -187,6 +188,44 @@
                                     </div>
                                 @endif
 
+                            </div>
+                        </div>
+                        <!-- Register Vessel Modal -->
+                        <div class="modal fade" id="registerVesselModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <form method="POST" action="{{ route('projects.vessels.store', $project->uuid) }}">
+                                    @csrf
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Register Vessel</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Select Vessel</label>
+                                                <select name="vessel_id" class="form-select" required>
+                                                    <option value="">-- Choose Vessel --</option>
+                                                    @foreach ($availableVessels as $vessel)
+                                                        <option value="{{ $vessel->id }}">
+                                                            {{ $vessel->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                Register
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
