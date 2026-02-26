@@ -336,7 +336,8 @@
                                     </div>
 
                                     <div class="text-end">
-                                        <a href="#" class="btn btn-outline-primary btn-sm">
+                                        <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editVoyageModal">
                                             <i class="fas fa-pen me-1"></i> Edit
                                         </a>
 
@@ -443,6 +444,99 @@
                                             data-bs-dismiss="modal">Cancel</button>
                                         <button type="submit" class="btn btn-primary btn-sm">
                                             Save Voyage
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($voyages->isNotEmpty())
+                    @php $voyage = $voyages->first(); @endphp
+
+                    <!-- Edit Voyage Modal -->
+                    <div class="modal fade" id="editVoyageModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <form method="POST"
+                                action="{{ route('projects.voyage.update', [$project->uuid, $voyage->id]) }}">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Voyage</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">SPAL Number</label>
+                                            <input type="text" name="spal_number" class="form-control"
+                                                value="{{ $voyage->spal_number }}" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Cargo</label>
+                                            <select name="cargo_id" class="form-select" required>
+                                                @foreach ($cargos as $cargo)
+                                                    <option value="{{ $cargo->id }}"
+                                                        {{ $voyage->cargo_id == $cargo->id ? 'selected' : '' }}>
+                                                        {{ $cargo->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Loading Port</label>
+                                                <select name="loading_port_id" class="form-select" required>
+                                                    @foreach ($ports as $port)
+                                                        <option value="{{ $port->id }}"
+                                                            {{ $voyage->loading_port_id == $port->id ? 'selected' : '' }}>
+                                                            {{ $port->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Discharge Port</label>
+                                                <select name="discharge_port_id" class="form-select" required>
+                                                    @foreach ($ports as $port)
+                                                        <option value="{{ $port->id }}"
+                                                            {{ $voyage->discharge_port_id == $port->id ? 'selected' : '' }}>
+                                                            {{ $port->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Quantity</label>
+                                                <input type="number" name="quantity" class="form-control"
+                                                    value="{{ $voyage->quantity }}" required>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Unit</label>
+                                                <input type="text" name="unit" class="form-control"
+                                                    value="{{ $voyage->unit }}" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Update Voyage
                                         </button>
                                     </div>
                                 </div>
