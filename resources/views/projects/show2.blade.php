@@ -145,7 +145,11 @@
                             </div>
 
                             <div class="text-muted small mb-2">
-                                Document upload and verification will be enabled once the document module is active.
+                                Upload dan verifikasi dokumen hanya dapat dilakukan dalam format .PDF dengan ukuran maksimal
+                                10 MB.
+
+                                Jika dokumen terdiri dari lebih dari satu file, harap digabung (merge) terlebih dahulu
+                                menjadi satu file PDF sebelum diunggah.
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover align-middle">
@@ -153,8 +157,8 @@
                                         <tr>
                                             <th style="width: 60px;">No</th>
                                             <th>Document Name</th>
-                                            <th style="width: 160px;">Status</th>
-                                            <th style="width: 160px; text-align:center;">Action</th>
+                                            <th style="width: 130px;">Status</th>
+                                            <th style="width: 260px; text-align:center;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -180,18 +184,31 @@
                                                 </td>
 
                                                 <td class="text-center">
+
                                                     @if ($upload)
                                                         <a href="{{ asset('storage/' . $upload->attachment) }}"
                                                             target="_blank" class="btn btn-outline-success btn-sm">
-                                                            <i class="fas fa-eye me-1"></i> View
+                                                            <i class="fas fa-eye"></i>
                                                         </a>
+
+                                                        <label class="btn btn-outline-primary btn-sm mb-0">
+                                                            <i class="fas fa-sync"></i>
+                                                            <input type="file" class="d-none auto-upload"
+                                                                data-url="{{ route('project-documents.upload', [$project->uuid, $document->id]) }}">
+                                                        </label>
+
+                                                        <button class="btn btn-outline-danger btn-sm delete-doc"
+                                                            data-url="{{ route('project-documents.destroy', [$project->uuid, $document->id]) }}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                     @else
                                                         <label class="btn btn-outline-secondary btn-sm mb-0">
-                                                            <i class="fas fa-upload me-1"></i> Upload
+                                                            <i class="fas fa-upload"></i>
                                                             <input type="file" class="d-none auto-upload"
                                                                 data-url="{{ route('project-documents.upload', [$project->uuid, $document->id]) }}">
                                                         </label>
                                                     @endif
+
                                                 </td>
                                             </tr>
                                         @empty
@@ -285,8 +302,10 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         document.addEventListener('change', async function(e) {
+
             if (!e.target.classList.contains('auto-upload')) return;
 
             const input = e.target;
@@ -300,6 +319,13 @@
             formData.append('file', file);
 
             try {
+
+                Swal.fire({
+                    title: 'Uploading...',
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading()
+                });
+
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -314,35 +340,116 @@
                     throw new Error(data.message ?? 'Upload failed');
                 }
 
-                // ✅ Update UI
+                // update status
                 row.querySelector('td:nth-child(3)').innerHTML =
                     `<span class="badge bg-success">Uploaded</span>`;
 
-                row.querySelector('td:nth-child(4)').innerHTML =
-                    `<a href="${data.file_url}" target="_blank"
-                    class="btn btn-outline-success btn-sm">
-                    <i class="fas fa-eye me-1"></i> View
-                </a>`;
+                // update action
+                row.querySelector('td:nth-child(4)').innerHTML = `
+            <a href="${data.file_url}" target="_blank"
+               class="btn btn-outline-success btn-sm">
+                <i class="fas fa-eye"></i>
+            </a>
 
-                // ✅ Success Alert
+            <label class="btn btn-outline-primary btn-sm mb-0">
+                <i class="fas fa-sync"></i>
+                <input type="file"
+                       class="d-none auto-upload"
+                       data-url="${url}">
+            </label>
+
+            <button class="btn btn-outline-danger btn-sm delete-doc"
+                    data-url="${url.replace('/upload','')}">
+                <i class="fas fa-trash"></i>
+            </button>
+        `;
+
                 Swal.fire({
                     icon: 'success',
-                    title: 'Upload Successful',
-                    text: 'Document has been uploaded successfully.',
-                    timer: 1500,
+                    title: 'Uploaded',
+                    timer: 1200,
                     showConfirmButton: false
                 });
 
             } catch (error) {
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Upload Failed',
-                    text: error.message ?? 'Please try again.',
+                    text: error.message ?? 'Please try again'
                 });
+
             } finally {
-                // reset input supaya bisa upload ulang file yang sama
                 input.value = '';
             }
+
+        });
+
+
+
+        document.addEventListener('click', async function(e) {
+
+            if (!e.target.closest('.delete-doc')) return;
+
+            const btn = e.target.closest('.delete-doc');
+            const url = btn.dataset.url;
+            const row = btn.closest('tr');
+
+            const confirm = await Swal.fire({
+                icon: 'warning',
+                title: 'Delete document?',
+                text: 'File will be permanently deleted',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete'
+            });
+
+            if (!confirm.isConfirmed) return;
+
+            try {
+
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message ?? 'Delete failed');
+                }
+
+                // reset row
+                row.querySelector('td:nth-child(3)').innerHTML =
+                    `<span class="badge bg-warning text-dark">Belum diupload</span>`;
+
+                row.querySelector('td:nth-child(4)').innerHTML = `
+            <label class="btn btn-outline-secondary btn-sm mb-0">
+                <i class="fas fa-upload"></i>
+                <input type="file"
+                       class="d-none auto-upload"
+                       data-url="${url + '/upload'}">
+            </label>
+        `;
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted',
+                    timer: 1200,
+                    showConfirmButton: false
+                });
+
+            } catch (error) {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Delete Failed',
+                    text: error.message ?? 'Please try again'
+                });
+
+            }
+
         });
     </script>
 @endpush
