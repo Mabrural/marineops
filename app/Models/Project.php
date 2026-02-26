@@ -10,18 +10,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'company_id',
-        'period_id',
-        'client_id',
-        'project_number',
-        'type',
-        'start_date',
-        'end_date',
-        'contract_value',
-        'status',
-        'created_by',
-    ];
+    protected $fillable = ['company_id', 'period_id', 'client_id', 'project_number', 'type', 'start_date', 'end_date', 'contract_value', 'status', 'created_by'];
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +36,11 @@ class Project extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function voyages()
+    {
+        return $this->hasMany(ProjectVoyage::class);
     }
 
     protected static function booted()

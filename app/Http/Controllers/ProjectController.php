@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargo;
+use App\Models\Port;
 use App\Models\Client;
 use App\Models\Period;
 use App\Models\Project;
@@ -145,7 +147,11 @@ class ProjectController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages'));
+        $cargos = Cargo::where('company_id', $project->company_id)->orderBy('name')->get();
+
+        $ports = Port::where('company_id', $project->company_id)->orderBy('name')->get();
+
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages', 'cargos', 'ports'));
     }
 
     public function edit(Project $project)

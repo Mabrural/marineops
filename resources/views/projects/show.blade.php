@@ -286,7 +286,8 @@
                                 <h5 class="fw-semibold mb-0">Project Voyage</h5>
 
                                 @if ($voyages->isEmpty())
-                                    <button class="btn btn-primary btn-sm">
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#addVoyageModal">
                                         <i class="fas fa-plus me-1"></i> Add Voyage
                                     </button>
                                 @endif
@@ -363,6 +364,92 @@
                         </div>
                     </div>
                 </div>
+
+                @if ($voyages->isEmpty())
+                    <!-- Add Voyage Modal -->
+                    <div class="modal fade" id="addVoyageModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <form method="POST" action="{{ route('projects.voyage.store', $project->uuid) }}">
+                                @csrf
+
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add Voyage</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">SPAL Number</label>
+                                            <input type="text" name="spal_number" class="form-control" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Cargo</label>
+                                            <select name="cargo_id" class="form-select" required>
+                                                <option value="">Select Cargo</option>
+                                                @foreach ($cargos as $cargo)
+                                                    <option value="{{ $cargo->id }}">
+                                                        {{ $cargo->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Loading Port</label>
+                                                <select name="loading_port_id" class="form-select" required>
+                                                    <option value="">Select Port</option>
+                                                    @foreach ($ports as $port)
+                                                        <option value="{{ $port->id }}">
+                                                            {{ $port->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Discharge Port</label>
+                                                <select name="discharge_port_id" class="form-select" required>
+                                                    <option value="">Select Port</option>
+                                                    @foreach ($ports as $port)
+                                                        <option value="{{ $port->id }}">
+                                                            {{ $port->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Quantity</label>
+                                                <input type="number" name="quantity" class="form-control" required>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Unit</label>
+                                                <input type="text" name="unit" class="form-control"
+                                                    placeholder="MT / KL / etc" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light btn-sm"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Save Voyage
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endif
 
 
                 {{-- ================= TIMESHEET ================= --}}
