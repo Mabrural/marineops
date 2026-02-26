@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectVoyage;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,15 @@ class ProjectVoyageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectVoyage $projectVoyage)
+    public function destroy(Project $project, ProjectVoyage $voyage)
     {
-        //
+        // Pastikan voyage milik project ini
+        if ($voyage->project_id !== $project->id) {
+            abort(404);
+        }
+
+        $voyage->delete();
+
+        return redirect()->route('projects.show', $project->uuid)->with('success', 'Voyage deleted successfully.');
     }
 }

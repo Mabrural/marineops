@@ -97,6 +97,29 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
+    // public function show(Project $project)
+    // {
+    //     $documentTypes = ProjectDocumentType::where('type', $project->type)
+    //         ->with([
+    //             'uploads' => function ($q) use ($project) {
+    //                 $q->where('project_id', $project->id);
+    //             },
+    //         ])
+    //         ->orderBy('id')
+    //         ->get();
+
+    //     $projectVessels = ProjectVessel::with('vessel') // penting
+    //         ->where('project_id', $project->id)
+    //         ->orderBy('id')
+    //         ->get();
+
+    //     $registeredIds = $projectVessels->pluck('vessel_id');
+
+    //     $availableVessels = Vessel::where('company_id', $project->company_id)->whereNotIn('id', $registeredIds)->orderBy('name')->get();
+
+    //     return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels'));
+    // }
+
     public function show(Project $project)
     {
         $documentTypes = ProjectDocumentType::where('type', $project->type)
@@ -117,7 +140,12 @@ class ProjectController extends Controller
 
         $availableVessels = Vessel::where('company_id', $project->company_id)->whereNotIn('id', $registeredIds)->orderBy('name')->get();
 
-        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels'));
+        $voyages = ProjectVoyage::with(['cargo', 'loadingPort', 'dischargePort'])
+            ->where('project_id', $project->id)
+            ->orderByDesc('id')
+            ->get();
+
+        return view('projects.show', compact('project', 'documentTypes', 'projectVessels', 'availableVessels', 'voyages'));
     }
 
     public function edit(Project $project)

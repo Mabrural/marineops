@@ -280,24 +280,90 @@
                 {{-- ================= VOYAGE ================= --}}
                 <div class="tab-pane fade" id="voyage" role="tabpanel">
                     <div class="card">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-route fa-2x text-muted mb-3"></i>
+                        <div class="card-body">
 
-                            <h6 class="fw-semibold">No Voyage Data</h6>
-                            <p class="text-muted small mb-4">
-                                Voyage information for this project has not been created yet.
-                            </p>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-semibold mb-0">Project Voyage</h5>
 
-                            <button class="btn btn-primary btn-sm" disabled>
-                                + Add Voyage
-                            </button>
-
-                            <div class="small text-muted mt-2">
-                                (Will be connected to voyage table)
+                                @if ($voyages->isEmpty())
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus me-1"></i> Add Voyage
+                                    </button>
+                                @endif
                             </div>
+
+                            @if ($voyages->isNotEmpty())
+                                @php $voyage = $voyages->first(); @endphp
+
+                                <div class="border rounded p-4">
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">SPAL Number</small>
+                                            <div class="fw-semibold">{{ $voyage->spal_number }}</div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Cargo</small>
+                                            <div class="fw-semibold">
+                                                {{ $voyage->cargo->name ?? '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Loading Port</small>
+                                            <div class="fw-semibold">
+                                                {{ $voyage->loadingPort->name ?? '-' }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Discharge Port</small>
+                                            <div class="fw-semibold">
+                                                {{ $voyage->dischargePort->name ?? '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <small class="text-muted d-block">Quantity</small>
+                                        <div class="fw-semibold">
+                                            {{ number_format($voyage->quantity, 0) }} {{ $voyage->unit }}
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-pen me-1"></i> Edit
+                                        </a>
+
+                                        <form method="POST"
+                                            action="{{ route('projects.voyage.destroy', [$project->uuid, $voyage->id]) }}"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Delete this voyage?')">
+                                                <i class="fas fa-trash me-1"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            @else
+                                <div class="text-center text-muted py-5 border rounded">
+                                    <i class="fas fa-route fa-lg mb-2"></i>
+                                    <div class="small">No voyage data available.</div>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
+
 
                 {{-- ================= TIMESHEET ================= --}}
                 <div class="tab-pane fade" id="timesheet" role="tabpanel">
