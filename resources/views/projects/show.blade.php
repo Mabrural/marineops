@@ -21,61 +21,107 @@
             </div>
 
             <!-- Project Summary Card -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row g-3">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h5 class="fw-bold mb-1">Project Summary</h5>
+                            <small class="text-muted">
+                                Overview of project information
+                            </small>
+                        </div>
+
+                        @php
+                            $statusColors = [
+                                'draft' => 'secondary',
+                                'active' => 'primary',
+                                'finished' => 'success',
+                                'cancelled' => 'danger',
+                            ];
+                        @endphp
+
+                        <span class="badge bg-{{ $statusColors[$project->status] ?? 'secondary' }} px-3 py-2">
+                            {{ ucfirst($project->status) }}
+                        </span>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="row g-4">
 
                         <div class="col-md-4">
-                            <div class="text-muted small">Client</div>
-                            <div class="fw-semibold">
-                                {{ $project->client->name ?? '-' }}
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-light rounded p-2">
+                                    <i class="fas fa-building text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="text-muted small">Client</div>
+                                    <div class="fw-semibold">
+                                        {{ $project->client->name ?? '-' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="text-muted small">Project Type</div>
-                            <span class="badge bg-secondary text-capitalize">
-                                {{ str_replace('_', ' ', $project->type) }}
-                            </span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="text-muted small">Status</div>
-                            @php
-                                $statusColors = [
-                                    'draft' => 'secondary',
-                                    'active' => 'primary',
-                                    'finished' => 'success',
-                                    'cancelled' => 'danger',
-                                ];
-                            @endphp
-                            <span class="badge bg-{{ $statusColors[$project->status] ?? 'secondary' }}">
-                                {{ ucfirst($project->status) }}
-                            </span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="text-muted small">Contract Value</div>
-                            <div class="fw-semibold">
-                                Rp {{ number_format($project->contract_value, 0, ',', '.') }}
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-light rounded p-2">
+                                    <i class="fas fa-layer-group text-info"></i>
+                                </div>
+                                <div>
+                                    <div class="text-muted small">Project Type</div>
+                                    <span class="badge bg-secondary text-capitalize">
+                                        {{ str_replace('_', ' ', $project->type) }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="text-muted small">Period</div>
-                            <div class="fw-semibold">
-                                {{ $project->period->name ?? '-' }}
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-light rounded p-2">
+                                    <i class="fas fa-calendar text-warning"></i>
+                                </div>
+                                <div>
+                                    <div class="text-muted small">Period</div>
+                                    <div class="fw-semibold">
+                                        {{ $project->period->name ?? '-' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="text-muted small">Created</div>
-                            <div class="fw-semibold">
-                                {{ $project->created_at->format('d M Y') }}
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-light rounded p-2">
+                                    <i class="fas fa-money-bill-wave text-success"></i>
+                                </div>
+                                <div>
+                                    <div class="text-muted small">Contract Value</div>
+                                    <div class="fw-bold fs-5 text-success">
+                                        Rp {{ number_format($project->contract_value, 0, ',', '.') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="bg-light rounded p-2">
+                                    <i class="fas fa-clock text-danger"></i>
+                                </div>
+                                <div>
+                                    <div class="text-muted small">Created Date</div>
+                                    <div class="fw-semibold">
+                                        {{ $project->created_at->format('d M Y') }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
+
                 </div>
             </div>
 
