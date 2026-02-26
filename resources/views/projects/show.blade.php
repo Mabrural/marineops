@@ -94,11 +94,6 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#documents" role="tab">
-                        Documents
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#voyage" role="tab">
                         Voyage
                     </a>
@@ -106,6 +101,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#timesheet" role="tab">
                         Timesheet
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#documents" role="tab">
+                        Documents
                     </a>
                 </li>
             </ul>
@@ -231,6 +231,50 @@
                     </div>
                 @endif
 
+                {{-- ================= VOYAGE ================= --}}
+                <div class="tab-pane fade" id="voyage" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-route fa-2x text-muted mb-3"></i>
+
+                            <h6 class="fw-semibold">No Voyage Data</h6>
+                            <p class="text-muted small mb-4">
+                                Voyage information for this project has not been created yet.
+                            </p>
+
+                            <button class="btn btn-primary btn-sm" disabled>
+                                + Add Voyage
+                            </button>
+
+                            <div class="small text-muted mt-2">
+                                (Will be connected to voyage table)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- ================= TIMESHEET ================= --}}
+                <div class="tab-pane fade" id="timesheet" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-clock fa-2x text-muted mb-3"></i>
+
+                            <h6 class="fw-semibold">No Timesheet Available</h6>
+                            <p class="text-muted small mb-4">
+                                Crew working hours and operational logs will appear here.
+                            </p>
+
+                            <button class="btn btn-primary btn-sm" disabled>
+                                + Add Timesheet
+                            </button>
+
+                            <div class="small text-muted mt-2">
+                                (Timesheet module coming soon)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- ================= DOCUMENTS ================= --}}
                 <div class="tab-pane fade" id="documents" role="tabpanel">
                     <div class="card">
@@ -320,50 +364,6 @@
 
 
 
-                        </div>
-                    </div>
-                </div>
-
-                {{-- ================= VOYAGE ================= --}}
-                <div class="tab-pane fade" id="voyage" role="tabpanel">
-                    <div class="card">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-route fa-2x text-muted mb-3"></i>
-
-                            <h6 class="fw-semibold">No Voyage Data</h6>
-                            <p class="text-muted small mb-4">
-                                Voyage information for this project has not been created yet.
-                            </p>
-
-                            <button class="btn btn-primary btn-sm" disabled>
-                                + Add Voyage
-                            </button>
-
-                            <div class="small text-muted mt-2">
-                                (Will be connected to voyage table)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- ================= TIMESHEET ================= --}}
-                <div class="tab-pane fade" id="timesheet" role="tabpanel">
-                    <div class="card">
-                        <div class="card-body text-center p-5">
-                            <i class="fas fa-clock fa-2x text-muted mb-3"></i>
-
-                            <h6 class="fw-semibold">No Timesheet Available</h6>
-                            <p class="text-muted small mb-4">
-                                Crew working hours and operational logs will appear here.
-                            </p>
-
-                            <button class="btn btn-primary btn-sm" disabled>
-                                + Add Timesheet
-                            </button>
-
-                            <div class="small text-muted mt-2">
-                                (Timesheet module coming soon)
-                            </div>
                         </div>
                     </div>
                 </div>
