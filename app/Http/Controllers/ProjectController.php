@@ -98,14 +98,22 @@ class ProjectController extends Controller
     // public function show(Project $project)
     // {
     //     $documentTypes = ProjectDocumentType::where('type', $project->type)
-    //         ->with(['uploads' => function ($q) use ($project) {
-    //             $q->where('project_id', $project->id);
-    //         }])
+    //         ->with([
+    //             'uploads' => function ($q) use ($project) {
+    //                 $q->where('project_id', $project->id);
+    //             },
+    //         ])
     //         ->orderBy('id')
     //         ->get();
 
-    //     return view('projects.show', compact('project', 'documentTypes'));
+    //     $projectVessels = ProjectVessel::with('vessel') // penting
+    //         ->where('project_id', $project->id)
+    //         ->orderBy('id')
+    //         ->get();
+
+    //     return view('projects.show', compact('project', 'documentTypes', 'projectVessels'));
     // }
+
     public function show(Project $project)
     {
         $documentTypes = ProjectDocumentType::where('type', $project->type)
