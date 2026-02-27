@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 26, 2026 at 07:39 AM
+-- Generation Time: Feb 27, 2026 at 07:56 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -259,7 +259,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2026_02_25_104409_create_project_document_types_table', 14),
 (19, '2026_02_25_141345_create_project_document_uploads_table', 15),
 (20, '2026_02_26_105205_create_project_vessels_table', 16),
-(22, '2026_02_26_133113_create_project_voyages_table', 17);
+(22, '2026_02_26_133113_create_project_voyages_table', 17),
+(24, '2026_02_26_144531_create_project_timesheets_table', 18);
 
 -- --------------------------------------------------------
 
@@ -301,7 +302,8 @@ CREATE TABLE `periods` (
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
 (10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32'),
-(13, 9, 'Project-2026', 6, '2026-01-20 21:07:13', '2026-02-18 08:14:31');
+(13, 9, 'Project-2026', 6, '2026-01-20 21:07:13', '2026-02-18 08:14:31'),
+(18, 9, 'Project-2025', 6, '2026-02-26 08:29:55', '2026-02-26 08:29:55');
 
 -- --------------------------------------------------------
 
@@ -448,6 +450,81 @@ CREATE TABLE `project_document_uploads` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_timesheets`
+--
+
+CREATE TABLE `project_timesheets` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `period_id` bigint UNSIGNED NOT NULL,
+  `project_id` bigint UNSIGNED NOT NULL,
+  `datetime` datetime NOT NULL,
+  `position` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `project_timesheets`
+--
+
+INSERT INTO `project_timesheets` (`id`, `company_id`, `period_id`, `project_id`, `datetime`, `position`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
+(10, 9, 13, 11, '2026-02-26 15:39:00', 'Sintang Raya', 'Sailing ETA 18:20', 6, '2026-02-26 08:40:03', '2026-02-26 08:40:03'),
+(11, 9, 13, 11, '2026-02-26 15:44:00', 'Sintang Raya', 'Sailing ETA 18:20', 6, '2026-02-26 08:44:36', '2026-02-26 08:44:36'),
+(12, 9, 13, 11, '2026-02-27 10:43:00', 'Sailing', 'Sailing to Tayan', 6, '2026-02-27 03:43:38', '2026-02-27 03:43:38'),
+(13, 9, 13, 11, '2026-02-27 10:44:00', 'qqq', 'qqq', 6, '2026-02-27 03:45:05', '2026-02-27 03:45:05'),
+(14, 9, 13, 11, '2026-02-27 10:45:00', 'qwe', 'qwe', 6, '2026-02-27 03:45:15', '2026-02-27 03:45:15'),
+(15, 9, 13, 11, '2026-02-27 10:45:00', 'qweqwe', 'qweqweqw', 6, '2026-02-27 03:45:22', '2026-02-27 03:45:22'),
+(16, 9, 13, 11, '2026-02-27 10:45:00', 'asd', 'asdas', 6, '2026-02-27 03:45:31', '2026-02-27 03:45:31'),
+(17, 9, 13, 11, '2026-02-27 10:45:00', 'asd', 'asdas', 6, '2026-02-27 03:45:37', '2026-02-27 03:45:37'),
+(18, 9, 13, 11, '2026-02-27 10:45:00', 'zxc', 'zxc', 6, '2026-02-27 03:46:02', '2026-02-27 03:46:02'),
+(19, 9, 13, 11, '2026-02-27 10:46:00', 'zxc', 'zxczx', 6, '2026-02-27 03:46:23', '2026-02-27 03:46:23'),
+(20, 9, 13, 11, '2026-02-27 10:47:00', 'fsas', 'asdasdasdasdasdasdasdasdas', 6, '2026-02-27 03:48:31', '2026-02-27 03:48:31'),
+(21, 9, 13, 11, '2026-02-27 10:47:00', 'asdasdasdasdasd', 'asdasdasdas', 6, '2026-02-27 03:48:46', '2026-02-27 03:48:46'),
+(22, 9, 13, 11, '2026-02-27 10:48:00', 'ddddd', 'dddddd', 6, '2026-02-27 03:49:42', '2026-02-27 03:49:42'),
+(23, 9, 13, 11, '2026-02-27 10:48:00', 'ddddd', 'dddddd', 6, '2026-02-27 03:49:57', '2026-02-27 03:49:57'),
+(24, 9, 13, 11, '2026-02-26 10:50:00', 'asdasd', 'asdasdasd', 6, '2026-02-27 03:50:07', '2026-02-27 03:50:07'),
+(25, 9, 13, 11, '2026-02-27 10:50:00', 'asdasda', 'asdasd', 6, '2026-02-27 03:50:15', '2026-02-27 03:50:15'),
+(26, 9, 13, 11, '2026-02-27 10:50:00', 'asdasd', 'asdasd', 6, '2026-02-27 03:50:22', '2026-02-27 03:50:22'),
+(27, 9, 13, 11, '2026-02-27 10:50:00', '123123', '1231231231231231231231231231', 6, '2026-02-27 03:50:56', '2026-02-27 03:50:56'),
+(28, 9, 13, 11, '2026-02-27 10:51:00', '212312321321', '12312312321321', 6, '2026-02-27 03:51:07', '2026-02-27 03:51:07'),
+(29, 9, 13, 11, '2026-02-27 10:51:00', 'bnm', 'bnm', 6, '2026-02-27 03:51:16', '2026-02-27 03:51:16'),
+(30, 9, 13, 11, '2026-02-27 10:51:00', 'mmmmmm', 'mmmmmmm', 6, '2026-02-27 03:51:22', '2026-02-27 03:51:22'),
+(31, 9, 13, 11, '2026-02-27 10:51:00', 'mmmmm', 'mmmmm', 6, '2026-02-27 03:51:29', '2026-02-27 03:51:29'),
+(32, 9, 13, 11, '2026-02-27 10:51:00', 'nnnnn', 'nnnnnn', 6, '2026-02-27 03:51:41', '2026-02-27 03:51:41'),
+(33, 9, 13, 11, '2026-02-27 10:51:00', 'bbbbbb', 'bbbbbbb', 6, '2026-02-27 03:51:48', '2026-02-27 03:51:48'),
+(34, 9, 13, 11, '2026-02-27 10:55:00', 'ssssss', 'ssssssssssssssssssssssssssssssssssssssssssssssssss', 6, '2026-02-27 03:55:15', '2026-02-27 03:55:15'),
+(35, 9, 13, 11, '2026-02-27 10:55:00', 'sasassssssssssssssssssssa', 'asaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 6, '2026-02-27 03:55:30', '2026-02-27 03:55:30'),
+(36, 9, 13, 11, '2026-02-27 10:55:00', 'aaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 6, '2026-02-27 03:55:44', '2026-02-27 03:55:44'),
+(37, 9, 13, 11, '2026-02-27 10:55:00', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzz', 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', 6, '2026-02-27 03:55:56', '2026-02-27 03:55:56'),
+(38, 9, 13, 11, '2026-02-27 10:56:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:56:15', '2026-02-27 03:56:15'),
+(39, 9, 13, 11, '2026-02-27 10:56:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:56:24', '2026-02-27 03:56:24'),
+(40, 9, 13, 11, '2026-02-27 10:56:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:56:29', '2026-02-27 03:56:29'),
+(41, 9, 13, 11, '2026-02-27 10:56:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:56:38', '2026-02-27 03:56:38'),
+(42, 9, 13, 11, '2026-02-27 10:56:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:56:53', '2026-02-27 03:56:53'),
+(43, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:07', '2026-02-27 03:57:07'),
+(44, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:15', '2026-02-27 03:57:15'),
+(45, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:28', '2026-02-27 03:57:28'),
+(46, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:33', '2026-02-27 03:57:33'),
+(47, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:44', '2026-02-27 03:57:44'),
+(48, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:57:52', '2026-02-27 03:57:52'),
+(49, 9, 13, 11, '2026-02-27 10:57:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:58:01', '2026-02-27 03:58:01'),
+(50, 9, 13, 11, '2026-02-27 10:58:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:58:23', '2026-02-27 03:58:23'),
+(51, 9, 13, 11, '2026-02-27 10:58:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:58:37', '2026-02-27 03:58:37'),
+(52, 9, 13, 11, '2026-02-27 10:58:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:58:48', '2026-02-27 03:58:48'),
+(53, 9, 13, 11, '2026-02-27 10:58:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:03', '2026-02-27 03:59:03'),
+(54, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:11', '2026-02-27 03:59:11'),
+(55, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:19', '2026-02-27 03:59:19'),
+(56, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:27', '2026-02-27 03:59:27'),
+(57, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:37', '2026-02-27 03:59:37'),
+(59, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5', 6, '2026-02-27 03:59:58', '2026-02-27 04:17:59'),
+(60, 9, 13, 11, '2026-02-27 11:11:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx6', 6, '2026-02-27 04:11:33', '2026-02-27 04:17:54');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `project_vessels`
 --
 
@@ -471,7 +548,7 @@ INSERT INTO `project_vessels` (`id`, `company_id`, `period_id`, `project_id`, `v
 (11, 11, 10, 2, 9, 7, '2026-02-26 05:16:54', '2026-02-26 05:16:54'),
 (12, 11, 10, 25, 8, 7, '2026-02-26 05:25:10', '2026-02-26 05:25:10'),
 (13, 11, 10, 25, 9, 7, '2026-02-26 05:25:14', '2026-02-26 05:25:14'),
-(14, 9, 13, 11, 7, 6, '2026-02-26 07:37:45', '2026-02-26 07:37:45');
+(16, 9, 13, 11, 7, 6, '2026-02-27 05:02:21', '2026-02-27 05:02:21');
 
 -- --------------------------------------------------------
 
@@ -501,7 +578,7 @@ CREATE TABLE `project_voyages` (
 
 INSERT INTO `project_voyages` (`id`, `company_id`, `period_id`, `project_id`, `spal_number`, `cargo_id`, `loading_port_id`, `discharge_port_id`, `quantity`, `unit`, `created_by`, `created_at`, `updated_at`) VALUES
 (6, 11, 10, 25, '002/MMM-BCI/VI/2026', 5, 16, 17, 1800225, 'L', 7, '2026-02-26 07:34:03', '2026-02-26 07:34:43'),
-(7, 9, 13, 11, '002/MMM-BCI/VI/2026', 4, 7, 2, 1800226, 'L', 6, '2026-02-26 07:37:26', '2026-02-26 07:37:33');
+(7, 9, 13, 11, '002/MMM-BCI/VI/2026', 4, 7, 4, 1800226, 'L', 6, '2026-02-26 07:37:26', '2026-02-26 08:38:40');
 
 -- --------------------------------------------------------
 
@@ -523,7 +600,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CK5KsDpNnXpBxfM2xFBnL7m9Bvex36DHMPBx8jr7', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiV2dGSk5OcExLSnlvY2J6V3p5TU5IUWVPaTlMbHlEaHI3azVuNTNLWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Njc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy8xNWZlODFlOC03YTU2LTQ3ZWUtOTJlMS0yM2Y5N2E2ZGYyOWEiO3M6NToicm91dGUiO3M6MTM6InByb2plY3RzLnNob3ciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772091545);
+('Y4QLr58xF9nnIIdOwSe2GWNJqvu24ptusDPN96kH', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiS2ZzcWZaWkl1bHUzdUI5QWd0TzlxZ21mdzlDVEljbzNQRnJyVGpTOSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6ODU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy9lNTQ5OWFkYi04OWIyLTRkZDAtOWVmMC0yZjQ1NzdhMmFmMzEvdGltZXNoZWV0cy9leHBvcnQiO3M6NToicm91dGUiO3M6MjY6InByb2plY3RzLnRpbWVzaGVldHMuZXhwb3J0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjE2OiJhY3RpdmVfcGVyaW9kX2lkIjtzOjI6IjEzIjt9', 1772173807);
 
 -- --------------------------------------------------------
 
@@ -762,6 +839,16 @@ ALTER TABLE `project_document_uploads`
   ADD KEY `project_document_uploads_created_by_foreign` (`created_by`);
 
 --
+-- Indexes for table `project_timesheets`
+--
+ALTER TABLE `project_timesheets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `project_timesheets_company_id_foreign` (`company_id`),
+  ADD KEY `project_timesheets_period_id_foreign` (`period_id`),
+  ADD KEY `project_timesheets_project_id_foreign` (`project_id`),
+  ADD KEY `project_timesheets_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `project_vessels`
 --
 ALTER TABLE `project_vessels`
@@ -869,13 +956,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -905,13 +992,19 @@ ALTER TABLE `project_document_types`
 -- AUTO_INCREMENT for table `project_document_uploads`
 --
 ALTER TABLE `project_document_uploads`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `project_timesheets`
+--
+ALTER TABLE `project_timesheets`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `project_vessels`
 --
 ALTER TABLE `project_vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `project_voyages`
@@ -1013,6 +1106,15 @@ ALTER TABLE `project_document_uploads`
   ADD CONSTRAINT `project_document_uploads_document_type_id_foreign` FOREIGN KEY (`document_type_id`) REFERENCES `project_document_types` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_document_uploads_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `project_document_uploads_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `project_timesheets`
+--
+ALTER TABLE `project_timesheets`
+  ADD CONSTRAINT `project_timesheets_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_timesheets_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `project_timesheets_period_id_foreign` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_timesheets_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `project_vessels`
