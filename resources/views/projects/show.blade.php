@@ -546,7 +546,7 @@
                 @endif
 
                 <style>
-                    /* 🔥 EXTREME COMPACT MODE (TD ONLY) 🔥 */
+                    /* EXTREME COMPACT MODE (TD ONLY)*/
 
                     /* Jangan ubah header */
                     #timesheet .table thead th {
@@ -597,7 +597,7 @@
                                 </div>
                             @else
                                 <div class="table-responsive">
-                                    <table class="table table-bordered align-middle compact-timesheet">
+                                    <table class="table table-bordered table-hover align-middle compact-timesheet">
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="5%">No</th>
@@ -620,9 +620,7 @@
                                                         {{ $timesheet->position }}
                                                     </td>
                                                     <td>
-                                                        <span class="badge bg-secondary">
-                                                            {{ $timesheet->status }}
-                                                        </span>
+                                                        {{ $timesheet->status }}
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="btn-group btn-group-sm">
