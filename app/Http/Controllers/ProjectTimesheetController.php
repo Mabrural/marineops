@@ -129,6 +129,6 @@ class ProjectTimesheetController extends Controller
             'timesheets' => $timesheets,
         ])->setPaper('a4', 'portrait');
 
-        return $pdf->download('project-timesheet-' . $project->uuid . '.pdf');
+        return $pdf->download('project-timesheet-' . substr($project->uuid, -5) . '.pdf');
     }
 }

@@ -8,7 +8,7 @@
         body {
             font-family: DejaVu Sans, sans-serif;
             font-size: 11px;
-            color: #333;
+            color: #000;
         }
 
         .container {
@@ -17,55 +17,64 @@
 
         .title {
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
-        .subtitle {
-            text-align: center;
+        /* ===== INFORMATION BLOCK ===== */
+
+        .info-block {
+            margin: 10px 0 20px 0;
             font-size: 11px;
-            color: #666;
-            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: table;
+            width: 100%;
+            line-height: 1.3;
         }
 
         .info-label {
+            display: table-cell;
+            width: 130px;
             font-weight: bold;
-            color: #444;
         }
+
+        .info-separator {
+            display: table-cell;
+            width: 10px;
+        }
+
+        .info-value {
+            display: table-cell;
+        }
+
+        .divider {
+            border-bottom: 1px solid #000;
+            margin: 10px 0;
+        }
+
+        /* ===== TABLE STYLE CLASSIC ===== */
 
         table {
             width: 100%;
             border-collapse: collapse;
+            border: 1.5px solid #000;
         }
 
         thead th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #bbb;
-            padding: 8px 6px;
-            color: #444;
+            background-color: #f5f5f5;
+            border: 1px solid #000;
+            padding: 3px;
+            text-align: center;
+            font-weight: bold;
         }
 
         tbody td {
-            padding: 7px 6px;
-            border-bottom: 1px solid #e5e5e5;
+            border: 1px solid #000;
+            padding: 1px;
             vertical-align: middle;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-right {
-            text-align: right;
         }
 
         .no-col {
@@ -78,18 +87,17 @@
         }
 
         .position-col {
-            width: 35%;
+            width: 40%;
         }
 
         .status-col {
-            width: 20%;
+            width: 25%;
             text-align: center;
         }
 
         .footer {
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 10px;
-            color: #777;
             text-align: right;
         }
     </style>
@@ -99,76 +107,59 @@
 
     <div class="container">
 
-        <div class="title">PROJECT TIMESHEET</div>
+        <div class="title">PROJECT TIMESHEET</div><br>
 
         @if ($project->voyages->count())
 
-            <div style="margin:15px 0 20px 0; font-size:11px;">
+            <div class="info-block">
 
                 @foreach ($project->voyages as $voyage)
-                    <div style="display:table; width:100%; line-height:1.8;">
+                    <div class="info-row">
+                        <div class="info-label">Project</div>
+                        <div class="info-separator">:</div>
+                        <div class="info-value">{{ $project->client->name }} (Voy-{{ $project->project_number }})</div>
+                    </div>
 
-                        <div style="display:table-row;">
-                            <div style="display:table-cell; width:130px; font-weight:bold;">
-                                Project
-                            </div>
-                            <div style="display:table-cell; width:10px;">
-                                :
-                            </div>
-                            <div style="display:table-cell;">
-                                {{ $project->client->name }}
-                            </div>
-                        </div>
+                    <div class="info-row">
+                        <div class="info-label">Type</div>
+                        <div class="info-separator">:</div>
+                        <div class="info-value">
+                            {{ \Illuminate\Support\Str::title(str_replace('_', ' ', $project->type)) }}</div>
+                    </div>
 
-                        <div style="display:table-row;">
-                            <div style="display:table-cell; font-weight:bold;">
-                                Type
-                            </div>
-                            <div style="display:table-cell;">
-                                :
-                            </div>
-                            <div style="display:table-cell;">
-                                {{ strtoupper($project->type) }}
-                            </div>
-                        </div>
+                    <div class="info-row">
+                        <div class="info-label">Loading Port</div>
+                        <div class="info-separator">:</div>
+                        <div class="info-value">{{ $voyage->loadingPort->name ?? '-' }}</div>
+                    </div>
 
-                        <div style="display:table-row;">
-                            <div style="display:table-cell; font-weight:bold;">
-                                Loading Port
-                            </div>
-                            <div style="display:table-cell;">
-                                :
-                            </div>
-                            <div style="display:table-cell;">
-                                {{ $voyage->loadingPort->name ?? '-' }}
-                            </div>
-                        </div>
-
-                        <div style="display:table-row;">
-                            <div style="display:table-cell; font-weight:bold;">
-                                Discharge Port
-                            </div>
-                            <div style="display:table-cell;">
-                                :
-                            </div>
-                            <div style="display:table-cell;">
-                                {{ $voyage->dischargePort->name ?? '-' }}
-                            </div>
-                        </div>
-
+                    <div class="info-row">
+                        <div class="info-label">Discharge Port</div>
+                        <div class="info-separator">:</div>
+                        <div class="info-value">{{ $voyage->dischargePort->name ?? '-' }}</div>
                     </div>
 
                     @if (!$loop->last)
-                        <div style="border-bottom:1px solid #e5e5e5; margin:12px 0;"></div>
+                        <div class="divider"></div>
                     @endif
                 @endforeach
 
             </div>
         @else
-            <div style="margin:15px 0 20px 0; font-size:11px; line-height:1.8;">
+            <div class="info-block">
 
-                <div><strong>Project</strong> : {{ $project->client->name }}</div>
-                <div><strong>Type</strong> : {{ strtoupper($project->type) }}</div>
+                <div class="info-row">
+                    <div class="info-label">Project</div>
+                    <div class="info-separator">:</div>
+                    <div class="info-value">{{ $project->client->name }} (Voy-{{ $project->project_number }})</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Type</div>
+                    <div class="info-separator">:</div>
+                    <div class="info-value">{{ \Illuminate\Support\Str::title(str_replace('_', ' ', $project->type)) }}
+                    </div>
+                </div>
 
             </div>
 
@@ -184,7 +175,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($timesheets as $timesheet)
+                @forelse ($timesheets as $timesheet)
                     <tr>
                         <td class="no-col">{{ $loop->iteration }}</td>
                         <td class="date-col">
@@ -197,7 +188,13 @@
                             {{ $timesheet->status }}
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center; padding:15px; font-style:italic;">
+                            No Records Found for Selected Period
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
 
