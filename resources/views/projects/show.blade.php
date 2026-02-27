@@ -545,7 +545,37 @@
                     </div>
                 @endif
 
+                <style>
+                    /* 🔥 EXTREME COMPACT MODE (TD ONLY) 🔥 */
 
+                    /* Jangan ubah header */
+                    #timesheet .table thead th {
+                        padding: 0.5rem 0.75rem !important;
+                        /* normal bootstrap */
+                        line-height: 1.3 !important;
+                    }
+
+                    /* Paksa hanya TD yang super dempet */
+                    #timesheet .table tbody td {
+                        padding: 1px 6px !important;
+                        line-height: 1 !important;
+                        vertical-align: middle !important;
+                    }
+
+                    /* Perkecil tinggi baris body saja */
+                    #timesheet .table tbody tr {
+                        height: 20px !important;
+                    }
+
+                    /* Hilangkan spacing tambahan */
+                    #timesheet .table tbody td .badge,
+                    #timesheet .table tbody td i,
+                    #timesheet .table tbody td .btn {
+                        margin: 0 !important;
+                        padding-top: 1px !important;
+                        padding-bottom: 1px !important;
+                    }
+                </style>
                 {{-- ================= TIMESHEET ================= --}}
                 <div class="tab-pane fade" id="timesheet" role="tabpanel">
                     <div class="card">
@@ -567,7 +597,7 @@
                                 </div>
                             @else
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-sm align-middle">
+                                    <table class="table table-bordered align-middle compact-timesheet">
                                         <thead class="table-light">
                                             <tr>
                                                 <th width="5%">No</th>
