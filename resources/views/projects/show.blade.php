@@ -764,6 +764,37 @@
 
 
 
+                <style>
+                    /* EXTREME COMPACT MODE (TD ONLY)*/
+
+                    /* Jangan ubah header */
+                    #documents .table thead th {
+                        padding: 0.5rem 0.75rem !important;
+                        /* normal bootstrap */
+                        line-height: 1.3 !important;
+                    }
+
+                    /* Paksa hanya TD yang super dempet */
+                    #documents .table tbody td {
+                        padding: 1px 6px !important;
+                        line-height: 1 !important;
+                        vertical-align: middle !important;
+                    }
+
+                    /* Perkecil tinggi baris body saja */
+                    #documents .table tbody tr {
+                        height: 20px !important;
+                    }
+
+                    /* Hilangkan spacing tambahan */
+                    #documents .table tbody td .badge,
+                    #documents .table tbody td i,
+                    #documents .table tbody td .btn {
+                        margin: 0 !important;
+                        padding-top: 1px !important;
+                        padding-bottom: 1px !important;
+                    }
+                </style>
                 {{-- ================= DOCUMENTS ================= --}}
                 <div class="tab-pane fade" id="documents" role="tabpanel">
                     <div class="card">
@@ -781,7 +812,7 @@
                                 menjadi satu file PDF sebelum diunggah.
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover align-middle">
+                                <table class="table table-bordered table-hover align-middle compact-document">
                                     <thead class="table-light">
                                         <tr>
                                             <th style="width: 60px;">No</th>
