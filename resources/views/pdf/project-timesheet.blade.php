@@ -101,10 +101,78 @@
 
         <div class="title">PROJECT TIMESHEET</div>
 
-        <div class="subtitle">
-            <span class="info-label">Project:</span> {{ $project->client->name }} |
-            <span class="info-label">Type:</span> {{ strtoupper($project->type) }}
-        </div>
+        @if ($project->voyages->count())
+
+            <div style="margin:15px 0 20px 0; font-size:11px;">
+
+                @foreach ($project->voyages as $voyage)
+                    <div style="display:table; width:100%; line-height:1.8;">
+
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; width:130px; font-weight:bold;">
+                                Project
+                            </div>
+                            <div style="display:table-cell; width:10px;">
+                                :
+                            </div>
+                            <div style="display:table-cell;">
+                                {{ $project->client->name }}
+                            </div>
+                        </div>
+
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; font-weight:bold;">
+                                Type
+                            </div>
+                            <div style="display:table-cell;">
+                                :
+                            </div>
+                            <div style="display:table-cell;">
+                                {{ strtoupper($project->type) }}
+                            </div>
+                        </div>
+
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; font-weight:bold;">
+                                Loading Port
+                            </div>
+                            <div style="display:table-cell;">
+                                :
+                            </div>
+                            <div style="display:table-cell;">
+                                {{ $voyage->loadingPort->name ?? '-' }}
+                            </div>
+                        </div>
+
+                        <div style="display:table-row;">
+                            <div style="display:table-cell; font-weight:bold;">
+                                Discharge Port
+                            </div>
+                            <div style="display:table-cell;">
+                                :
+                            </div>
+                            <div style="display:table-cell;">
+                                {{ $voyage->dischargePort->name ?? '-' }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @if (!$loop->last)
+                        <div style="border-bottom:1px solid #e5e5e5; margin:12px 0;"></div>
+                    @endif
+                @endforeach
+
+            </div>
+        @else
+            <div style="margin:15px 0 20px 0; font-size:11px; line-height:1.8;">
+
+                <div><strong>Project</strong> : {{ $project->client->name }}</div>
+                <div><strong>Type</strong> : {{ strtoupper($project->type) }}</div>
+
+            </div>
+
+        @endif
 
         <table>
             <thead>

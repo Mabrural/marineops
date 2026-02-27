@@ -120,6 +120,8 @@ class ProjectTimesheetController extends Controller
             abort(403, 'Period not selected.');
         }
 
+        $project->load(['voyages.loadingPort', 'voyages.dischargePort']);
+
         $timesheets = $project->timesheets()->where('period_id', $periodId)->orderBy('datetime')->get();
 
         $pdf = Pdf::loadView('pdf.project-timesheet', [
