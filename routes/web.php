@@ -89,6 +89,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::delete('/projects/{project}/timesheets/{timesheet}', [ProjectTimesheetController::class, 'destroy'])->name('projects.timesheets.destroy');
     Route::post('/projects/{project}/timesheets', [ProjectTimesheetController::class, 'store'])->name('projects.timesheets.store');
     Route::put('/projects/{project}/timesheets/{timesheet}', [ProjectTimesheetController::class, 'update'])->name('projects.timesheets.update');
+    Route::get('/projects/{project}/timesheets/export', [ProjectTimesheetController::class, 'exportPdf'])->name('projects.timesheets.export');
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
 });

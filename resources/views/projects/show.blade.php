@@ -584,10 +584,17 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="fw-semibold mb-0">Project Timesheet</h5>
 
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#addTimesheetModal">
-                                    + Add Timesheet
-                                </button>
+                                <div>
+                                    <a href="{{ route('projects.timesheets.export', $project->uuid) }}"
+                                        class="btn btn-danger btn-sm">
+                                        <i class="fas fa-file-pdf me-1"></i> Export PDF
+                                    </a>
+
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#addTimesheetModal">
+                                        + Add Timesheet
+                                    </button>
+                                </div>
                             </div>
 
                             @if ($timesheets->isEmpty())

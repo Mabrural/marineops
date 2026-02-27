@@ -43,6 +43,11 @@ class Project extends Model
         return $this->hasMany(ProjectVoyage::class);
     }
 
+    public function timesheets()
+    {
+        return $this->hasMany(ProjectTimesheet::class);
+    }
+
     protected static function booted()
     {
         static::creating(function ($project) {

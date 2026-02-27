@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectTimesheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProjectTimesheetController extends Controller
 {
@@ -109,5 +110,23 @@ class ProjectTimesheetController extends Controller
         $timesheet->delete();
 
         return redirect()->route('projects.show', $project->uuid)->with('success', 'Timesheet deleted successfully.');
+    }
+
+    public function exportPdf(Project $project)
+    {
+        $periodId = session('active_period_id');
+
+        if (!$periodId) {
+            abort(403, 'Period not selected.');
+        }
+
+        $timesheets = $project->timesheets()->where('period_id', $periodId)->orderBy('datetime')->get();
+
+        $pdf = Pdf::loadView('pdf.project-timesheet', [
+            'project' => $project,
+            'timesheets' => $timesheets,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->download('project-timesheet-' . $project->uuid . '.pdf');
     }
 }
