@@ -9,11 +9,7 @@ class Vessel extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'company_id',
-        'name',
-        'created_by',
-    ];
+    protected $fillable = ['company_id', 'name', 'created_by'];
 
     public function company()
     {
@@ -28,5 +24,10 @@ class Vessel extends Model
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
     }
 }

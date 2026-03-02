@@ -9,11 +9,7 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'is_active',
-        'created_by',
-    ];
+    protected $fillable = ['name', 'is_active', 'created_by'];
 
     protected $casts = [
         'is_active' => 'boolean',
@@ -28,10 +24,13 @@ class Company extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
+
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_companies')
-            ->withPivot('is_active')
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_companies')->withPivot('is_active')->withTimestamps();
     }
 }
