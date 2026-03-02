@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetGroup;
+use App\Models\Vessel;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -10,9 +12,40 @@ class AssetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Asset::with(['vessel', 'group', 'creator'])->where('company_id', auth()->user()->company_id);
+
+        // Search
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('model', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('vessel', function ($v) use ($request) {
+                        $v->where('name', 'like', '%' . $request->search . '%');
+                    })
+                    ->orWhereHas('group', function ($g) use ($request) {
+                        $g->where('name', 'like', '%' . $request->search . '%');
+                    });
+            });
+        }
+
+        // Filter Vessel
+        if ($request->vessel_id) {
+            $query->where('vessel_id', $request->vessel_id);
+        }
+
+        // Filter Group
+        if ($request->asset_group_id) {
+            $query->where('asset_group_id', $request->asset_group_id);
+        }
+
+        $assets = $query->latest()->paginate(10)->withQueryString();
+
+        $vessels = Vessel::where('company_id', auth()->user()->company_id)->get();
+        $groups = AssetGroup::all();
+
+        return view('assets.index', compact('assets', 'vessels', 'groups'));
     }
 
     /**

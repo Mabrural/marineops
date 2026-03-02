@@ -124,7 +124,7 @@
                         <div class="collapse" id="inventory">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('assets-management.index') }}">
                                         <span class="sub-item">Asset</span>
                                     </a>
                                 </li>
