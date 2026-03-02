@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 27, 2026 at 07:56 AM
+-- Generation Time: Mar 02, 2026 at 08:17 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -20,6 +20,118 @@ SET time_zone = "+00:00";
 --
 -- Database: `marineops`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assets`
+--
+
+CREATE TABLE `assets` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `vessel_id` bigint UNSIGNED NOT NULL,
+  `asset_group_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qty` int NOT NULL DEFAULT '1',
+  `remarks` text COLLATE utf8mb4_unicode_ci,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `assets`
+--
+
+INSERT INTO `assets` (`id`, `company_id`, `vessel_id`, `asset_group_id`, `name`, `model`, `qty`, `remarks`, `created_by`, `created_at`, `updated_at`) VALUES
+(4, 9, 7, 4, 'GPS', 'GP-32', 1, 'Baik', 6, '2026-03-02 06:18:01', '2026-03-02 06:18:01'),
+(5, 9, 7, 4, 'AIS', 'M-500', 1, 'Antenna kurang baik', 6, '2026-03-02 06:18:30', '2026-03-02 06:18:30'),
+(6, 9, 7, 4, 'Radar', '1715', 1, 'Kabel power tidak ada', 6, '2026-03-02 06:19:24', '2026-03-02 06:22:57'),
+(7, 9, 7, 4, 'Ecosonder', 'JRC FF-50', 1, 'Baik', 6, '2026-03-02 06:24:15', '2026-03-02 06:37:31'),
+(8, 9, 7, 4, 'VHF', 'M-504', 1, 'Baik', 6, '2026-03-02 06:29:13', '2026-03-02 06:29:13'),
+(9, 9, 7, 4, 'Navtex', 'NCA-300A', 1, 'Baik', 6, '2026-03-02 06:29:40', '2026-03-02 06:29:40'),
+(10, 9, 7, 4, 'SSB', 'M-700', 1, 'Baik', 6, '2026-03-02 06:30:47', '2026-03-02 06:30:47'),
+(11, 9, 7, 4, 'Kompas', NULL, 1, 'Belum dikalibrasi', 6, '2026-03-02 06:31:52', '2026-03-02 07:15:33'),
+(12, 9, 7, 4, 'Barometer', NULL, 1, 'Baik', 6, '2026-03-02 06:32:21', '2026-03-02 07:11:20'),
+(13, 9, 7, 4, 'Clino Meter', NULL, 1, 'Baik', 6, '2026-03-02 06:32:39', '2026-03-02 06:32:39'),
+(14, 9, 7, 4, 'SearLighth', NULL, 0, 'Std 1 Unit', 6, '2026-03-02 06:33:10', '2026-03-02 06:36:13'),
+(15, 9, 7, 4, 'Wiper', NULL, 1, 'Baik', 6, '2026-03-02 06:36:38', '2026-03-02 07:16:10'),
+(16, 9, 7, 4, 'Bendera Isyarat', NULL, 1, 'Baik', 6, '2026-03-02 06:36:55', '2026-03-02 07:15:51'),
+(17, 9, 7, 8, 'Apar Dry Chemical', NULL, 2, 'Baik', 6, '2026-03-02 06:43:08', '2026-03-02 06:43:08'),
+(18, 9, 7, 8, 'Apar Foam', NULL, 7, 'Baik', 6, '2026-03-02 06:43:25', '2026-03-02 06:43:25'),
+(19, 9, 7, 8, 'Apar CO2', NULL, 0, 'Std 2 unit 6 Kg', 6, '2026-03-02 06:45:36', '2026-03-02 06:45:36'),
+(20, 9, 7, 8, 'Emergency Fire Pump', NULL, 1, 'Baik', 6, '2026-03-02 06:46:02', '2026-03-02 06:46:02'),
+(21, 9, 7, 8, 'Fire Hose', NULL, 3, 'Baik', 6, '2026-03-02 06:46:27', '2026-03-02 06:46:27'),
+(22, 9, 7, 8, 'Fire Nozzel', NULL, 3, 'Baik', 6, '2026-03-02 06:46:43', '2026-03-02 06:46:43'),
+(23, 9, 7, 8, 'Baju Tahan Api', NULL, 0, NULL, 6, '2026-03-02 06:47:06', '2026-03-02 06:47:06'),
+(24, 9, 7, 8, 'EEBD', NULL, 0, 'Std 2 unit', 6, '2026-03-02 06:47:26', '2026-03-02 06:47:26'),
+(25, 9, 7, 8, 'ISC', NULL, 0, NULL, 6, '2026-03-02 06:47:43', '2026-03-02 06:48:26'),
+(26, 9, 7, 8, 'Fire Blangket', NULL, 0, 'Std 1 unit', 6, '2026-03-02 06:48:19', '2026-03-02 06:48:19'),
+(27, 9, 7, 8, 'Smoke Detector', NULL, 1, 'Std 3 Pcs (ER-Galley-Cabin Crew)', 6, '2026-03-02 06:49:07', '2026-03-02 06:49:07'),
+(28, 9, 7, 8, 'Fire Alarm', NULL, 3, 'Baik', 6, '2026-03-02 06:49:29', '2026-03-02 06:49:29'),
+(29, 9, 7, 8, 'Fire Plan', NULL, 0, 'Std 2 unit', 6, '2026-03-02 06:50:24', '2026-03-02 06:50:24'),
+(30, 9, 7, 9, 'Liferaft', NULL, 1, 'Std 2 unit', 6, '2026-03-02 06:51:03', '2026-03-02 06:51:03'),
+(31, 9, 7, 9, 'Lifebouy', NULL, 8, NULL, 6, '2026-03-02 06:51:19', '2026-03-02 06:51:19'),
+(32, 9, 7, 9, 'Line life', NULL, 2, NULL, 6, '2026-03-02 06:51:42', '2026-03-02 06:51:42'),
+(33, 9, 7, 9, 'Lampu Lifebouy', NULL, 2, NULL, 6, '2026-03-02 06:51:58', '2026-03-02 06:51:58'),
+(34, 9, 7, 9, 'Life Jacket', NULL, 10, NULL, 6, '2026-03-02 06:52:15', '2026-03-02 06:52:15'),
+(35, 9, 7, 9, 'Pluit', NULL, 10, NULL, 6, '2026-03-02 06:52:32', '2026-03-02 06:52:32'),
+(36, 9, 7, 9, 'Lampu Life Jacket', NULL, 10, NULL, 6, '2026-03-02 06:52:49', '2026-03-02 06:52:49'),
+(37, 9, 7, 9, 'Line Trowing', NULL, 0, 'Std 1 unit', 6, '2026-03-02 06:53:09', '2026-03-02 06:53:09'),
+(38, 9, 7, 9, 'Rocket Parasut Flare', NULL, 6, NULL, 6, '2026-03-02 06:53:37', '2026-03-02 06:53:37'),
+(39, 9, 7, 9, 'Red Hand Flare', NULL, 4, NULL, 6, '2026-03-02 06:54:03', '2026-03-02 06:54:03'),
+(40, 9, 7, 9, 'Smoke Signal', NULL, 4, NULL, 6, '2026-03-02 06:54:25', '2026-03-02 06:54:25'),
+(41, 9, 7, 9, 'MOB', NULL, 0, NULL, 6, '2026-03-02 06:54:36', '2026-03-02 06:54:36'),
+(42, 9, 7, 9, 'SART', NULL, 1, NULL, 6, '2026-03-02 06:54:51', '2026-03-02 06:54:51'),
+(43, 9, 7, 9, 'EPIREB', NULL, 1, NULL, 6, '2026-03-02 06:55:02', '2026-03-02 06:55:02'),
+(44, 9, 7, 10, 'Main Engine', 'Mitsubishi 8DC10', 2, 'Baik', 6, '2026-03-02 06:55:53', '2026-03-02 06:55:53'),
+(45, 9, 7, 10, 'Auxilery Engine', 'Mitsubishi 4 D 34', 1, 'Baik', 6, '2026-03-02 06:56:13', '2026-03-02 06:56:13'),
+(46, 9, 7, 10, 'GS Pump', NULL, 0, NULL, 6, '2026-03-02 06:56:46', '2026-03-02 06:56:46'),
+(47, 9, 7, 10, 'Bilge Pump', NULL, 0, NULL, 6, '2026-03-02 06:56:57', '2026-03-02 06:56:57'),
+(48, 9, 7, 10, 'FO Pump', NULL, 1, 'Baik', 6, '2026-03-02 06:57:17', '2026-03-02 06:57:17'),
+(49, 9, 7, 10, 'Fire Pump', NULL, 1, 'Baik', 6, '2026-03-02 06:57:31', '2026-03-02 06:57:31'),
+(50, 9, 7, 10, 'FW Pump', NULL, 1, 'Baik', 6, '2026-03-02 06:57:43', '2026-03-02 06:57:43'),
+(51, 9, 7, 10, 'OWS', NULL, 1, 'Rusak/Pump sistem tidak ada', 6, '2026-03-02 06:58:17', '2026-03-02 06:58:17'),
+(52, 9, 7, 10, 'Cargo Pump', NULL, 1, 'Rusak', 6, '2026-03-02 06:58:33', '2026-03-02 06:58:33'),
+(53, 9, 7, 10, 'Steering Gear', NULL, 0, NULL, 6, '2026-03-02 06:59:04', '2026-03-02 06:59:04'),
+(54, 9, 7, 10, 'Emergency Generator', NULL, 1, 'Baik', 6, '2026-03-02 06:59:17', '2026-03-02 06:59:17'),
+(55, 9, 7, 11, 'Kompar Gas', NULL, 1, NULL, 6, '2026-03-02 06:59:51', '2026-03-02 06:59:51'),
+(56, 9, 7, 11, 'Kompor Listrik', NULL, 0, NULL, 6, '2026-03-02 07:00:13', '2026-03-02 07:00:13'),
+(57, 9, 7, 11, 'Kulkas', NULL, 0, NULL, 6, '2026-03-02 07:00:24', '2026-03-02 07:00:24'),
+(58, 9, 7, 11, 'Freezer', NULL, 1, NULL, 6, '2026-03-02 07:00:40', '2026-03-02 07:00:40'),
+(59, 9, 7, 12, 'Anchor Winch Port', NULL, 1, 'Rusak', 6, '2026-03-02 07:01:03', '2026-03-02 07:01:03'),
+(60, 9, 7, 12, 'Anchor Winch STB', NULL, 1, 'Baik', 6, '2026-03-02 07:01:18', '2026-03-02 07:01:18'),
+(61, 9, 7, 12, 'Tali Tambat', NULL, 4, 'Baik', 6, '2026-03-02 07:01:40', '2026-03-02 07:01:40'),
+(62, 9, 7, 12, 'Jangkar', NULL, 0, 'Hilang/Putus', 6, '2026-03-02 07:02:01', '2026-03-02 07:02:01'),
+(63, 9, 7, 12, 'Rantai Jangkar', NULL, 0, 'Hilang/Putus', 6, '2026-03-02 07:02:16', '2026-03-02 07:02:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asset_groups`
+--
+
+CREATE TABLE `asset_groups` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `asset_groups`
+--
+
+INSERT INTO `asset_groups` (`id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
+(4, 'Navigation', 1, '2026-03-02 04:33:41', '2026-03-02 04:38:47'),
+(8, 'Fire Fighting Apparatus', 1, '2026-03-02 04:48:30', '2026-03-02 04:48:30'),
+(9, 'Live Saving Apparatus', 1, '2026-03-02 04:49:12', '2026-03-02 04:49:12'),
+(10, 'Engine Room', 1, '2026-03-02 04:49:30', '2026-03-02 04:49:30'),
+(11, 'Galley', 1, '2026-03-02 04:49:43', '2026-03-02 04:50:54'),
+(12, 'Windlass and Mooring', 1, '2026-03-02 04:50:18', '2026-03-02 04:50:18');
 
 -- --------------------------------------------------------
 
@@ -260,7 +372,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (19, '2026_02_25_141345_create_project_document_uploads_table', 15),
 (20, '2026_02_26_105205_create_project_vessels_table', 16),
 (22, '2026_02_26_133113_create_project_voyages_table', 17),
-(24, '2026_02_26_144531_create_project_timesheets_table', 18);
+(24, '2026_02_26_144531_create_project_timesheets_table', 18),
+(25, '2026_03_02_104753_create_asset_groups_table', 19),
+(27, '2026_03_02_115249_create_assets_table', 20);
 
 -- --------------------------------------------------------
 
@@ -302,8 +416,7 @@ CREATE TABLE `periods` (
 
 INSERT INTO `periods` (`id`, `company_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
 (10, 11, 'Project 2022', 7, '2026-01-19 22:20:54', '2026-01-19 22:21:32'),
-(13, 9, 'Project-2026', 6, '2026-01-20 21:07:13', '2026-02-18 08:14:31'),
-(18, 9, 'Project-2025', 6, '2026-02-26 08:29:55', '2026-02-26 08:29:55');
+(13, 9, 'Project-2026', 6, '2026-01-20 21:07:13', '2026-02-18 08:14:31');
 
 -- --------------------------------------------------------
 
@@ -413,7 +526,6 @@ CREATE TABLE `project_document_types` (
 --
 
 INSERT INTO `project_document_types` (`id`, `name`, `type`, `created_by`, `created_at`, `updated_at`) VALUES
-(2, 'RAB Keagenan', 'freight_charter', 1, '2026-02-25 04:29:41', '2026-02-25 04:29:41'),
 (3, 'Surat Perjanjian Angkutan Laut (SPAL)', 'freight_charter', 1, '2026-02-25 04:30:13', '2026-02-25 04:30:13'),
 (4, 'PETA (Jarak Nautical Miles)', 'freight_charter', 1, '2026-02-25 04:30:36', '2026-02-25 04:30:36'),
 (5, 'Time Sheet Loading', 'freight_charter', 1, '2026-02-25 04:30:55', '2026-02-25 04:30:55'),
@@ -520,7 +632,7 @@ INSERT INTO `project_timesheets` (`id`, `company_id`, `period_id`, `project_id`,
 (56, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:27', '2026-02-27 03:59:27'),
 (57, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:37', '2026-02-27 03:59:37'),
 (59, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5', 6, '2026-02-27 03:59:58', '2026-02-27 04:17:59'),
-(60, 9, 13, 11, '2026-02-27 11:11:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx6', 6, '2026-02-27 04:11:33', '2026-02-27 04:17:54');
+(60, 9, 13, 11, '2026-02-27 11:11:00', 'wwwww', 'wwwwwwwwwww', 6, '2026-02-27 04:11:33', '2026-03-02 02:53:04');
 
 -- --------------------------------------------------------
 
@@ -600,7 +712,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Y4QLr58xF9nnIIdOwSe2GWNJqvu24ptusDPN96kH', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiS2ZzcWZaWkl1bHUzdUI5QWd0TzlxZ21mdzlDVEljbzNQRnJyVGpTOSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6ODU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9qZWN0cy9lNTQ5OWFkYi04OWIyLTRkZDAtOWVmMC0yZjQ1NzdhMmFmMzEvdGltZXNoZWV0cy9leHBvcnQiO3M6NToicm91dGUiO3M6MjY6InByb2plY3RzLnRpbWVzaGVldHMuZXhwb3J0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjE2OiJhY3RpdmVfcGVyaW9kX2lkIjtzOjI6IjEzIjt9', 1772173807);
+('Eb2BXwYDpf2WhVqHOHDqogyxqFa5MNAiOPJBUbPm', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOWRQNVlrTHZ0OVlBNThMamxmc3hQak1nOXVRTFVHSGZ5S1RHTzBwaiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hc3NldHMtbWFuYWdlbWVudCI7czo1OiJyb3V0ZSI7czoyMzoiYXNzZXRzLW1hbmFnZW1lbnQuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772439378);
 
 -- --------------------------------------------------------
 
@@ -706,6 +818,23 @@ INSERT INTO `vessel_certificates` (`id`, `company_id`, `vessel_id`, `name`, `iss
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `assets`
+--
+ALTER TABLE `assets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `assets_company_id_foreign` (`company_id`),
+  ADD KEY `assets_vessel_id_foreign` (`vessel_id`),
+  ADD KEY `assets_asset_group_id_foreign` (`asset_group_id`),
+  ADD KEY `assets_created_by_foreign` (`created_by`);
+
+--
+-- Indexes for table `asset_groups`
+--
+ALTER TABLE `asset_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `asset_groups_created_by_foreign` (`created_by`);
 
 --
 -- Indexes for table `cache`
@@ -917,6 +1046,18 @@ ALTER TABLE `vessel_certificates`
 --
 
 --
+-- AUTO_INCREMENT for table `assets`
+--
+ALTER TABLE `assets`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+
+--
+-- AUTO_INCREMENT for table `asset_groups`
+--
+ALTER TABLE `asset_groups`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `cargos`
 --
 ALTER TABLE `cargos`
@@ -956,7 +1097,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -1039,6 +1180,21 @@ ALTER TABLE `vessel_certificates`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `assets`
+--
+ALTER TABLE `assets`
+  ADD CONSTRAINT `assets_asset_group_id_foreign` FOREIGN KEY (`asset_group_id`) REFERENCES `asset_groups` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assets_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assets_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assets_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `asset_groups`
+--
+ALTER TABLE `asset_groups`
+  ADD CONSTRAINT `asset_groups_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `cargos`

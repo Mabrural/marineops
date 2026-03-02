@@ -69,7 +69,6 @@ Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
 
     Route::resource('document-types', ProjectDocumentTypeController::class);
     Route::resource('asset-groups', AssetGroupController::class);
-
 });
 
 // internal operasion
@@ -97,7 +96,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
     Route::resource('assets-management', AssetController::class);
-
+    Route::get('/assets-management-export', [AssetController::class, 'export'])->name('assets-management.export');
 });
 
 // filter global session set period

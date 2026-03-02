@@ -7,6 +7,7 @@ use App\Models\AssetGroup;
 use App\Models\Vessel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AssetController extends Controller
 {
@@ -156,5 +157,31 @@ class AssetController extends Controller
                 'page' => $request->current_page,
             ])
             ->with('success', 'Asset deleted successfully.');
+    }
+
+    public function export(Request $request)
+    {
+        $query = Asset::with(['vessel', 'group'])->where('company_id', Auth::user()->company->id);
+
+        // Apply filters
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')->orWhere('model', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->vessel_id) {
+            $query->where('vessel_id', $request->vessel_id);
+        }
+
+        if ($request->asset_group_id) {
+            $query->where('asset_group_id', $request->asset_group_id);
+        }
+
+        $assets = $query->orderBy('id')->get();
+
+        $pdf = Pdf::loadView('pdf.assets', compact('assets'))->setPaper('a4', 'landscape');
+
+        return $pdf->download('asset-list.pdf');
     }
 }

@@ -17,6 +17,11 @@
                         <i class="fas fa-plus me-1"></i>
                         Add Asset
                     </button>
+
+                    <a id="exportPdfBtn" href="{{ route('assets-management.export') }}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-file-pdf me-1"></i>
+                        Export PDF
+                    </a>
                 </div>
             </div>
 
@@ -190,7 +195,7 @@
 
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center py-4 text-muted">
+                                            <td colspan="8" class="text-center py-4 text-muted">
                                                 No assets registered yet
                                             </td>
                                         </tr>
@@ -212,7 +217,8 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Add New Asset</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                <button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal"></button>
                                             </div>
 
                                             <div class="modal-body">
@@ -461,6 +467,27 @@
             $('#editAssetForm input[name="model"]').val($(this).data('model'));
             $('#editAssetForm input[name="qty"]').val($(this).data('qty'));
             $('#editAssetForm textarea[name="remarks"]').val($(this).data('remarks'));
+        });
+    </script>
+
+    <script>
+        $('#exportPdfBtn').on('click', function(e) {
+            e.preventDefault();
+
+            let baseUrl = "{{ route('assets-management.export') }}";
+            let params = new URLSearchParams();
+
+            let search = $('#searchInput').val();
+            let vessel = $('#vesselFilter').val();
+            let group = $('#groupFilter').val();
+
+            if (search) params.append('search', search);
+            if (vessel) params.append('vessel_id', vessel);
+            if (group) params.append('asset_group_id', group);
+
+            let finalUrl = baseUrl + '?' + params.toString();
+
+            window.open(finalUrl, '_blank');
         });
     </script>
 
