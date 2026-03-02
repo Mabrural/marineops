@@ -44,7 +44,13 @@
 
 <body>
 
-    <h2>Asset List</h2>
+    <h2 style="margin-bottom:5px;">Asset List</h2>
+
+    <p style="margin:0; font-size:11px;">
+        <strong>Last Checked :</strong> 
+    </p>
+
+    <br>
 
     <table>
         <thead>
