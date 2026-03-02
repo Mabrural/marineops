@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetGroup;
 use App\Models\Vessel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AssetController extends Controller
 {
@@ -14,7 +15,7 @@ class AssetController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Asset::with(['vessel', 'group', 'creator'])->where('company_id', auth()->user()->company_id);
+        $query = Asset::with(['vessel', 'group', 'creator'])->where('company_id', Auth::user()->company->id);
 
         // Search
         if ($request->search) {
@@ -42,7 +43,7 @@ class AssetController extends Controller
 
         $assets = $query->latest()->paginate(10)->withQueryString();
 
-        $vessels = Vessel::where('company_id', auth()->user()->company_id)->get();
+        $vessels = Vessel::where('company_id', Auth::user()->company->id)->get();
         $groups = AssetGroup::all();
 
         return view('assets.index', compact('assets', 'vessels', 'groups'));

@@ -113,16 +113,16 @@
                                             </td>
 
                                             <td>
-                                                <a href="{{ route('assets.show', $asset) }}" class="btn btn-sm btn-info">
+                                                <a href="{{ route('assets-management.show', $asset) }}" class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
-                                                <a href="{{ route('assets.edit', $asset) }}"
+                                                <a href="{{ route('assets-management.edit', $asset) }}"
                                                     class="btn btn-sm btn-warning">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
-                                                <form action="{{ route('assets.destroy', $asset) }}" method="POST"
+                                                <form action="{{ route('assets-management.destroy', $asset) }}" method="POST"
                                                     class="d-inline" onsubmit="return confirm('Delete this asset?')">
                                                     @csrf
                                                     @method('DELETE')
