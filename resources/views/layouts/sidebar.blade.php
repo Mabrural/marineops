@@ -190,6 +190,12 @@
                             <p>Document Types</p>
                         </a>
                     </li>
+                    <li class="nav-item {{ request()->routeIs('asset-groups.*') ? 'active' : '' }}">
+                        <a href="{{ route('asset-groups.index') }}">
+                            <i class="fas fa-sitemap"></i>
+                            <p>Asset Group</p>
+                        </a>
+                    </li>
 
                     <!-- USER ACCESS -->
                     <li

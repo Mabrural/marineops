@@ -17,6 +17,7 @@ use App\Http\Controllers\ProjectDocumentUploadController;
 use App\Http\Controllers\ProjectVesselController;
 use App\Http\Controllers\ProjectVoyageController;
 use App\Http\Controllers\ProjectTimesheetController;
+use App\Http\Controllers\AssetGroupController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -66,6 +67,8 @@ Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
     Route::delete('/user-company-assign/{user}', [UserCompanyController::class, 'destroy'])->name('user-company-assign.destroy');
 
     Route::resource('document-types', ProjectDocumentTypeController::class);
+    Route::resource('asset-groups', AssetGroupController::class);
+
 });
 
 // internal operasion
@@ -92,6 +95,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::get('/projects/{project}/timesheets/export', [ProjectTimesheetController::class, 'exportPdf'])->name('projects.timesheets.export');
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
+
 });
 
 // filter global session set period
