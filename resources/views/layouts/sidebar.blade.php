@@ -107,13 +107,6 @@
                         </a>
                     </li>
 
-                    {{-- <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-route"></i>
-                        <p>Voyage</p>
-                    </a>
-                </li> --}}
-
                     <li class="nav-item {{ request()->routeIs('crews.*') ? 'active' : '' }}">
                         <a href="{{ route('crews.index') }}">
                             <i class="fas fa-users"></i>
@@ -121,14 +114,28 @@
                         </a>
                     </li>
 
-                    {{-- <li class="nav-item">
-                        <a href="#">
-                            <i class="fas fa-clock"></i>
-                            <p>Timesheet</p>
+                    <!-- INVENTORY MANAGEMENT -->
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#inventory">
+                            <i class="fas fa-box"></i>
+                            <p>Inventory</p>
+                            <span class="caret"></span>
                         </a>
-                    </li> --}}
-
-
+                        <div class="collapse" id="inventory">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Asset</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Amprahan</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
 
                     <!-- MONITORING -->
                     <li class="nav-section">
