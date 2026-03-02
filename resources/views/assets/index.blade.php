@@ -218,9 +218,9 @@
                                             <td>
                                                 {{ $asset->group->name ?? '-' }}
                                             </td>
-                                            
+
                                             <td class="text-center">{{ $asset->qty }}</td>
-                                            
+
                                             <td>
                                                 {{ $asset->remarks ?? '-' }}
                                             </td>
@@ -368,16 +368,22 @@
                     asset_group_id: $('#groupFilter').val()
                 },
                 success: function(response) {
+
                     let newTable = $(response).find('#assetTable').html();
                     $('#assetTable').html(newTable);
 
-                    // Update URL tanpa reload (supaya pagination rapi)
+                    // Re-initialize Bootstrap modal
+                    var modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
+                    modalTriggerList.map(function(modalTriggerEl) {
+                        return new bootstrap.Modal(modalTriggerEl);
+                    });
+
                     window.history.pushState("", "", url);
                 }
             });
         }
 
-        // 🔍 Search delay
+        // Search delay
         let delayTimer;
         $('#searchInput').on('keyup', function() {
             clearTimeout(delayTimer);
@@ -386,12 +392,12 @@
             }, 400);
         });
 
-        // 🎯 Filter change
+        // Filter change
         $('#vesselFilter, #groupFilter').on('change', function() {
             loadAssets();
         });
 
-        // ♻ Reset
+        // Reset
         $('#resetFilter').on('click', function() {
             $('#searchInput').val('');
             $('#vesselFilter').val('');
@@ -399,10 +405,48 @@
             loadAssets();
         });
 
-        // 📄 Pagination AJAX
+        // Pagination AJAX
         $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             loadAssets($(this).attr('href'));
         });
+    </script>
+
+    <script>
+        // ==========================
+        // AUTO REMEMBER LAST INPUT
+        // ==========================
+
+        const createForm = document.querySelector('#createAssetModal form');
+
+        if (createForm) {
+
+            // Load last saved values
+            window.addEventListener('DOMContentLoaded', () => {
+
+                const savedData = JSON.parse(localStorage.getItem('lastAssetInput'));
+
+                if (savedData) {
+                    Object.keys(savedData).forEach(key => {
+                        const field = createForm.querySelector(`[name="${key}"]`);
+                        if (field) field.value = savedData[key];
+                    });
+                }
+            });
+
+            // Save on submit
+            createForm.addEventListener('submit', function() {
+
+                const formData = new FormData(createForm);
+                let dataToSave = {};
+
+                formData.forEach((value, key) => {
+                    dataToSave[key] = value;
+                });
+
+                localStorage.setItem('lastAssetInput', JSON.stringify(dataToSave));
+            });
+
+        }
     </script>
 @endsection
