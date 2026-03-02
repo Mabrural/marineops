@@ -194,6 +194,7 @@
                                         <th>Vessel</th>
                                         <th>Group</th>
                                         <th class="text-center">Qty</th>
+                                        <th>Remarks</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -205,11 +206,11 @@
                                             </td>
 
                                             <td>
-                                                <strong>{{ $asset->name }}</strong><br>
+                                                {{ $asset->name ?? 'N/A' }}
                                             </td>
 
                                             <td>
-                                                <strong>{{ $asset->model }}</strong><br>
+                                                {{ $asset->model ?? 'N/A' }}
                                             </td>
 
                                             <td>{{ $asset->vessel->name ?? '-' }}</td>
@@ -217,14 +218,17 @@
                                             <td>
                                                 {{ $asset->group->name ?? '-' }}
                                             </td>
-
+                                            
                                             <td class="text-center">{{ $asset->qty }}</td>
-
+                                            
+                                            <td>
+                                                {{ $asset->remarks ?? '-' }}
+                                            </td>
                                             <td class="text-end">
                                                 <div class="btn-group btn-group-sm">
 
                                                     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#editTimesheetModal{{ $asset->id }}">
+                                                        data-bs-target="#editAssetModal{{ $asset->id }}">
                                                         <i class="fas fa-pen"></i>
                                                     </button>
 
@@ -244,6 +248,93 @@
                                             </td>
 
                                         </tr>
+                                        <!-- ================= EDIT ASSET MODAL ================= -->
+                                        <div class="modal fade" id="editAssetModal{{ $asset->id }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <form method="POST"
+                                                    action="{{ route('assets-management.update', $asset->id) }}">
+                                                    @csrf
+                                                    @method('PUT')
+
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Asset</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"></button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+
+                                                            {{-- Vessel --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Vessel</label>
+                                                                <select name="vessel_id" class="form-select" required>
+                                                                    @foreach ($vessels as $vessel)
+                                                                        <option value="{{ $vessel->id }}"
+                                                                            {{ $asset->vessel_id == $vessel->id ? 'selected' : '' }}>
+                                                                            {{ $vessel->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            {{-- Asset Group --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Asset Group</label>
+                                                                <select name="asset_group_id" class="form-select"
+                                                                    required>
+                                                                    @foreach ($groups as $group)
+                                                                        <option value="{{ $group->id }}"
+                                                                            {{ $asset->asset_group_id == $group->id ? 'selected' : '' }}>
+                                                                            {{ $group->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            {{-- Name --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Asset Name</label>
+                                                                <input type="text" name="name" class="form-control"
+                                                                    value="{{ $asset->name }}" required>
+                                                            </div>
+
+                                                            {{-- Model --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Model / Merk</label>
+                                                                <input type="text" name="model" class="form-control"
+                                                                    value="{{ $asset->model }}">
+                                                            </div>
+
+                                                            {{-- Qty --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Quantity</label>
+                                                                <input type="number" name="qty" class="form-control"
+                                                                    min="0" value="{{ $asset->qty }}" required>
+                                                            </div>
+
+                                                            {{-- Remarks --}}
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Remarks</label>
+                                                                <textarea name="remarks" class="form-control" rows="2">{{ $asset->remarks }}</textarea>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light btn-sm"
+                                                                data-bs-dismiss="modal">
+                                                                Cancel
+                                                            </button>
+
+                                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                                Update Asset
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @empty
                                         <tr>
                                             <td colspan="7" class="text-center py-4 text-muted">

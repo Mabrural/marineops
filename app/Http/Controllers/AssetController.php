@@ -102,9 +102,27 @@ class AssetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Asset $asset)
+    public function update(Request $request, Asset $assets_management)
     {
-        //
+        $request->validate([
+            'vessel_id' => 'required|exists:vessels,id',
+            'asset_group_id' => 'required|exists:asset_groups,id',
+            'name' => 'required|string|max:255',
+            'model' => 'nullable|string|max:255',
+            'qty' => 'required|integer|min:0',
+            'remarks' => 'nullable|string',
+        ]);
+
+        $assets_management->update([
+            'vessel_id' => $request->vessel_id,
+            'asset_group_id' => $request->asset_group_id,
+            'name' => $request->name,
+            'model' => $request->model,
+            'qty' => $request->qty,
+            'remarks' => $request->remarks,
+        ]);
+
+        return redirect()->back()->with('success', 'Asset updated successfully');
     }
 
     /**
