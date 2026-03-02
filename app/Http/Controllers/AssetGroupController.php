@@ -12,7 +12,9 @@ class AssetGroupController extends Controller
      */
     public function index()
     {
-        //
+        $assetGroups = AssetGroup::orderBy('id')->get();
+
+        return view('asset-groups.index', compact('assetGroups'));
     }
 
     /**
@@ -60,6 +62,9 @@ class AssetGroupController extends Controller
      */
     public function destroy(AssetGroup $assetGroup)
     {
-        //
+        $assetGroup->delete();
+
+        return redirect()->route('asset-groups.index')
+            ->with('success', 'Asset group deleted successfully.');
     }
 }
