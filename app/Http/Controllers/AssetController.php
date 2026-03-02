@@ -39,7 +39,7 @@ class AssetController extends Controller
             $query->where('asset_group_id', $request->asset_group_id);
         }
 
-        $assets = $query->oldest()->paginate(10)->appends($request->query());
+        $assets = $query->oldest()->paginate(100)->appends($request->query());
 
         $vessels = Vessel::where('company_id', Auth::user()->company->id)->get();
         $groups = AssetGroup::all();
