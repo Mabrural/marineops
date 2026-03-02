@@ -112,7 +112,7 @@
                                         <th>Model/Merk</th>
                                         <th>Vessel</th>
                                         <th>Group</th>
-                                        <th>Qty</th>
+                                        <th class="text-center">Qty</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -137,7 +137,7 @@
                                                 {{ $asset->group->name ?? '-' }}
                                             </td>
 
-                                            <td>{{ $asset->qty }}</td>
+                                            <td class="text-center">{{ $asset->qty }}</td>
 
                                             <td class="text-end">
                                                 <div class="btn-group btn-group-sm">
