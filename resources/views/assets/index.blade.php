@@ -165,8 +165,18 @@
                                                     <form method="POST"
                                                         action="{{ route('assets-management.destroy', $asset) }}"
                                                         onsubmit="return confirm('Delete this asset?')">
+
                                                         @csrf
                                                         @method('DELETE')
+
+                                                        <input type="hidden" name="current_search"
+                                                            value="{{ request('search') }}">
+                                                        <input type="hidden" name="current_vessel_id"
+                                                            value="{{ request('vessel_id') }}">
+                                                        <input type="hidden" name="current_asset_group_id"
+                                                            value="{{ request('asset_group_id') }}">
+                                                        <input type="hidden" name="current_page"
+                                                            value="{{ request('page') }}">
 
                                                         <button class="btn btn-outline-danger btn-sm">
                                                             <i class="fas fa-trash"></i>

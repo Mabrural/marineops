@@ -142,12 +142,19 @@ class AssetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $asset = Asset::findOrFail($id);
+        $asset = Asset::where('company_id', Auth::user()->company->id)->findOrFail($id);
 
         $asset->delete();
 
-        return redirect()->route('assets-management.index')->with('success', 'Asset deleted successfully.');
+        return redirect()
+            ->route('assets-management.index', [
+                'search' => $request->current_search,
+                'vessel_id' => $request->current_vessel_id,
+                'asset_group_id' => $request->current_asset_group_id,
+                'page' => $request->current_page,
+            ])
+            ->with('success', 'Asset deleted successfully.');
     }
 }
