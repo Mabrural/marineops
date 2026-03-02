@@ -64,7 +64,15 @@ class AssetGroupController extends Controller
      */
     public function update(Request $request, AssetGroup $assetGroup)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:asset_groups,name,' . $assetGroup->id,
+        ]);
+
+        $assetGroup->update([
+            'name' => $validated['name'],
+        ]);
+
+        return redirect()->route('asset-groups.index')->with('success', 'Asset group updated successfully!');
     }
 
     /**

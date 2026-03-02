@@ -47,10 +47,11 @@
 
                                         <td class="text-end pe-4">
                                             <div class="d-flex justify-content-end gap-2">
-                                                <a href="{{ route('asset-groups.edit', $assetGroup) }}"
-                                                    class="btn btn-light btn-sm">
+                                                <button class="btn btn-light btn-sm btn-edit"
+                                                    data-id="{{ $assetGroup->id }}" data-name="{{ $assetGroup->name }}"
+                                                    data-bs-toggle="modal" data-bs-target="#editAssetGroupModal">
                                                     <i class="fas fa-edit text-warning"></i>
-                                                </a>
+                                                </button>
 
                                                 <form action="{{ route('asset-groups.destroy', $assetGroup) }}"
                                                     method="POST" onsubmit="return confirm('Delete this group?')">
@@ -63,6 +64,45 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <!-- Edit Asset Group Modal -->
+                                    <div class="modal fade" id="editAssetGroupModal" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <form method="POST" id="editForm">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div class="modal-content border-0 shadow">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title fw-bold">Edit Asset Group</h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+
+                                                        <input type="hidden" id="edit_id">
+
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Group Name</label>
+                                                            <input type="text" name="name" id="edit_name"
+                                                                class="form-control" required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light"
+                                                            data-bs-dismiss="modal">
+                                                            Cancel
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Update Group
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 @empty
                                     <tr>
                                         <td colspan="3" class="text-center py-5">
@@ -232,5 +272,29 @@
             }
         `;
         document.head.appendChild(style);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const editButtons = document.querySelectorAll('.btn-edit');
+            const editForm = document.getElementById('editForm');
+            const editName = document.getElementById('edit_name');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+
+                    const id = this.dataset.id;
+                    const name = this.dataset.name;
+
+                    // isi input
+                    editName.value = name;
+
+                    // set action form dynamic
+                    editForm.action = `/asset-groups/${id}`;
+                });
+            });
+
+        });
     </script>
 @endsection
