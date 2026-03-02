@@ -227,8 +227,14 @@
                                             <td class="text-end">
                                                 <div class="btn-group btn-group-sm">
 
-                                                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#editAssetModal{{ $asset->id }}">
+                                                    <button class="btn btn-outline-primary btn-sm editBtn"
+                                                        data-id="{{ $asset->id }}"
+                                                        data-vessel="{{ $asset->vessel_id }}"
+                                                        data-group="{{ $asset->asset_group_id }}"
+                                                        data-name="{{ $asset->name }}" data-model="{{ $asset->model }}"
+                                                        data-qty="{{ $asset->qty }}"
+                                                        data-remarks="{{ $asset->remarks }}" data-bs-toggle="modal"
+                                                        data-bs-target="#editAssetModal">
                                                         <i class="fas fa-pen"></i>
                                                     </button>
 
@@ -248,93 +254,7 @@
                                             </td>
 
                                         </tr>
-                                        <!-- ================= EDIT ASSET MODAL ================= -->
-                                        <div class="modal fade" id="editAssetModal{{ $asset->id }}" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <form method="POST"
-                                                    action="{{ route('assets-management.update', $asset->id) }}">
-                                                    @csrf
-                                                    @method('PUT')
 
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Asset</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                        </div>
-
-                                                        <div class="modal-body">
-
-                                                            {{-- Vessel --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Vessel</label>
-                                                                <select name="vessel_id" class="form-select" required>
-                                                                    @foreach ($vessels as $vessel)
-                                                                        <option value="{{ $vessel->id }}"
-                                                                            {{ $asset->vessel_id == $vessel->id ? 'selected' : '' }}>
-                                                                            {{ $vessel->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            {{-- Asset Group --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Asset Group</label>
-                                                                <select name="asset_group_id" class="form-select"
-                                                                    required>
-                                                                    @foreach ($groups as $group)
-                                                                        <option value="{{ $group->id }}"
-                                                                            {{ $asset->asset_group_id == $group->id ? 'selected' : '' }}>
-                                                                            {{ $group->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            {{-- Name --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Asset Name</label>
-                                                                <input type="text" name="name" class="form-control"
-                                                                    value="{{ $asset->name }}" required>
-                                                            </div>
-
-                                                            {{-- Model --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Model / Merk</label>
-                                                                <input type="text" name="model" class="form-control"
-                                                                    value="{{ $asset->model }}">
-                                                            </div>
-
-                                                            {{-- Qty --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Quantity</label>
-                                                                <input type="number" name="qty" class="form-control"
-                                                                    min="0" value="{{ $asset->qty }}" required>
-                                                            </div>
-
-                                                            {{-- Remarks --}}
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Remarks</label>
-                                                                <textarea name="remarks" class="form-control" rows="2">{{ $asset->remarks }}</textarea>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light btn-sm"
-                                                                data-bs-dismiss="modal">
-                                                                Cancel
-                                                            </button>
-
-                                                            <button type="submit" class="btn btn-primary btn-sm">
-                                                                Update Asset
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     @empty
                                         <tr>
                                             <td colspan="7" class="text-center py-4 text-muted">
@@ -344,6 +264,81 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            <!-- ================= GLOBAL EDIT MODAL ================= -->
+                            <div class="modal fade" id="editAssetModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <form method="POST" id="editAssetForm">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Asset</h5>
+                                                <button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Vessel</label>
+                                                    <select name="vessel_id" class="form-select" required>
+                                                        @foreach ($vessels as $vessel)
+                                                            <option value="{{ $vessel->id }}">
+                                                                {{ $vessel->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Asset Group</label>
+                                                    <select name="asset_group_id" class="form-select" required>
+                                                        @foreach ($groups as $group)
+                                                            <option value="{{ $group->id }}">
+                                                                {{ $group->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Asset Name</label>
+                                                    <input type="text" name="name" class="form-control" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Model</label>
+                                                    <input type="text" name="model" class="form-control">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Quantity</label>
+                                                    <input type="number" name="qty" class="form-control"
+                                                        min="0" required>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Remarks</label>
+                                                    <textarea name="remarks" class="form-control" rows="2"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light btn-sm"
+                                                    data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    Update Asset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -409,6 +404,24 @@
         $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             loadAssets($(this).attr('href'));
+        });
+
+        // ============================
+        // DYNAMIC EDIT MODAL
+        // ============================
+
+        $(document).on('click', '.editBtn', function() {
+
+            let id = $(this).data('id');
+
+            $('#editAssetForm').attr('action', '/assets-management/' + id);
+
+            $('#editAssetForm select[name="vessel_id"]').val($(this).data('vessel'));
+            $('#editAssetForm select[name="asset_group_id"]').val($(this).data('group'));
+            $('#editAssetForm input[name="name"]').val($(this).data('name'));
+            $('#editAssetForm input[name="model"]').val($(this).data('model'));
+            $('#editAssetForm input[name="qty"]').val($(this).data('qty'));
+            $('#editAssetForm textarea[name="remarks"]').val($(this).data('remarks'));
         });
     </script>
 
