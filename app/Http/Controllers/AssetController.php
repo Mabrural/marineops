@@ -60,7 +60,27 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'vessel_id' => 'required|exists:vessels,id',
+            'asset_group_id' => 'required|exists:asset_groups,id',
+            'name' => 'required|string|max:255',
+            'model' => 'nullable|string|max:255',
+            'qty' => 'required|integer|min:0',
+            'remarks' => 'nullable|string',
+        ]);
+
+        Asset::create([
+            'company_id' => Auth::user()->company->id,
+            'vessel_id' => $request->vessel_id,
+            'asset_group_id' => $request->asset_group_id,
+            'name' => $request->name,
+            'model' => $request->model,
+            'qty' => $request->qty,
+            'remarks' => $request->remarks,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        return redirect()->back()->with('success', 'Asset created successfully');
     }
 
     /**
@@ -90,8 +110,12 @@ class AssetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Asset $asset)
+    public function destroy($id)
     {
-        //
+        $asset = Asset::findOrFail($id);
+
+        $asset->delete();
+
+        return redirect()->route('assets-management.index')->with('success', 'Asset deleted successfully.');
     }
 }

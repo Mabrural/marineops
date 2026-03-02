@@ -13,10 +13,91 @@
                     <p class="text-muted mb-0">Assets registered for this company</p>
                 </div>
                 <div>
-                    <a href="{{ route('assets-management.create') }}" class="btn btn-primary btn-sm">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createAssetModal">
                         <i class="fas fa-plus me-1"></i>
                         Add Asset
-                    </a>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= CREATE ASSET MODAL ================= -->
+            <div class="modal fade" id="createAssetModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <form method="POST" action="{{ route('assets-management.store') }}">
+                        @csrf
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Asset</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                {{-- Vessel --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Vessel</label>
+                                    <select name="vessel_id" class="form-select" required>
+                                        <option value="">Select Vessel</option>
+                                        @foreach ($vessels as $vessel)
+                                            <option value="{{ $vessel->id }}">
+                                                {{ $vessel->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                {{-- Asset Group --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Asset Group</label>
+                                    <select name="asset_group_id" class="form-select" required>
+                                        <option value="">Select Group</option>
+                                        @foreach ($groups as $group)
+                                            <option value="{{ $group->id }}">
+                                                {{ $group->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                {{-- Asset Name --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Asset Name</label>
+                                    <input type="text" name="name" class="form-control" maxlength="255" required>
+                                </div>
+
+                                {{-- Model --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Model / Merk</label>
+                                    <input type="text" name="model" class="form-control" maxlength="255">
+                                </div>
+
+                                {{-- Quantity --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" name="qty" class="form-control" min="0" value="1"
+                                        required>
+                                </div>
+
+                                {{-- Remarks --}}
+                                <div class="mb-3">
+                                    <label class="form-label">Remarks</label>
+                                    <textarea name="remarks" class="form-control" rows="2"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Save Asset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
