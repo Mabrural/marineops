@@ -66,6 +66,37 @@
                     </div>
                 </div>
             </div>
+            <style>
+                /* EXTREME COMPACT MODE (TD ONLY)*/
+
+                /* Jangan ubah header */
+                #assetTable .table thead th {
+                    padding: 0.5rem 0.75rem !important;
+                    /* normal bootstrap */
+                    line-height: 1.3 !important;
+                }
+
+                /* Paksa hanya TD yang super dempet */
+                #assetTable .table tbody td {
+                    padding: 1px 6px !important;
+                    line-height: 1 !important;
+                    vertical-align: middle !important;
+                }
+
+                /* Perkecil tinggi baris body saja */
+                #assetTable .table tbody tr {
+                    height: 20px !important;
+                }
+
+                /* Hilangkan spacing tambahan */
+                #assetTable .table tbody td .badge,
+                #assetTable .table tbody td i,
+                #assetTable .table tbody td .btn {
+                    margin: 0 !important;
+                    padding-top: 1px !important;
+                    padding-bottom: 1px !important;
+                }
+            </style>
 
             <div id="assetTable">
 
@@ -73,8 +104,8 @@
                 <div class="card d-lg-block mt-3">
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-sm table-hover mb-0 align-middle">
-                                <thead class="bg-light">
+                            <table class="table table-bordered table-hover mb-0 align-middle">
+                                <thead class="table-light">
                                     <tr>
                                         <th width="5%">#</th>
                                         <th>Asset</th>
@@ -82,7 +113,7 @@
                                         <th>Vessel</th>
                                         <th>Group</th>
                                         <th>Qty</th>
-                                        <th width="15%">Actions</th>
+                                        <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,33 +134,32 @@
                                             <td>{{ $asset->vessel->name ?? '-' }}</td>
 
                                             <td>
-                                                <span class="badge bg-info">
-                                                    {{ $asset->group->name ?? '-' }}
-                                                </span>
+                                                {{ $asset->group->name ?? '-' }}
                                             </td>
 
                                             <td>{{ $asset->qty }}</td>
 
-                                            <td>
-                                                <a href="{{ route('assets-management.show', $asset) }}"
-                                                    class="btn btn-sm btn-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                            <td class="text-end">
+                                                <div class="btn-group btn-group-sm">
 
-                                                <a href="{{ route('assets-management.edit', $asset) }}"
-                                                    class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-
-                                                <form action="{{ route('assets-management.destroy', $asset) }}"
-                                                    method="POST" class="d-inline"
-                                                    onsubmit="return confirm('Delete this asset?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash"></i>
+                                                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editTimesheetModal{{ $asset->id }}">
+                                                        <i class="fas fa-pen"></i>
                                                     </button>
-                                                </form>
+
+                                                    <!-- Delete -->
+                                                    <form method="POST"
+                                                        action="{{ route('assets-management.destroy', $asset) }}"
+                                                        onsubmit="return confirm('Delete this asset?')">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button class="btn btn-outline-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+
+                                                </div>
                                             </td>
 
                                         </tr>
