@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AssetGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AssetGroupController extends Controller
 {
@@ -30,7 +31,16 @@ class AssetGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:asset_groups,name',
+        ]);
+
+        AssetGroup::create([
+            'name' => $validated['name'],
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('asset-groups.index')->with('success', 'Asset group created successfully!');
     }
 
     /**
@@ -64,7 +74,6 @@ class AssetGroupController extends Controller
     {
         $assetGroup->delete();
 
-        return redirect()->route('asset-groups.index')
-            ->with('success', 'Asset group deleted successfully.');
+        return redirect()->route('asset-groups.index')->with('success', 'Asset group deleted successfully.');
     }
 }

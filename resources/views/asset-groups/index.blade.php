@@ -15,10 +15,10 @@
                     </p>
                 </div>
                 <div>
-                    <a href="{{ route('asset-groups.create') }}" class="btn btn-primary btn-sm">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createAssetGroupModal">
                         <i class="fas fa-plus me-1"></i>
                         Add Asset Group
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -80,6 +80,47 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Create Asset Group Modal -->
+    <div class="modal fade" id="createAssetGroupModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <form method="POST" action="{{ route('asset-groups.store') }}">
+                @csrf
+
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Create Asset Group</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label class="form-label">Group Name</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                placeholder="Enter asset group name" value="{{ old('name') }}" required>
+
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save Group
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
