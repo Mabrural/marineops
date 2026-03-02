@@ -80,7 +80,14 @@ class AssetController extends Controller
             'created_by' => Auth::user()->id,
         ]);
 
-        return redirect()->back()->with('success', 'Asset created successfully');
+        return redirect()
+            ->route('assets-management.index', [
+                'search' => $request->current_search,
+                'vessel_id' => $request->current_vessel_id,
+                'asset_group_id' => $request->current_asset_group_id,
+                'page' => $request->current_page,
+            ])
+            ->with('success', 'Asset created successfully.');
     }
 
     /**
@@ -122,7 +129,14 @@ class AssetController extends Controller
             'remarks' => $request->remarks,
         ]);
 
-        return redirect()->back()->with('success', 'Asset updated successfully');
+        return redirect()
+            ->route('assets-management.index', [
+                'search' => $request->current_search,
+                'vessel_id' => $request->current_vessel_id,
+                'asset_group_id' => $request->current_asset_group_id,
+                'page' => $request->current_page,
+            ])
+            ->with('success', 'Asset updated successfully.');
     }
 
     /**

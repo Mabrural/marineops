@@ -20,86 +20,9 @@
                 </div>
             </div>
 
-            <!-- ================= CREATE ASSET MODAL ================= -->
-            <div class="modal fade" id="createAssetModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <form method="POST" action="{{ route('assets-management.store') }}">
-                        @csrf
 
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Add New Asset</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
 
-                            <div class="modal-body">
 
-                                {{-- Vessel --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Vessel</label>
-                                    <select name="vessel_id" class="form-select" required>
-                                        <option value="">Select Vessel</option>
-                                        @foreach ($vessels as $vessel)
-                                            <option value="{{ $vessel->id }}">
-                                                {{ $vessel->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                {{-- Asset Group --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Asset Group</label>
-                                    <select name="asset_group_id" class="form-select" required>
-                                        <option value="">Select Group</option>
-                                        @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}">
-                                                {{ $group->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                {{-- Asset Name --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Asset Name</label>
-                                    <input type="text" name="name" class="form-control" maxlength="255" required>
-                                </div>
-
-                                {{-- Model --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Model / Merk</label>
-                                    <input type="text" name="model" class="form-control" maxlength="255">
-                                </div>
-
-                                {{-- Quantity --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Quantity</label>
-                                    <input type="number" name="qty" class="form-control" min="0" value="1"
-                                        required>
-                                </div>
-
-                                {{-- Remarks --}}
-                                <div class="mb-3">
-                                    <label class="form-label">Remarks</label>
-                                    <textarea name="remarks" class="form-control" rows="2"></textarea>
-                                </div>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
-                                    Cancel
-                                </button>
-
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Save Asset
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
             <!-- Filter Card -->
             <div class="card mt-3">
@@ -264,12 +187,108 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            <!-- ================= CREATE ASSET MODAL ================= -->
+                            <div class="modal fade" id="createAssetModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <form method="POST" action="{{ route('assets-management.store') }}">
+                                        @csrf
+
+                                        <input type="hidden" name="current_search" value="{{ request('search') }}">
+                                        <input type="hidden" name="current_vessel_id" value="{{ request('vessel_id') }}">
+                                        <input type="hidden" name="current_asset_group_id"
+                                            value="{{ request('asset_group_id') }}">
+                                        <input type="hidden" name="current_page" value="{{ request('page') }}">
+
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add New Asset</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+
+                                                {{-- Vessel --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Vessel</label>
+                                                    <select name="vessel_id" class="form-select" required>
+                                                        <option value="">Select Vessel</option>
+                                                        @foreach ($vessels as $vessel)
+                                                            <option value="{{ $vessel->id }}">
+                                                                {{ $vessel->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                {{-- Asset Group --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Asset Group</label>
+                                                    <select name="asset_group_id" class="form-select" required>
+                                                        <option value="">Select Group</option>
+                                                        @foreach ($groups as $group)
+                                                            <option value="{{ $group->id }}">
+                                                                {{ $group->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                {{-- Asset Name --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Asset Name</label>
+                                                    <input type="text" name="name" class="form-control"
+                                                        maxlength="255" required>
+                                                </div>
+
+                                                {{-- Model --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Model / Merk</label>
+                                                    <input type="text" name="model" class="form-control"
+                                                        maxlength="255">
+                                                </div>
+
+                                                {{-- Quantity --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Quantity</label>
+                                                    <input type="number" name="qty" class="form-control"
+                                                        min="0" value="1" required>
+                                                </div>
+
+                                                {{-- Remarks --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label">Remarks</label>
+                                                    <textarea name="remarks" class="form-control" rows="2"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light btn-sm"
+                                                    data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    Save Asset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <!-- ================= GLOBAL EDIT MODAL ================= -->
                             <div class="modal fade" id="editAssetModal" tabindex="-1">
                                 <div class="modal-dialog">
                                     <form method="POST" id="editAssetForm">
                                         @csrf
                                         @method('PUT')
+
+                                        <input type="hidden" name="current_search" value="{{ request('search') }}">
+                                        <input type="hidden" name="current_vessel_id"
+                                            value="{{ request('vessel_id') }}">
+                                        <input type="hidden" name="current_asset_group_id"
+                                            value="{{ request('asset_group_id') }}">
+                                        <input type="hidden" name="current_page" value="{{ request('page') }}">
 
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -352,28 +371,38 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function loadAssets(url = "{{ route('assets-management.index') }}") {
+        function loadAssets(pageUrl = null) {
+
+            let search = $('#searchInput').val();
+            let vessel = $('#vesselFilter').val();
+            let group = $('#groupFilter').val();
+
+            let baseUrl = "{{ route('assets-management.index') }}";
+
+            let params = new URLSearchParams();
+
+            if (search) params.append('search', search);
+            if (vessel) params.append('vessel_id', vessel);
+            if (group) params.append('asset_group_id', group);
+
+            // kalau pagination diklik
+            if (pageUrl) {
+                let page = new URL(pageUrl).searchParams.get('page');
+                if (page) params.append('page', page);
+            }
+
+            let finalUrl = baseUrl + '?' + params.toString();
 
             $.ajax({
-                url: url,
+                url: finalUrl,
                 type: 'GET',
-                data: {
-                    search: $('#searchInput').val(),
-                    vessel_id: $('#vesselFilter').val(),
-                    asset_group_id: $('#groupFilter').val()
-                },
                 success: function(response) {
 
                     let newTable = $(response).find('#assetTable').html();
                     $('#assetTable').html(newTable);
 
-                    // Re-initialize Bootstrap modal
-                    var modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
-                    modalTriggerList.map(function(modalTriggerEl) {
-                        return new bootstrap.Modal(modalTriggerEl);
-                    });
-
-                    window.history.pushState("", "", url);
+                    // IMPORTANT: update browser URL dengan query lengkap
+                    window.history.pushState({}, '', finalUrl);
                 }
             });
         }
@@ -425,7 +454,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         // ==========================
         // AUTO REMEMBER LAST INPUT
         // ==========================
@@ -461,5 +490,5 @@
             });
 
         }
-    </script>
+    </script> --}}
 @endsection
