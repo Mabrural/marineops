@@ -27,7 +27,7 @@
 
                         <div class="col-md-4">
                             <label class="form-label small">Search Asset</label>
-                            <input type="text" id="searchInput" class="form-control"
+                            <input type="text" id="searchInput" class="form-control" value="{{ request('search') }}"
                                 placeholder="Type asset name, model, vessel...">
                         </div>
 
@@ -36,7 +36,10 @@
                             <select id="vesselFilter" class="form-select">
                                 <option value="">All Vessels</option>
                                 @foreach ($vessels as $vessel)
-                                    <option value="{{ $vessel->id }}">{{ $vessel->name }}</option>
+                                    <option value="{{ $vessel->id }}"
+                                        {{ request('vessel_id') == $vessel->id ? 'selected' : '' }}>
+                                        {{ $vessel->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -46,7 +49,10 @@
                             <select id="groupFilter" class="form-select">
                                 <option value="">All Groups</option>
                                 @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    <option value="{{ $group->id }}"
+                                        {{ request('asset_group_id') == $group->id ? 'selected' : '' }}>
+                                        {{ $group->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -64,18 +70,18 @@
             <div id="assetTable">
 
                 <!-- Desktop -->
-                <div class="card d-none d-lg-block mt-3">
+                <div class="card d-lg-block mt-3">
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover mb-0 align-middle">
+                            <table class="table table-sm table-hover mb-0 align-middle">
                                 <thead class="bg-light">
                                     <tr>
                                         <th width="5%">#</th>
                                         <th>Asset</th>
+                                        <th>Model/Merk</th>
                                         <th>Vessel</th>
                                         <th>Group</th>
                                         <th>Qty</th>
-                                        <th>Created By / At</th>
                                         <th width="15%">Actions</th>
                                     </tr>
                                 </thead>
@@ -88,9 +94,10 @@
 
                                             <td>
                                                 <strong>{{ $asset->name }}</strong><br>
-                                                <span class="text-muted small">
-                                                    Model: {{ $asset->model ?? '-' }}
-                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <strong>{{ $asset->model }}</strong><br>
                                             </td>
 
                                             <td>{{ $asset->vessel->name ?? '-' }}</td>
@@ -104,16 +111,8 @@
                                             <td>{{ $asset->qty }}</td>
 
                                             <td>
-                                                <div class="small">
-                                                    {{ $asset->creator->name ?? '-' }}<br>
-                                                    <span class="text-muted">
-                                                        {{ $asset->created_at->format('d M Y') }}
-                                                    </span>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <a href="{{ route('assets-management.show', $asset) }}" class="btn btn-sm btn-info">
+                                                <a href="{{ route('assets-management.show', $asset) }}"
+                                                    class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
@@ -122,8 +121,9 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
-                                                <form action="{{ route('assets-management.destroy', $asset) }}" method="POST"
-                                                    class="d-inline" onsubmit="return confirm('Delete this asset?')">
+                                                <form action="{{ route('assets-management.destroy', $asset) }}"
+                                                    method="POST" class="d-inline"
+                                                    onsubmit="return confirm('Delete this asset?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-danger">
@@ -146,50 +146,6 @@
                     </div>
                 </div>
 
-                <!-- Mobile -->
-                <div class="d-lg-none mt-3">
-                    @forelse($assets as $asset)
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h5 class="mb-1">{{ $asset->name }}</h5>
-
-                                <p class="mb-1 text-muted small">
-                                    {{ $asset->vessel->name ?? '-' }} •
-                                    {{ $asset->group->name ?? '-' }}
-                                </p>
-
-                                <p class="mb-0 text-muted small">
-                                    Qty: {{ $asset->qty }}<br>
-                                    Model: {{ $asset->model ?? '-' }}<br>
-                                    Created by {{ $asset->creator->name ?? '-' }}<br>
-                                    {{ $asset->created_at->format('d M Y') }}
-                                </p>
-
-                                <div class="mt-2 text-end">
-                                    <a href="{{ route('assets-management.show', $asset) }}" class="btn btn-sm btn-info">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('assets-management.edit', $asset) }}" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('assets-management.destroy', $asset) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Delete this asset?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="text-center text-muted py-4">
-                            No assets available
-                        </div>
-                    @endforelse
-                </div>
-
                 <div class="mt-3">
                     {{ $assets->links('pagination::bootstrap-5') }}
                 </div>
@@ -197,8 +153,10 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function loadAssets(url = "{{ route('assets-management.index') }}") {
+
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -208,21 +166,30 @@
                     asset_group_id: $('#groupFilter').val()
                 },
                 success: function(response) {
-                    const newTable = $(response).find('#assetTable').html();
+                    let newTable = $(response).find('#assetTable').html();
                     $('#assetTable').html(newTable);
+
+                    // Update URL tanpa reload (supaya pagination rapi)
+                    window.history.pushState("", "", url);
                 }
             });
         }
 
+        // 🔍 Search delay
+        let delayTimer;
         $('#searchInput').on('keyup', function() {
-            clearTimeout(this.delay);
-            this.delay = setTimeout(loadAssets, 400);
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function() {
+                loadAssets();
+            }, 400);
         });
 
+        // 🎯 Filter change
         $('#vesselFilter, #groupFilter').on('change', function() {
             loadAssets();
         });
 
+        // ♻ Reset
         $('#resetFilter').on('click', function() {
             $('#searchInput').val('');
             $('#vesselFilter').val('');
@@ -230,6 +197,7 @@
             loadAssets();
         });
 
+        // 📄 Pagination AJAX
         $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             loadAssets($(this).attr('href'));

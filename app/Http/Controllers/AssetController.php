@@ -18,7 +18,7 @@ class AssetController extends Controller
         $query = Asset::with(['vessel', 'group', 'creator'])->where('company_id', Auth::user()->company->id);
 
         // Search
-        if ($request->search) {
+        if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('model', 'like', '%' . $request->search . '%')
@@ -31,17 +31,15 @@ class AssetController extends Controller
             });
         }
 
-        // Filter Vessel
-        if ($request->vessel_id) {
+        if ($request->filled('vessel_id')) {
             $query->where('vessel_id', $request->vessel_id);
         }
 
-        // Filter Group
-        if ($request->asset_group_id) {
+        if ($request->filled('asset_group_id')) {
             $query->where('asset_group_id', $request->asset_group_id);
         }
 
-        $assets = $query->latest()->paginate(10)->withQueryString();
+        $assets = $query->latest()->paginate(10)->appends($request->query());
 
         $vessels = Vessel::where('company_id', Auth::user()->company->id)->get();
         $groups = AssetGroup::all();
