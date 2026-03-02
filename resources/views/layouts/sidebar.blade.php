@@ -114,25 +114,37 @@
                         </a>
                     </li>
 
+                    @php
+                        $inventoryActive =
+                            request()->routeIs('assets-management.*') ;
+                    @endphp
+
                     <!-- INVENTORY MANAGEMENT -->
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#inventory">
+                    <li class="nav-item {{ $inventoryActive ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#inventory"
+                            class="{{ $inventoryActive ? '' : 'collapsed' }}"
+                            aria-expanded="{{ $inventoryActive ? 'true' : 'false' }}">
+
                             <i class="fas fa-box"></i>
                             <p>Inventory</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse" id="inventory">
+
+                        <div class="collapse {{ $inventoryActive ? 'show' : '' }}" id="inventory">
                             <ul class="nav nav-collapse">
-                                <li>
+
+                                <li class="{{ request()->routeIs('assets-management.*') ? 'active' : '' }}">
                                     <a href="{{ route('assets-management.index') }}">
                                         <span class="sub-item">Asset</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
+
+                                {{-- <li class="{{ request()->routeIs('amprahan.*') ? 'active' : '' }}">
+                                    <a href="{{ route('amprahan.index') }}">
                                         <span class="sub-item">Amprahan</span>
                                     </a>
-                                </li>
+                                </li> --}}
+
                             </ul>
                         </div>
                     </li>
