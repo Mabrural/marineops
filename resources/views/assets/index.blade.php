@@ -416,14 +416,15 @@
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label class="form-label small">Cost</label>
-                                                        <input type="number" step="0.01" name="cost"
-                                                            class="form-control">
+                                                        <label class="form-label small">Cost (Rp)</label>
+                                                        <input type="number" name="cost" class="form-control"
+                                                            value="0">
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <label class="form-label small">Performed By</label>
-                                                        <input type="text" name="performed_by" class="form-control">
+                                                        <input type="text" name="performed_by" class="form-control"
+                                                            placeholder="Teknisi/Vendor/Pak Welly/Dll.">
                                                     </div>
 
                                                     <div class="col-md-6">
@@ -434,12 +435,13 @@
 
                                                     <div class="col-12">
                                                         <label class="form-label small">Description</label>
-                                                        <textarea name="description" class="form-control" rows="2"></textarea>
+                                                        <textarea name="description" class="form-control" rows="2" placeholder="Kalibrasi/Pengecekan/Tune Up/dll."></textarea>
                                                     </div>
 
                                                     <div class="col-12">
                                                         <label class="form-label small">Result Status</label>
-                                                        <input type="text" name="result_status" class="form-control">
+                                                        <input type="text" name="result_status" class="form-control"
+                                                            placeholder="Baik/Perlu Follow Up/Dll.">
                                                     </div>
 
                                                     <div class="col-12 text-end">
@@ -460,7 +462,7 @@
                                                         <tr>
                                                             <th>Date</th>
                                                             <th>Type</th>
-                                                            <th>Cost</th>
+                                                            <th>Cost (Rp)</th>
                                                             <th>By</th>
                                                             <th>Result</th>
                                                             <th>Next</th>
@@ -694,17 +696,29 @@
         //
         // DELETE
         //
-        $(document).on('click', '.deleteLog', function() {
+        $(document).on('click', '.deleteLog', function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
 
             if (!confirm('Delete this maintenance record?')) return;
 
             let id = $(this).data('id');
+            let token = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
                 url: '/asset-maintenance-logs/' + id + '/ajax-delete',
-                type: 'DELETE',
-                success: function() {
+                type: 'POST',
+                data: {
+                    _token: token,
+                    _method: 'DELETE'
+                },
+                success: function(response) {
                     loadMaintenance(currentAssetId);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('Delete failed');
                 }
             });
         });
