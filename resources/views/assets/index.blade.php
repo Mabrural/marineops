@@ -155,6 +155,11 @@
                                             <td class="text-end">
                                                 <div class="btn-group btn-group-sm">
 
+                                                    <button class="btn btn-outline-warning btn-sm maintenanceBtn"
+                                                        data-id="{{ $asset->id }}" data-name="{{ $asset->name }}"
+                                                        data-bs-toggle="modal" data-bs-target="#maintenanceModal">
+                                                        <i class="fas fa-cogs"></i>
+                                                    </button>
                                                     <button class="btn btn-outline-primary btn-sm editBtn"
                                                         data-id="{{ $asset->id }}"
                                                         data-vessel="{{ $asset->vessel_id }}"
@@ -374,6 +379,107 @@
                                     </form>
                                 </div>
                             </div>
+                            <!-- ================= MAINTENANCE MODAL ================= -->
+                            <div class="modal fade" id="maintenanceModal" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Maintenance Log - <span id="maintenanceAssetName"></span>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <!-- FORM -->
+                                            <form id="maintenanceForm">
+                                                @csrf
+                                                <input type="hidden" name="asset_id" id="maintenanceAssetId">
+
+                                                <div class="row g-2">
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label small">Date</label>
+                                                        <input type="date" name="maintenance_date"
+                                                            class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label small">Type</label>
+                                                        <select name="type" class="form-select" required>
+                                                            <option value="routine">Routine</option>
+                                                            <option value="repair">Repair</option>
+                                                            <option value="inspection">Inspection</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label small">Cost</label>
+                                                        <input type="number" step="0.01" name="cost"
+                                                            class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label small">Performed By</label>
+                                                        <input type="text" name="performed_by" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label small">Next Maintenance</label>
+                                                        <input type="date" name="estimate_next_maintenance"
+                                                            class="form-control">
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label class="form-label small">Description</label>
+                                                        <textarea name="description" class="form-control" rows="2"></textarea>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label class="form-label small">Result Status</label>
+                                                        <input type="text" name="result_status" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-12 text-end">
+                                                        <button type="submit" class="btn btn-primary btn-sm mt-2">
+                                                            Save Maintenance
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+
+                                            <hr>
+
+                                            <!-- HISTORY TABLE -->
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Type</th>
+                                                            <th>Cost</th>
+                                                            <th>By</th>
+                                                            <th>Result</th>
+                                                            <th>Next</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="maintenanceTableBody">
+                                                        <tr>
+                                                            <td colspan="6" class="text-center text-muted">
+                                                                Loading...
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -488,6 +594,161 @@
             let finalUrl = baseUrl + '?' + params.toString();
 
             window.open(finalUrl, '_blank');
+        });
+    </script>
+
+
+
+    <script>
+        let currentAssetId = null;
+
+        // OPEN MODAL
+        $(document).on('click', '.maintenanceBtn', function() {
+
+            currentAssetId = $(this).data('id');
+
+            $('#maintenanceAssetId').val(currentAssetId);
+            $('#maintenanceAssetName').text($(this).data('name'));
+
+            loadMaintenance(currentAssetId);
+        });
+
+        // LOAD DATA
+        function loadMaintenance(assetId) {
+
+            $.get('/assets/' + assetId + '/maintenance', function(data) {
+
+                let html = '';
+
+                if (data.length === 0) {
+                    html = `<tr>
+                        <td colspan="7" class="text-center text-muted">
+                            No maintenance record
+                        </td>
+                    </tr>`;
+                } else {
+
+                    data.forEach(log => {
+
+                        html += `
+                <tr>
+                    <td>${log.maintenance_date ?? '-'}</td>
+                    <td>${log.type}</td>
+                    <td>${log.cost}</td>
+                    <td>${log.performed_by ?? '-'}</td>
+                    <td>${log.result_status ?? '-'}</td>
+                    <td>${log.estimate_next_maintenance ?? '-'}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-warning editLog"
+                            data-id="${log.id}"
+                            data-date="${log.maintenance_date ?? ''}"
+                            data-type="${log.type}"
+                            data-cost="${log.cost}"
+                            data-performed="${log.performed_by ?? ''}"
+                            data-result="${log.result_status ?? ''}"
+                            data-next="${log.estimate_next_maintenance ?? ''}"
+                            data-description="${log.description ?? ''}">
+                            edit
+                        </button>
+                        <button class="btn btn-sm btn-danger deleteLog"
+                            data-id="${log.id}">
+                            delete
+                        </button>
+                    </td>
+                </tr>`;
+                    });
+                }
+
+                $('#maintenanceTableBody').html(html);
+            });
+        }
+
+        //
+        // SAVE
+        //
+        let isSubmitting = false;
+
+        $(document).on('submit', '#maintenanceForm', function(e) {
+
+            if (isSubmitting) return;
+            isSubmitting = true;
+
+            e.preventDefault();
+
+            $.ajax({
+                url: '/asset-maintenance-logs/ajax-store',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function() {
+
+                    loadMaintenance(currentAssetId);
+                    $('#maintenanceForm')[0].reset();
+                    isSubmitting = false;
+                },
+                error: function() {
+                    isSubmitting = false;
+                }
+            });
+        });
+
+        //
+        // EDIT CLICK
+        //
+        $(document).on('click', '.editLog', function() {
+
+            let id = $(this).data('id');
+
+            $('#maintenanceForm').attr('data-edit', id);
+
+            $('input[name="maintenance_date"]').val($(this).data('date'));
+            $('select[name="type"]').val($(this).data('type'));
+            $('input[name="cost"]').val($(this).data('cost'));
+            $('input[name="performed_by"]').val($(this).data('performed'));
+            $('input[name="result_status"]').val($(this).data('result'));
+            $('input[name="estimate_next_maintenance"]').val($(this).data('next'));
+            $('textarea[name="description"]').val($(this).data('description'));
+        });
+
+        //
+        // DELETE
+        //
+        $(document).on('click', '.deleteLog', function() {
+
+            if (!confirm('Delete this maintenance record?')) return;
+
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: '/asset-maintenance-logs/' + id + '/ajax-delete',
+                type: 'DELETE',
+                success: function() {
+                    loadMaintenance(currentAssetId);
+                }
+            });
+        });
+
+        //
+        // UPDATE MODE
+        //
+        $(document).on('submit', '#maintenanceForm', function(e) {
+
+            let editId = $(this).attr('data-edit');
+
+            if (editId) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '/asset-maintenance-logs/' + editId + '/ajax-update',
+                    type: 'PUT',
+                    data: $(this).serialize(),
+                    success: function() {
+
+                        $('#maintenanceForm').removeAttr('data-edit');
+                        $('#maintenanceForm')[0].reset();
+                        loadMaintenance(currentAssetId);
+                    }
+                });
+            }
         });
     </script>
 

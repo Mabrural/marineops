@@ -19,6 +19,7 @@ use App\Http\Controllers\ProjectVoyageController;
 use App\Http\Controllers\ProjectTimesheetController;
 use App\Http\Controllers\AssetGroupController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetMaintenanceLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -96,7 +97,13 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
     Route::resource('assets-management', AssetController::class);
-    Route::get('amprahan', function(){
+
+    Route::get('assets/{asset}/maintenance', [AssetMaintenanceLogController::class, 'getByAsset']);
+    Route::post('asset-maintenance-logs/ajax-store', [AssetMaintenanceLogController::class, 'ajaxStore']);
+    Route::put('asset-maintenance-logs/{log}/ajax-update', [AssetMaintenanceLogController::class, 'ajaxUpdate']);
+    Route::delete('asset-maintenance-logs/{log}/ajax-delete', [AssetMaintenanceLogController::class, 'ajaxDelete']);
+
+    Route::get('amprahan', function () {
         return view('amprahan.index');
     })->name('amprahan.index');
     Route::get('/assets-management-export', [AssetController::class, 'export'])->name('assets-management.export');
