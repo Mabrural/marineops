@@ -116,7 +116,7 @@
 
                     @php
                         $inventoryActive =
-                            request()->routeIs('assets-management.*') ;
+                            request()->routeIs('assets-management.*') || request()->routeIs('amprahan.*') ;
                     @endphp
 
                     <!-- INVENTORY MANAGEMENT -->
@@ -139,11 +139,11 @@
                                     </a>
                                 </li>
 
-                                {{-- <li class="{{ request()->routeIs('amprahan.*') ? 'active' : '' }}">
+                                <li class="{{ request()->routeIs('amprahan.*') ? 'active' : '' }}">
                                     <a href="{{ route('amprahan.index') }}">
                                         <span class="sub-item">Amprahan</span>
                                     </a>
-                                </li> --}}
+                                </li>
 
                             </ul>
                         </div>

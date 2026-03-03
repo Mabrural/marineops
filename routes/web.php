@@ -96,6 +96,9 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
 
     Route::resource('vessel-certificates', VesselCertificateController::class);
     Route::resource('assets-management', AssetController::class);
+    Route::get('amprahan', function(){
+        return view('amprahan.index');
+    })->name('amprahan.index');
     Route::get('/assets-management-export', [AssetController::class, 'export'])->name('assets-management.export');
 });
 
