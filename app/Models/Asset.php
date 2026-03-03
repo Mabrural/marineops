@@ -9,16 +9,7 @@ class Asset extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'company_id',
-        'vessel_id',
-        'asset_group_id',
-        'name',
-        'model',
-        'qty',
-        'remarks',
-        'created_by',
-    ];
+    protected $fillable = ['company_id', 'vessel_id', 'asset_group_id', 'name', 'model', 'qty', 'remarks', 'created_by'];
 
     /*
     |--------------------------------------------------------------------------
@@ -44,5 +35,10 @@ class Asset extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function maintenanceLogs()
+    {
+        return $this->hasMany(AssetMaintenanceLog::class);
     }
 }
