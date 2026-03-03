@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 02, 2026 at 08:17 AM
+-- Generation Time: Mar 03, 2026 at 05:36 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -132,6 +132,28 @@ INSERT INTO `asset_groups` (`id`, `name`, `created_by`, `created_at`, `updated_a
 (10, 'Engine Room', 1, '2026-03-02 04:49:30', '2026-03-02 04:49:30'),
 (11, 'Galley', 1, '2026-03-02 04:49:43', '2026-03-02 04:50:54'),
 (12, 'Windlass and Mooring', 1, '2026-03-02 04:50:18', '2026-03-02 04:50:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `asset_maintenance_logs`
+--
+
+CREATE TABLE `asset_maintenance_logs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `asset_id` bigint UNSIGNED NOT NULL,
+  `maintenance_date` date DEFAULT NULL,
+  `type` enum('routine','repair','inspection') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `performed_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cost` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `result_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estimate_next_maintenance` date DEFAULT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -374,7 +396,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2026_02_26_133113_create_project_voyages_table', 17),
 (24, '2026_02_26_144531_create_project_timesheets_table', 18),
 (25, '2026_03_02_104753_create_asset_groups_table', 19),
-(27, '2026_03_02_115249_create_assets_table', 20);
+(27, '2026_03_02_115249_create_assets_table', 20),
+(28, '2026_03_03_103200_create_asset_maintenance_logs_table', 21);
 
 -- --------------------------------------------------------
 
@@ -712,7 +735,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Eb2BXwYDpf2WhVqHOHDqogyxqFa5MNAiOPJBUbPm', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOWRQNVlrTHZ0OVlBNThMamxmc3hQak1nOXVRTFVHSGZ5S1RHTzBwaiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hc3NldHMtbWFuYWdlbWVudCI7czo1OiJyb3V0ZSI7czoyMzoiYXNzZXRzLW1hbmFnZW1lbnQuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1772439378);
+('BWVVfZtrbxCAVXYpmquNmrT8rLVYkaR0Zh0zRCAB', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoic2hUa2k4SzQxVTlodWVBYjZwVE5VR1puUlFqa2Vla3ZObmoyUURUOCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjI4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXNzZXRzLW1hbmFnZW1lbnQ/X3Rva2VuPXNoVGtpOEs0MVU5aHVlQWI2cFROVUdablJRamtlZWt2Tm5qMlFEVDgmYXNzZXRfaWQ9JmNvc3Q9MTIwMCZkZXNjcmlwdGlvbj0mZXN0aW1hdGVfbmV4dF9tYWludGVuYW5jZT0mbWFpbnRlbmFuY2VfZGF0ZT0yMDI2LTAzLTAzJnBlcmZvcm1lZF9ieT1QYWslMjBXZWxseSZyZXN1bHRfc3RhdHVzPSZ0eXBlPXJvdXRpbmUiO3M6NToicm91dGUiO3M6MjM6ImFzc2V0cy1tYW5hZ2VtZW50LmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjE2OiJhY3RpdmVfcGVyaW9kX2lkIjtpOjEzO30=', 1772516100);
 
 -- --------------------------------------------------------
 
@@ -835,6 +858,15 @@ ALTER TABLE `assets`
 ALTER TABLE `asset_groups`
   ADD PRIMARY KEY (`id`),
   ADD KEY `asset_groups_created_by_foreign` (`created_by`);
+
+--
+-- Indexes for table `asset_maintenance_logs`
+--
+ALTER TABLE `asset_maintenance_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `asset_maintenance_logs_company_id_foreign` (`company_id`),
+  ADD KEY `asset_maintenance_logs_asset_id_foreign` (`asset_id`),
+  ADD KEY `asset_maintenance_logs_created_by_foreign` (`created_by`);
 
 --
 -- Indexes for table `cache`
@@ -1058,6 +1090,12 @@ ALTER TABLE `asset_groups`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `asset_maintenance_logs`
+--
+ALTER TABLE `asset_maintenance_logs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
 -- AUTO_INCREMENT for table `cargos`
 --
 ALTER TABLE `cargos`
@@ -1097,7 +1135,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -1195,6 +1233,14 @@ ALTER TABLE `assets`
 --
 ALTER TABLE `asset_groups`
   ADD CONSTRAINT `asset_groups_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `asset_maintenance_logs`
+--
+ALTER TABLE `asset_maintenance_logs`
+  ADD CONSTRAINT `asset_maintenance_logs_asset_id_foreign` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `asset_maintenance_logs_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `asset_maintenance_logs_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `cargos`
