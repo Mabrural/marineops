@@ -9,10 +9,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AssetMaintenanceLogController extends Controller
 {
-
     public function getByAsset(Asset $asset)
     {
-        $logs = $asset->maintenanceLogs()->latest()->get();
+        $logs = $asset
+            ->maintenanceLogs()
+            ->latest()
+            ->get()
+            ->map(function ($log) {
+                return [
+                    'id' => $log->id,
+                    'maintenance_date' => optional($log->maintenance_date)->format('Y-m-d'),
+                    'type' => $log->type,
+                    'cost' => $log->cost,
+                    'performed_by' => $log->performed_by,
+                    'result_status' => $log->result_status,
+                    'estimate_next_maintenance' => optional($log->estimate_next_maintenance)->format('Y-m-d'),
+                    'description' => $log->description,
+                ];
+            });
 
         return response()->json($logs);
     }

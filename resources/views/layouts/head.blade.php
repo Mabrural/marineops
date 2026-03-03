@@ -33,4 +33,6 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>

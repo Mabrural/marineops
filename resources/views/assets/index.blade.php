@@ -464,6 +464,7 @@
                                                             <th>By</th>
                                                             <th>Result</th>
                                                             <th>Next</th>
+                                                            <th class="text-end">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="maintenanceTableBody">
@@ -492,6 +493,15 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // WAJIB ADA - CSRF TOKEN UNTUK SEMUA AJAX
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
     <script>
         function loadAssets(pageUrl = null) {
 
@@ -597,8 +607,6 @@
         });
     </script>
 
-
-
     <script>
         let currentAssetId = null;
 
@@ -648,11 +656,11 @@
                             data-result="${log.result_status ?? ''}"
                             data-next="${log.estimate_next_maintenance ?? ''}"
                             data-description="${log.description ?? ''}">
-                            edit
+                            <i class="fas fa-pen"></i>
                         </button>
                         <button class="btn btn-sm btn-danger deleteLog"
                             data-id="${log.id}">
-                            delete
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 </tr>`;
@@ -663,33 +671,7 @@
             });
         }
 
-        //
-        // SAVE
-        //
-        let isSubmitting = false;
 
-        $(document).on('submit', '#maintenanceForm', function(e) {
-
-            if (isSubmitting) return;
-            isSubmitting = true;
-
-            e.preventDefault();
-
-            $.ajax({
-                url: '/asset-maintenance-logs/ajax-store',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function() {
-
-                    loadMaintenance(currentAssetId);
-                    $('#maintenanceForm')[0].reset();
-                    isSubmitting = false;
-                },
-                error: function() {
-                    isSubmitting = false;
-                }
-            });
-        });
 
         //
         // EDIT CLICK
@@ -728,27 +710,44 @@
         });
 
         //
-        // UPDATE MODE
+        // SAVE & UPDATE
         //
+
+        let isSubmitting = false;
+
         $(document).on('submit', '#maintenanceForm', function(e) {
 
+            e.preventDefault();
+
+            if (isSubmitting) return;
+            isSubmitting = true;
+
             let editId = $(this).attr('data-edit');
+            let url = '/asset-maintenance-logs/ajax-store';
+            let method = 'POST';
 
             if (editId) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: '/asset-maintenance-logs/' + editId + '/ajax-update',
-                    type: 'PUT',
-                    data: $(this).serialize(),
-                    success: function() {
-
-                        $('#maintenanceForm').removeAttr('data-edit');
-                        $('#maintenanceForm')[0].reset();
-                        loadMaintenance(currentAssetId);
-                    }
-                });
+                url = '/asset-maintenance-logs/' + editId + '/ajax-update';
+                method = 'PUT';
             }
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: $(this).serialize(),
+                success: function() {
+
+                    $('#maintenanceForm').removeAttr('data-edit');
+                    $('#maintenanceForm')[0].reset();
+                    loadMaintenance(currentAssetId);
+
+                    isSubmitting = false;
+                },
+                error: function() {
+                    isSubmitting = false;
+                    alert('Error saving data');
+                }
+            });
         });
     </script>
 
