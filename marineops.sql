@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 03, 2026 at 05:36 AM
+-- Generation Time: Mar 04, 2026 at 10:07 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -20,6 +20,40 @@ SET time_zone = "+00:00";
 --
 -- Database: `marineops`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `amprahans`
+--
+
+CREATE TABLE `amprahans` (
+  `id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `vessel_id` bigint UNSIGNED NOT NULL,
+  `supply_date` date NOT NULL,
+  `item` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `specification` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qty` int NOT NULL,
+  `unit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vendor_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `unit_price` decimal(15,2) DEFAULT NULL,
+  `total_price` decimal(15,2) DEFAULT NULL,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `amprahans`
+--
+
+INSERT INTO `amprahans` (`id`, `company_id`, `vessel_id`, `supply_date`, `item`, `specification`, `qty`, `unit`, `vendor_name`, `unit_price`, `total_price`, `created_by`, `created_at`, `updated_at`) VALUES
+(8, 9, 7, '2026-01-05', 'Oli Mesin SAE 40', NULL, 20, 'liter', 'PT Marine Supply', 240000.00, 4800000.00, 6, '2026-03-04 09:47:30', '2026-03-04 09:47:30'),
+(10, 9, 7, '2026-03-04', 'Filter Solar', NULL, 1, 'liter', NULL, NULL, 0.00, 6, '2026-03-04 10:05:33', '2026-03-04 10:05:33'),
+(11, 9, 7, '2026-03-04', 'Filter Solar', NULL, 1, 'liter', NULL, NULL, 0.00, 6, '2026-03-04 10:05:42', '2026-03-04 10:05:42'),
+(12, 9, 7, '2026-03-04', 'Filter Solar', NULL, 1, 'L', NULL, NULL, 0.00, 6, '2026-03-04 10:05:58', '2026-03-04 10:05:58'),
+(13, 9, 7, '2026-03-04', 'Oli Mesin SAE 40', NULL, 1, 'pcs', NULL, NULL, 0.00, 6, '2026-03-04 10:06:12', '2026-03-04 10:06:12');
 
 -- --------------------------------------------------------
 
@@ -305,7 +339,8 @@ INSERT INTO `crews` (`id`, `company_id`, `vessel_id`, `name`, `gender`, `date_of
 (10, 11, 8, 'AA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:41', '2026-01-22 20:56:41'),
 (11, 11, 9, 'AAA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:47', '2026-01-22 21:45:08'),
 (12, 11, 8, 'AAA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 7, '2026-01-22 20:56:47', '2026-01-22 20:56:47'),
-(13, 11, 9, 'ASDA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 0, 7, '2026-01-22 20:56:53', '2026-01-22 21:11:24');
+(13, 11, 9, 'ASDA', 'Male', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 0, 7, '2026-01-22 20:56:53', '2026-01-22 21:11:24'),
+(17, 9, 7, 'POME', 'Female', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2026-03-04 02:56:58', '2026-03-04 02:56:58');
 
 -- --------------------------------------------------------
 
@@ -397,7 +432,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2026_02_26_144531_create_project_timesheets_table', 18),
 (25, '2026_03_02_104753_create_asset_groups_table', 19),
 (27, '2026_03_02_115249_create_assets_table', 20),
-(28, '2026_03_03_103200_create_asset_maintenance_logs_table', 21);
+(28, '2026_03_03_103200_create_asset_maintenance_logs_table', 21),
+(29, '2026_03_04_152137_create_amprahans_table', 22);
 
 -- --------------------------------------------------------
 
@@ -549,20 +585,20 @@ CREATE TABLE `project_document_types` (
 --
 
 INSERT INTO `project_document_types` (`id`, `name`, `type`, `created_by`, `created_at`, `updated_at`) VALUES
-(3, 'Surat Perjanjian Angkutan Laut (SPAL)', 'freight_charter', 1, '2026-02-25 04:30:13', '2026-02-25 04:30:13'),
-(4, 'PETA (Jarak Nautical Miles)', 'freight_charter', 1, '2026-02-25 04:30:36', '2026-02-25 04:30:36'),
-(5, 'Time Sheet Loading', 'freight_charter', 1, '2026-02-25 04:30:55', '2026-02-25 04:30:55'),
-(6, 'Dokumen Muatan (Loading)', 'freight_charter', 1, '2026-02-25 04:31:13', '2026-02-25 04:31:13'),
-(7, 'Surat Persetujuan Berlayar Port Loading', 'freight_charter', 1, '2026-02-25 04:31:37', '2026-02-25 04:31:37'),
-(8, 'Invoice Keagenan Port Loading', 'freight_charter', 1, '2026-02-25 04:32:05', '2026-02-25 04:32:05'),
-(9, 'Invoice Pengurusan Dokumen Kapal Port Loading', 'freight_charter', 1, '2026-02-25 04:32:27', '2026-02-25 04:32:27'),
-(10, 'Time Sheet Discharge', 'freight_charter', 1, '2026-02-25 04:32:45', '2026-02-25 04:32:45'),
-(11, 'Dokumen Muatan (Discharge)', 'freight_charter', 1, '2026-02-25 04:33:18', '2026-02-25 04:33:18'),
-(12, 'Surat Persetujuan Berlayar Port Discharge', 'freight_charter', 1, '2026-02-25 04:33:46', '2026-02-25 04:33:46'),
-(13, 'Invoice Keagenan Port Discharge', 'freight_charter', 1, '2026-02-25 04:34:15', '2026-02-25 04:34:15'),
-(14, 'Invoice Pengurusan Dokumen Kapal Port Discharge', 'freight_charter', 1, '2026-02-25 04:34:48', '2026-02-25 04:34:48'),
-(15, 'Demurrage', 'freight_charter', 1, '2026-02-25 04:35:03', '2026-02-25 06:40:52'),
-(23, 'Pelabuhan Tujuan', 'shipping_agency', 1, '2026-02-25 06:55:59', '2026-02-25 06:56:14');
+(24, 'RAB Keagenan', 'freight_charter', 1, '2026-03-04 03:00:50', '2026-03-04 03:00:50'),
+(25, 'Surat Perjanjian Angkutan Laut (SPAL)', 'freight_charter', 1, '2026-03-04 03:01:08', '2026-03-04 03:01:08'),
+(26, 'PETA (Jarak Nautical Miles)', 'freight_charter', 1, '2026-03-04 03:01:17', '2026-03-04 03:01:17'),
+(27, 'Time Sheet Loading', 'freight_charter', 1, '2026-03-04 03:11:56', '2026-03-04 03:11:56'),
+(28, 'Dokumen Muatan (Loading)', 'freight_charter', 1, '2026-03-04 03:12:12', '2026-03-04 03:12:12'),
+(29, 'Surat Persetujuan Berlayar Port Loading', 'freight_charter', 1, '2026-03-04 03:12:39', '2026-03-04 03:12:39'),
+(30, 'Invoice Keagenan Port Loading', 'freight_charter', 1, '2026-03-04 03:12:55', '2026-03-04 03:12:55'),
+(31, 'Invoice Pengurusan Dokumen Kapal Port Loading', 'freight_charter', 1, '2026-03-04 03:13:18', '2026-03-04 03:13:18'),
+(32, 'Time Sheet Discharge', 'freight_charter', 1, '2026-03-04 03:13:36', '2026-03-04 03:13:36'),
+(33, 'Dokumen Muatan (Discharge)', 'freight_charter', 1, '2026-03-04 03:13:48', '2026-03-04 03:14:04'),
+(34, 'Surat Persetujuan Berlayar Port Discharge', 'freight_charter', 1, '2026-03-04 03:14:29', '2026-03-04 03:14:29'),
+(35, 'Invoice Keagenan Port Discharge', 'freight_charter', 1, '2026-03-04 03:15:11', '2026-03-04 03:15:11'),
+(36, 'Invoice Pengurusan Dokumen Kapal Port Discharge', 'freight_charter', 1, '2026-03-04 03:16:36', '2026-03-04 03:16:36'),
+(37, 'Demurrage', 'freight_charter', 1, '2026-03-04 03:16:49', '2026-03-04 03:16:49');
 
 -- --------------------------------------------------------
 
@@ -735,7 +771,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BWVVfZtrbxCAVXYpmquNmrT8rLVYkaR0Zh0zRCAB', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoic2hUa2k4SzQxVTlodWVBYjZwVE5VR1puUlFqa2Vla3ZObmoyUURUOCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjI4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXNzZXRzLW1hbmFnZW1lbnQ/X3Rva2VuPXNoVGtpOEs0MVU5aHVlQWI2cFROVUdablJRamtlZWt2Tm5qMlFEVDgmYXNzZXRfaWQ9JmNvc3Q9MTIwMCZkZXNjcmlwdGlvbj0mZXN0aW1hdGVfbmV4dF9tYWludGVuYW5jZT0mbWFpbnRlbmFuY2VfZGF0ZT0yMDI2LTAzLTAzJnBlcmZvcm1lZF9ieT1QYWslMjBXZWxseSZyZXN1bHRfc3RhdHVzPSZ0eXBlPXJvdXRpbmUiO3M6NToicm91dGUiO3M6MjM6ImFzc2V0cy1tYW5hZ2VtZW50LmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjE2OiJhY3RpdmVfcGVyaW9kX2lkIjtpOjEzO30=', 1772516100);
+('G7oGjObvVgKYRa34JTuZqiEg7IEt6pEWMYKsKE1C', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiM0s0eng5TXdyY0lyVnpXMG9FUVZ5T0VCZkRVWHRyZ0lFWVhqQjM3ayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hbXByYWhhbnMiO3M6NToicm91dGUiO3M6MTU6ImFtcHJhaGFucy5pbmRleCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7czoxNjoiYWN0aXZlX3BlcmlvZF9pZCI7aToxMzt9', 1772618819);
 
 -- --------------------------------------------------------
 
@@ -841,6 +877,15 @@ INSERT INTO `vessel_certificates` (`id`, `company_id`, `vessel_id`, `name`, `iss
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `amprahans`
+--
+ALTER TABLE `amprahans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `amprahans_company_id_foreign` (`company_id`),
+  ADD KEY `amprahans_vessel_id_foreign` (`vessel_id`),
+  ADD KEY `amprahans_created_by_foreign` (`created_by`);
 
 --
 -- Indexes for table `assets`
@@ -1078,6 +1123,12 @@ ALTER TABLE `vessel_certificates`
 --
 
 --
+-- AUTO_INCREMENT for table `amprahans`
+--
+ALTER TABLE `amprahans`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `assets`
 --
 ALTER TABLE `assets`
@@ -1093,7 +1144,7 @@ ALTER TABLE `asset_groups`
 -- AUTO_INCREMENT for table `asset_maintenance_logs`
 --
 ALTER TABLE `asset_maintenance_logs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `cargos`
@@ -1117,7 +1168,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `crews`
 --
 ALTER TABLE `crews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1135,7 +1186,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -1165,7 +1216,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `project_document_types`
 --
 ALTER TABLE `project_document_types`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `project_document_uploads`
@@ -1207,7 +1258,7 @@ ALTER TABLE `user_companies`
 -- AUTO_INCREMENT for table `vessels`
 --
 ALTER TABLE `vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `vessel_certificates`
@@ -1218,6 +1269,14 @@ ALTER TABLE `vessel_certificates`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `amprahans`
+--
+ALTER TABLE `amprahans`
+  ADD CONSTRAINT `amprahans_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `amprahans_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `amprahans_vessel_id_foreign` FOREIGN KEY (`vessel_id`) REFERENCES `vessels` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `assets`
