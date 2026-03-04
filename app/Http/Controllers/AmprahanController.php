@@ -56,64 +56,41 @@ class AmprahanController extends Controller
         //
     }
 
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'company_id' => 'required|exists:companies,id',
-    //         'vessel_id' => 'required|exists:vessels,id',
-    //         'supply_date' => 'required|date',
-    //         'item' => 'required|string',
-    //         'qty' => 'required|integer',
-    //         'unit' => 'required|string',
-    //     ]);
-
-    //     $data = $request->all();
-    //     $data['created_by'] = Auth::id();
-
-    //     // Auto hitung total_price jika unit_price diisi
-    //     if ($request->unit_price) {
-    //         $data['total_price'] = $request->qty * $request->unit_price;
-    //     }
-
-    //     Amprahan::create($data);
-
-    //     return redirect()->route('amprahans.index')->with('success', 'Data amprahan berhasil ditambahkan.');
-    // }
     public function store(Request $request)
     {
         $request->validate([
             'vessel_id' => 'required|exists:vessels,id',
             'supply_date' => 'required|date',
             'item' => 'required|string|max:255',
-            'spesification' => 'nullable|string|max:255',
+            'specification' => 'nullable|string|max:255',
             'qty' => 'required|integer|min:1',
             'unit' => 'required|string|max:50',
             'vendor_name' => 'nullable|string|max:255',
             'unit_price' => 'nullable|numeric|min:0',
-            'total_price' => 'nullable|numeric|min:0',
         ]);
+
+        $total = 0;
+
+        if ($request->unit_price) {
+            $total = $request->qty * $request->unit_price;
+        }
 
         Amprahan::create([
             'company_id' => Auth::user()->company->id,
             'vessel_id' => $request->vessel_id,
             'supply_date' => $request->supply_date,
             'item' => $request->item,
-            'spesification' => $request->spesification,
+            'specification' => $request->specification,
             'qty' => $request->qty,
             'unit' => $request->unit,
             'vendor_name' => $request->vendor_name,
             'unit_price' => $request->unit_price,
-            'total_price' => $request->total_price ?? $request->qty * $request->unit_price,
-            'created_by' => Auth::user()->id,
+            'total_price' => $total,
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()
-            ->route('amprahans.index', [
-                'search' => $request->current_search,
-                'vessel_id' => $request->current_vessel_id,
-                'company_id' => $request->current_company_id,
-                'page' => $request->current_page,
-            ])
+            ->route('amprahans.index', $request->only(['current_search', 'current_vessel_id', 'current_page']))
             ->with('success', 'Amprahan created successfully.');
     }
 
@@ -128,23 +105,35 @@ class AmprahanController extends Controller
     public function update(Request $request, Amprahan $amprahan)
     {
         $request->validate([
-            'company_id' => 'required|exists:companies,id',
             'vessel_id' => 'required|exists:vessels,id',
             'supply_date' => 'required|date',
-            'item' => 'required|string',
-            'qty' => 'required|integer',
-            'unit' => 'required|string',
+            'item' => 'required|string|max:255',
+            'specification' => 'nullable|string|max:255',
+            'qty' => 'required|integer|min:1',
+            'unit' => 'required|string|max:50',
+            'vendor_name' => 'nullable|string|max:255',
+            'unit_price' => 'nullable|numeric|min:0',
         ]);
 
-        $data = $request->all();
+        $total = 0;
 
         if ($request->unit_price) {
-            $data['total_price'] = $request->qty * $request->unit_price;
+            $total = $request->qty * $request->unit_price;
         }
 
-        $amprahan->update($data);
+        $amprahan->update([
+            'vessel_id' => $request->vessel_id,
+            'supply_date' => $request->supply_date,
+            'item' => $request->item,
+            'specification' => $request->specification,
+            'qty' => $request->qty,
+            'unit' => $request->unit,
+            'vendor_name' => $request->vendor_name,
+            'unit_price' => $request->unit_price,
+            'total_price' => $total,
+        ]);
 
-        return redirect()->route('amprahans.index')->with('success', 'Data amprahan berhasil diupdate.');
+        return redirect()->route('amprahans.index')->with('success', 'Amprahan updated successfully.');
     }
 
     public function destroy(Amprahan $amprahan)

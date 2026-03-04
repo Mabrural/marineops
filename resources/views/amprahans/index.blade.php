@@ -136,7 +136,7 @@
                                                         data-id="{{ $row->id }}"
                                                         data-company="{{ $row->company_id }}"
                                                         data-vessel="{{ $row->vessel_id }}"
-                                                        data-date="{{ $row->supply_date }}"
+                                                        data-date="{{ $row->supply_date->format('Y-m-d') }}"
                                                         data-item="{{ $row->item }}"
                                                         data-spec="{{ $row->specification }}"
                                                         data-qty="{{ $row->qty }}" data-unit="{{ $row->unit }}"
@@ -188,7 +188,8 @@
 
 
                                                     <div class="col-md-12">
-                                                        <label class="form-label">Vessel</label>
+                                                        <label class="form-label">Vessel <span
+                                                                class="text-danger">*</span></label>
                                                         <select name="vessel_id" class="form-select" required>
                                                             <option value="">Select Vessel</option>
                                                             @foreach ($vessels as $vessel)
@@ -199,43 +200,49 @@
                                                     </div>
 
                                                     <div class="col-md-12">
-                                                        <label class="form-label">Supply Date</label>
+                                                        <label class="form-label">Supply Date <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="date" name="supply_date" class="form-control"
                                                             required>
                                                     </div>
 
                                                     <div class="col-md-12">
-                                                        <label class="form-label">Item</label>
+                                                        <label class="form-label">Item <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" name="item" class="form-control"
-                                                            required>
+                                                            placeholder="ex. Oli Mesin SAE 40" required>
                                                     </div>
 
                                                     <div class="col-md-12">
                                                         <label class="form-label">Specification</label>
-                                                        <input type="text" name="specification" class="form-control">
+                                                        <input type="text" name="specification" class="form-control"
+                                                            placeholder="Detail specification: standard, brand, size, packaging, etc.">
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <label class="form-label">Qty</label>
-                                                        <input type="number" name="qty"
+                                                        <label class="form-label">Qty <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="number" name="qty" placeholder="1"
                                                             class="form-control qty-field" required>
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <label class="form-label">Unit</label>
+                                                        <label class="form-label">Unit <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" name="unit" class="form-control"
-                                                            required>
+                                                            placeholder="liter/pcs/kg/unit/dll." required>
                                                     </div>
 
                                                     <div class="col-md-12">
                                                         <label class="form-label">Vendor</label>
-                                                        <input type="text" name="vendor_name" class="form-control">
+                                                        <input type="text" name="vendor_name" class="form-control"
+                                                            placeholder="ex. PT Marine Supply or etc.">
                                                     </div>
 
                                                     <div class="col-md-12">
                                                         <label class="form-label">Unit Price</label>
                                                         <input type="number" step="0.01" name="unit_price"
-                                                            class="form-control price-field">
+                                                            placeholder="100000" class="form-control price-field">
                                                     </div>
 
                                                     <div class="col-md-12">
@@ -268,8 +275,6 @@
                                         <input type="hidden" name="current_search" value="{{ request('search') }}">
                                         <input type="hidden" name="current_vessel_id"
                                             value="{{ request('vessel_id') }}">
-                                        <input type="hidden" name="current_company_id"
-                                            value="{{ request('company_id') }}">
                                         <input type="hidden" name="current_page" value="{{ request('page') }}">
 
                                         <div class="modal-content">
@@ -369,14 +374,12 @@
 
             let search = $('#searchInput').val();
             let vessel = $('#vesselFilter').val();
-            let company = $('#companyFilter').val();
 
             let baseUrl = "{{ route('amprahans.index') }}";
             let params = new URLSearchParams();
 
             if (search) params.append('search', search);
             if (vessel) params.append('vessel_id', vessel);
-            if (company) params.append('company_id', company);
 
             if (pageUrl) {
                 let page = new URL(pageUrl).searchParams.get('page');
@@ -420,7 +423,6 @@
             let id = $(this).data('id');
             $('#editAmprahanForm').attr('action', '/amprahans/' + id);
 
-            $('#editAmprahanForm select[name="company_id"]').val($(this).data('company'));
             $('#editAmprahanForm select[name="vessel_id"]').val($(this).data('vessel'));
             $('#editAmprahanForm input[name="supply_date"]').val($(this).data('date'));
             $('#editAmprahanForm input[name="item"]').val($(this).data('item'));
@@ -429,6 +431,10 @@
             $('#editAmprahanForm input[name="unit"]').val($(this).data('unit'));
             $('#editAmprahanForm input[name="vendor_name"]').val($(this).data('vendor'));
             $('#editAmprahanForm input[name="unit_price"]').val($(this).data('price'));
+
+            let qty = parseFloat($(this).data('qty')) || 0;
+            let price = parseFloat($(this).data('price')) || 0;
+            $('#editAmprahanForm input[name="total_price"]').val((qty * price).toFixed(2));
         });
     </script>
 
