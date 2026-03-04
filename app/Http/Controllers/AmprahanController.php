@@ -53,34 +53,68 @@ class AmprahanController extends Controller
 
     public function create()
     {
-        $companies = Company::all();
-        $vessels = Vessel::all();
-
-        return view('amprahans.create', compact('companies', 'vessels'));
+        //
     }
 
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'company_id' => 'required|exists:companies,id',
+    //         'vessel_id' => 'required|exists:vessels,id',
+    //         'supply_date' => 'required|date',
+    //         'item' => 'required|string',
+    //         'qty' => 'required|integer',
+    //         'unit' => 'required|string',
+    //     ]);
+
+    //     $data = $request->all();
+    //     $data['created_by'] = Auth::id();
+
+    //     // Auto hitung total_price jika unit_price diisi
+    //     if ($request->unit_price) {
+    //         $data['total_price'] = $request->qty * $request->unit_price;
+    //     }
+
+    //     Amprahan::create($data);
+
+    //     return redirect()->route('amprahans.index')->with('success', 'Data amprahan berhasil ditambahkan.');
+    // }
     public function store(Request $request)
     {
         $request->validate([
-            'company_id' => 'required|exists:companies,id',
             'vessel_id' => 'required|exists:vessels,id',
             'supply_date' => 'required|date',
-            'item' => 'required|string',
-            'qty' => 'required|integer',
-            'unit' => 'required|string',
+            'item' => 'required|string|max:255',
+            'spesification' => 'nullable|string|max:255',
+            'qty' => 'required|integer|min:1',
+            'unit' => 'required|string|max:50',
+            'vendor_name' => 'nullable|string|max:255',
+            'unit_price' => 'nullable|numeric|min:0',
+            'total_price' => 'nullable|numeric|min:0',
         ]);
 
-        $data = $request->all();
-        $data['created_by'] = Auth::id();
+        Amprahan::create([
+            'company_id' => Auth::user()->company->id,
+            'vessel_id' => $request->vessel_id,
+            'supply_date' => $request->supply_date,
+            'item' => $request->item,
+            'spesification' => $request->spesification,
+            'qty' => $request->qty,
+            'unit' => $request->unit,
+            'vendor_name' => $request->vendor_name,
+            'unit_price' => $request->unit_price,
+            'total_price' => $request->total_price ?? $request->qty * $request->unit_price,
+            'created_by' => Auth::user()->id,
+        ]);
 
-        // Auto hitung total_price jika unit_price diisi
-        if ($request->unit_price) {
-            $data['total_price'] = $request->qty * $request->unit_price;
-        }
-
-        Amprahan::create($data);
-
-        return redirect()->route('amprahans.index')->with('success', 'Data amprahan berhasil ditambahkan.');
+        return redirect()
+            ->route('amprahans.index', [
+                'search' => $request->current_search,
+                'vessel_id' => $request->current_vessel_id,
+                'company_id' => $request->current_company_id,
+                'page' => $request->current_page,
+            ])
+            ->with('success', 'Amprahan created successfully.');
     }
 
     public function edit(Amprahan $amprahan)

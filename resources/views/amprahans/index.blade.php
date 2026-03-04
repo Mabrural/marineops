@@ -132,7 +132,7 @@
                                             </td>
                                             <td class="text-end">
                                                 <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-primary editBtn"
+                                                    <button class="btn btn-outline-primary btn-sm editBtn"
                                                         data-id="{{ $row->id }}"
                                                         data-company="{{ $row->company_id }}"
                                                         data-vessel="{{ $row->vessel_id }}"
@@ -150,7 +150,7 @@
                                                         onsubmit="return confirm('Delete this data?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button class="btn btn-outline-danger">
+                                                        <button class="btn btn-outline-danger btn-sm">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -166,6 +166,190 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            <!-- ================= CREATE AMPRAHAN MODAL ================= -->
+                            <div class="modal fade" id="createAmprahanModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <form method="POST" action="{{ route('amprahans.store') }}">
+                                        @csrf
+
+                                        <!-- Preserve filter -->
+                                        <input type="hidden" name="current_search" value="{{ request('search') }}">
+                                        <input type="hidden" name="current_vessel_id" value="{{ request('vessel_id') }}">
+                                        <input type="hidden" name="current_page" value="{{ request('page') }}">
+
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add Amprahan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row g-2">
+
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Vessel</label>
+                                                        <select name="vessel_id" class="form-select" required>
+                                                            <option value="">Select Vessel</option>
+                                                            @foreach ($vessels as $vessel)
+                                                                <option value="{{ $vessel->id }}">{{ $vessel->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Supply Date</label>
+                                                        <input type="date" name="supply_date" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Item</label>
+                                                        <input type="text" name="item" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Specification</label>
+                                                        <input type="text" name="specification" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Qty</label>
+                                                        <input type="number" name="qty"
+                                                            class="form-control qty-field" required>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Unit</label>
+                                                        <input type="text" name="unit" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Vendor</label>
+                                                        <input type="text" name="vendor_name" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Unit Price</label>
+                                                        <input type="number" step="0.01" name="unit_price"
+                                                            class="form-control price-field">
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Total Price</label>
+                                                        <input type="number" step="0.01" name="total_price"
+                                                            class="form-control total-field" readonly>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light btn-sm"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- ================= EDIT AMPRAHAN MODAL ================= -->
+                            <div class="modal fade" id="editAmprahanModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <form method="POST" id="editAmprahanForm">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <!-- Preserve filter -->
+                                        <input type="hidden" name="current_search" value="{{ request('search') }}">
+                                        <input type="hidden" name="current_vessel_id"
+                                            value="{{ request('vessel_id') }}">
+                                        <input type="hidden" name="current_company_id"
+                                            value="{{ request('company_id') }}">
+                                        <input type="hidden" name="current_page" value="{{ request('page') }}">
+
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Amprahan</h5>
+                                                <button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row g-2">
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Vessel</label>
+                                                        <select name="vessel_id" class="form-select" required>
+                                                            @foreach ($vessels as $vessel)
+                                                                <option value="{{ $vessel->id }}">{{ $vessel->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Supply Date</label>
+                                                        <input type="date" name="supply_date" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Item</label>
+                                                        <input type="text" name="item" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Specification</label>
+                                                        <input type="text" name="specification" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Qty</label>
+                                                        <input type="number" name="qty"
+                                                            class="form-control qty-field" required>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Unit</label>
+                                                        <input type="text" name="unit" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Vendor</label>
+                                                        <input type="text" name="vendor_name" class="form-control">
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Unit Price</label>
+                                                        <input type="number" step="0.01" name="unit_price"
+                                                            class="form-control price-field">
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Total Price</label>
+                                                        <input type="number" step="0.01" name="total_price"
+                                                            class="form-control total-field" readonly>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light btn-sm"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -247,4 +431,22 @@
             $('#editAmprahanForm input[name="unit_price"]').val($(this).data('price'));
         });
     </script>
+
+    <script>
+        function calculateTotal(modal) {
+            let qty = parseFloat(modal.find('.qty-field').val()) || 0;
+            let price = parseFloat(modal.find('.price-field').val()) || 0;
+            modal.find('.total-field').val((qty * price).toFixed(2));
+        }
+
+        // CREATE modal
+        $('#createAmprahanModal').on('input', '.qty-field, .price-field', function() {
+            calculateTotal($('#createAmprahanModal'));
+        });
+
+        // EDIT modal
+        $('#editAmprahanModal').on('input', '.qty-field, .price-field', function() {
+            calculateTotal($('#editAmprahanModal'));
+        });
+    </script>pcs
 @endsection
