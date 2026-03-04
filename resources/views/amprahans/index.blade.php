@@ -403,12 +403,13 @@
             delayTimer = setTimeout(loadAmprahan, 400);
         });
 
-        $('#vesselFilter, #companyFilter').on('change', loadAmprahan);
+        $(document).on('change', '#vesselFilter', function() {
+            loadAmprahan();
+        });
 
         $('#resetFilter').on('click', function() {
             $('#searchInput').val('');
             $('#vesselFilter').val('');
-            $('#companyFilter').val('');
             loadAmprahan();
         });
 
@@ -454,5 +455,5 @@
         $('#editAmprahanModal').on('input', '.qty-field, .price-field', function() {
             calculateTotal($('#editAmprahanModal'));
         });
-    </script>pcs
+    </script>
 @endsection
