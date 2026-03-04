@@ -20,6 +20,7 @@ use App\Http\Controllers\ProjectTimesheetController;
 use App\Http\Controllers\AssetGroupController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetMaintenanceLogController;
+use App\Http\Controllers\AmprahanController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -103,9 +104,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
     Route::put('asset-maintenance-logs/{log}/ajax-update', [AssetMaintenanceLogController::class, 'ajaxUpdate']);
     Route::delete('asset-maintenance-logs/{log}/ajax-delete', [AssetMaintenanceLogController::class, 'ajaxDelete']);
 
-    Route::get('amprahan', function () {
-        return view('amprahan.index');
-    })->name('amprahan.index');
+    Route::resource('amprahans', AmprahanController::class);
     Route::get('/assets-management-export', [AssetController::class, 'export'])->name('assets-management.export');
 });
 
