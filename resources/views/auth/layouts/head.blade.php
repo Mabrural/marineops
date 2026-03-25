@@ -36,17 +36,25 @@
         body {
             height: 100%;
             margin: 0;
-            overflow: hidden;
-            background: linear-gradient(180deg,
-                    #e6f4f8 0%,
-                    /* sky + shallow sea */
-                    #cfeaf2 30%,
-                    /* light sea */
-                    #9fd3e3 60%,
-                    /* mid sea */
-                    #5fa8c5 100%
-                    /* deep sea */
-                );
+        }
+
+        body {
+            position: relative;
+            background-color: #f0f2f5;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{{ asset('assets/img/aerial-view-container-cargo-ship-sea.jpg') }}') no-repeat center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
         }
 
 

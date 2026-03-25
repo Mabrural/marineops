@@ -35,4 +35,30 @@
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            position: relative;
+            background-color: #f0f2f5;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{{ asset('assets/img/aerial-view-container-cargo-ship-sea.jpg') }}') no-repeat center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
 </head>
