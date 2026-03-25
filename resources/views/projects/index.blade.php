@@ -21,107 +21,142 @@
                     </a>
                 </div>
             </div>
+            <style>
+                /* EXTREME COMPACT MODE (TD ONLY)*/
 
-            <!-- Desktop Table -->
-            <div class="card d-none d-lg-block mt-3">
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0 align-middle">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th width="5%">#</th>
-                                    <th>Project</th>
-                                    <th>Client</th>
-                                    <th>Type</th>
-                                    <th>Contract Value</th>
-                                    <th>Status</th>
-                                    <th width="15%">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($projects as $project)
+                /* Jangan ubah header */
+                #projectTable .table thead th {
+                    padding: 0.5rem 0.75rem !important;
+                    /* normal bootstrap */
+                    line-height: 1.3 !important;
+                }
+
+                /* Paksa hanya TD yang super dempet */
+                #projectTable .table tbody td {
+                    padding: 1px 6px !important;
+                    line-height: 1 !important;
+                    vertical-align: middle !important;
+                }
+
+                /* Perkecil tinggi baris body saja */
+                #projectTable .table tbody tr {
+                    height: 20px !important;
+                }
+
+                /* Hilangkan spacing tambahan */
+                #projectTable .table tbody td .badge,
+                #projectTable .table tbody td i,
+                #projectTable .table tbody td .btn {
+                    margin: 0 !important;
+                    padding-top: 1px !important;
+                    padding-bottom: 1px !important;
+                }
+            </style>
+            <div id="projectTable">
+                <!-- Desktop Table -->
+                <div class="card d-none d-lg-block mt-3">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="bg-light">
                                     <tr>
-                                        <td>
-                                            {{ $loop->iteration + ($projects->currentPage() - 1) * $projects->perPage() }}
-                                        </td>
-
-                                        <td>
-                                            <a href="{{ route('projects.show', $project) }}"
-                                                class="fw-bold text-decoration-none">
-                                                VOY-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
-                                            </a>
-                                        </td>
-
-                                        <td>
-                                            {{ $project->client->name ?? '-' }}
-                                        </td>
-                                        <td>
-                                            {{ str_replace('_', ' ', $project->type) }}
-                                        </td>
-
-                                        <td>
-                                            Rp {{ number_format($project->contract_value, 0, ',', '.') }}
-                                        </td>
-
-                                        <td>
-                                            @php
-                                                $statusColors = [
-                                                    'draft' => 'secondary',
-                                                    'active' => 'primary',
-                                                    'finished' => 'success',
-                                                    'cancelled' => 'danger',
-                                                ];
-                                            @endphp
-                                            <span class="badge bg-{{ $statusColors[$project->status] ?? 'secondary' }}">
-                                                {{ ucfirst($project->status) }}
-                                            </span>
-                                        </td>
-
-                                        <td class="text-nowrap">
-                                            <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-primary">
-                                                Open
-                                            </a>
-
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                                    data-bs-toggle="dropdown">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('projects.edit', $project) }}">
-                                                            Edit Project
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <form action="{{ route('projects.destroy', $project) }}"
-                                                            method="POST"
-                                                            onsubmit="return confirm('Delete this project?')">
-                                                            @csrf @method('DELETE')
-                                                            <button class="dropdown-item text-danger">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-
+                                        <th width="5%">#</th>
+                                        <th>Project</th>
+                                        <th>Client</th>
+                                        <th>Type</th>
+                                        <th>Contract Value</th>
+                                        <th>Status</th>
+                                        <th width="15%">Actions</th>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center py-4 text-muted">
-                                            No projects registered yet
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @forelse ($projects as $project)
+                                        <tr>
+                                            <td>
+                                                {{ $loop->iteration + ($projects->currentPage() - 1) * $projects->perPage() }}
+                                            </td>
+
+                                            <td>
+                                                <a href="{{ route('projects.show', $project) }}"
+                                                    class="fw-bold text-decoration-none">
+                                                    VOY-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                {{ $project->client->name ?? '-' }}
+                                            </td>
+                                            <td>
+                                                {{ str_replace('_', ' ', $project->type) }}
+                                            </td>
+
+                                            <td>
+                                                Rp {{ number_format($project->contract_value, 0, ',', '.') }}
+                                            </td>
+
+                                            <td>
+                                                @php
+                                                    $statusColors = [
+                                                        'draft' => 'secondary',
+                                                        'active' => 'primary',
+                                                        'finished' => 'success',
+                                                        'cancelled' => 'danger',
+                                                    ];
+                                                @endphp
+                                                <span class="badge bg-{{ $statusColors[$project->status] ?? 'secondary' }}">
+                                                    {{ ucfirst($project->status) }}
+                                                </span>
+                                            </td>
+
+                                            <td class="text-nowrap">
+                                                <a href="{{ route('projects.show', $project) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    Open
+                                                </a>
+
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                                        data-bs-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('projects.edit', $project) }}">
+                                                                Edit Project
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <form action="{{ route('projects.destroy', $project) }}"
+                                                                method="POST"
+                                                                onsubmit="return confirm('Delete this project?')">
+                                                                @csrf @method('DELETE')
+                                                                <button class="dropdown-item text-danger">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center py-4 text-muted">
+                                                No projects registered yet
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
 
             <!-- Mobile Card List -->
             <div class="d-lg-none mt-3">

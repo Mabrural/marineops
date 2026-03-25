@@ -26,7 +26,7 @@ class ProjectController extends Controller
                 $query->where('period_id', $activePeriodId);
             })
             ->oldest()
-            ->paginate(20);
+            ->paginate(200);
 
         return view('projects.index', compact('projects'));
     }
