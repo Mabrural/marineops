@@ -50,7 +50,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('{{ asset('assets/img/aerial-view-container-cargo-ship-sea.jpg') }}') no-repeat center center;
+            background: url('{{ asset('assets/img/pexels-tomfisk-3840441.jpg') }}') no-repeat center center;
             background-size: cover;
             opacity: 0.15;
             z-index: -1;
