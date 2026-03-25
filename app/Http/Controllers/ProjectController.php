@@ -25,8 +25,8 @@ class ProjectController extends Controller
             ->when($activePeriodId, function ($query) use ($activePeriodId) {
                 $query->where('period_id', $activePeriodId);
             })
-            ->latest()
-            ->paginate(10);
+            ->oldest()
+            ->paginate(20);
 
         return view('projects.index', compact('projects'));
     }

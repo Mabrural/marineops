@@ -11,7 +11,7 @@
                         Project Detail
                     </h3>
                     <p class="text-muted mb-0">
-                        PRJ-{{ $project->period->name ?? '-' }}-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
+                        VOY-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
                     </p>
                 </div>
 

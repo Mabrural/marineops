@@ -33,6 +33,7 @@
                                     <th>Project</th>
                                     <th>Client</th>
                                     <th>Type</th>
+                                    <th>Contract Value</th>
                                     <th>Status</th>
                                     <th width="15%">Actions</th>
                                 </tr>
@@ -47,22 +48,19 @@
                                         <td>
                                             <a href="{{ route('projects.show', $project) }}"
                                                 class="fw-bold text-decoration-none">
-                                                PRJ-{{ $project->period->name ?? '-' }}-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
+                                                VOY-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
                                             </a>
-                                            <div class="small text-muted">
-                                                Contract: Rp {{ number_format($project->contract_value, 0, ',', '.') }}
-                                            </div>
                                         </td>
-
 
                                         <td>
                                             {{ $project->client->name ?? '-' }}
                                         </td>
+                                        <td>
+                                            {{ str_replace('_', ' ', $project->type) }}
+                                        </td>
 
                                         <td>
-                                            <span class="badge bg-secondary text-capitalize">
-                                                {{ str_replace('_', ' ', $project->type) }}
-                                            </span>
+                                            Rp {{ number_format($project->contract_value, 0, ',', '.') }}
                                         </td>
 
                                         <td>
@@ -80,8 +78,7 @@
                                         </td>
 
                                         <td class="text-nowrap">
-                                            <a href="{{ route('projects.show', $project) }}"
-                                                class="btn btn-sm btn-primary">
+                                            <a href="{{ route('projects.show', $project) }}" class="btn btn-sm btn-primary">
                                                 Open
                                             </a>
 
@@ -136,7 +133,7 @@
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <div>
                                     <h6 class="fw-bold mb-1">
-                                        PRJ-{{ $project->period->name ?? '-' }}-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
+                                        VOY-{{ str_pad($project->project_number, 3, '0', STR_PAD_LEFT) }}
                                     </h6>
                                     <div class="text-muted small">
                                         {{ $project->client->name ?? '-' }}
