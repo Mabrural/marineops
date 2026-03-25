@@ -156,13 +156,13 @@
                     </li>
                     <li class="nav-item {{ request()->routeIs('vessel-certificates.*') ? 'active' : '' }}">
                         <a href="{{ route('vessel-certificates.index') }}">
-                            <i class="fas fa-certificate"></i>
+                            <i class="fas fa-file-alt"></i>
                             <p>Certificate Monitoring</p>
                         </a>
                     </li>
 
                     <!-- REPORT -->
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#report">
                             <i class="fas fa-chart-bar"></i>
                             <p>Reports</p>
@@ -192,7 +192,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                 @endif
 
                 @if (Auth::user()->is_platform_admin == true)

@@ -320,13 +320,13 @@
                                         @if ($certificate->certificate_file)
                                             <a href="{{ asset('storage/' . $certificate->certificate_file) }}"
                                                 target="_blank" class="btn btn-info">
-                                                <i class="fas fa-file-pdf"></i>
+                                                <i class="fas fa-file-pdf"></i> Open
                                             </a>
                                         @endif
 
                                         <a href="{{ route('vessel-certificates.edit', $certificate) }}"
                                             class="btn btn-warning">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i> Edit
                                         </a>
 
                                         <form action="{{ route('vessel-certificates.destroy', $certificate) }}"
@@ -335,7 +335,7 @@
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger w-100">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </form>
 
