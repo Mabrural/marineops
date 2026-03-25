@@ -12,8 +12,8 @@ class PortController extends Controller
     public function index()
     {
         $ports = Port::where('company_id', Auth::user()->company->id)
-            ->latest()
-            ->paginate(10); // <- penting
+            ->oldest()
+            ->paginate(200); // <- penting
 
         return view('ports.index', compact('ports'));
     }
