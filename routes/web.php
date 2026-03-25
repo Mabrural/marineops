@@ -21,6 +21,7 @@ use App\Http\Controllers\AssetGroupController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetMaintenanceLogController;
 use App\Http\Controllers\AmprahanController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -41,11 +42,13 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     return response()->file($path);
 })->where('filename', '.*');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
+
+Route::get('/dasbboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // super admin
 Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
