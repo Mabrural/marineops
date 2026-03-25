@@ -41,7 +41,7 @@ class CrewController extends Controller
             }
         }
 
-        $crews = $query->latest()->paginate(100)->withQueryString();
+        $crews = $query->oldest()->paginate(100)->withQueryString();
 
         $vessels = Vessel::where('company_id', Auth::user()->company->id)
             ->orderBy('name')

@@ -106,8 +106,8 @@
                                     <tr>
                                         <th width="5%">#</th>
                                         <th>Name</th>
-                                        <th>Vessel</th>
                                         <th>Position</th>
+                                        <th>Vessel</th>
                                         <th>Status</th>
                                         <th width="15%">Actions</th>
                                     </tr>
@@ -122,14 +122,14 @@
                                             <td>
                                                 <strong>{{ $crew->name }}</strong><br>
                                             </td>
+                                            <td>
+                                                {{ $crew->position ?? 'N/A' }}
+                                            </td>
 
                                             <td>
                                                 {{ $crew->vessel->name ?? '-' }}
                                             </td>
 
-                                            <td>
-                                                {{ $crew->position ?? 'N/A' }}
-                                            </td>
 
                                             <td>
                                                 @if ($crew->is_active)
