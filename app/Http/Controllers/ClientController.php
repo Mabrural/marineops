@@ -12,8 +12,8 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::where('company_id', Auth::user()->company->id)
-            ->latest()
-            ->paginate(10); // <- penting
+            ->oldest()
+            ->paginate(100); // <- penting
 
         return view('clients.index', compact('clients'));
     }
