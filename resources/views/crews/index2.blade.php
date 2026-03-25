@@ -64,37 +64,6 @@
                     </div>
                 </div>
             </div>
-            <style>
-                /* EXTREME COMPACT MODE (TD ONLY)*/
-
-                /* Jangan ubah header */
-                #crewTable .table thead th {
-                    padding: 0.5rem 0.75rem !important;
-                    /* normal bootstrap */
-                    line-height: 1.3 !important;
-                }
-
-                /* Paksa hanya TD yang super dempet */
-                #crewTable .table tbody td {
-                    padding: 1px 6px !important;
-                    line-height: 1 !important;
-                    vertical-align: middle !important;
-                }
-
-                /* Perkecil tinggi baris body saja */
-                #crewTable .table tbody tr {
-                    height: 20px !important;
-                }
-
-                /* Hilangkan spacing tambahan */
-                #crewTable .table tbody td .badge,
-                #crewTable .table tbody td i,
-                #crewTable .table tbody td .btn {
-                    margin: 0 !important;
-                    padding-top: 1px !important;
-                    padding-bottom: 1px !important;
-                }
-            </style>
 
             <div id="crewTable">
                 <!-- Desktop Table -->
@@ -109,6 +78,7 @@
                                         <th>Vessel</th>
                                         <th>Position</th>
                                         <th>Status</th>
+                                        <th>Created By / At</th>
                                         <th width="15%">Actions</th>
                                     </tr>
                                 </thead>
@@ -121,6 +91,9 @@
 
                                             <td>
                                                 <strong>{{ $crew->name }}</strong><br>
+                                                <span class="text-muted small">
+                                                    {{ $crew->gender }} • {{ $crew->nationality }}
+                                                </span>
                                             </td>
 
                                             <td>
@@ -128,7 +101,7 @@
                                             </td>
 
                                             <td>
-                                                {{ $crew->position ?? 'N/A' }}
+                                                {{ $crew->position ?? '-' }}
                                             </td>
 
                                             <td>
@@ -139,6 +112,14 @@
                                                 @endif
                                             </td>
 
+                                            <td>
+                                                <div class="small">
+                                                    {{ $crew->creator->name ?? '-' }}<br>
+                                                    <span class="text-muted">
+                                                        {{ $crew->created_at->format('d M Y') }}
+                                                    </span>
+                                                </div>
+                                            </td>
 
                                             <td>
                                                 <a href="{{ route('crews.show', $crew) }}" class="btn btn-sm btn-info">
@@ -181,9 +162,14 @@
                                         <h5 class="mb-1">{{ $crew->name }}</h5>
 
                                         <p class="mb-1 text-muted small">
-                                            {{ $crew->position ?? 'N/A' }} - {{ $crew->vessel->name ?? '-' }}
+                                            {{ $crew->position ?? '-' }} • {{ $crew->vessel->name ?? '-' }}
                                         </p>
 
+                                        <p class="mb-0 text-muted small">
+                                            {{ $crew->gender }} • {{ $crew->nationality }}<br>
+                                            Created by {{ $crew->creator->name ?? '-' }}<br>
+                                            {{ $crew->created_at->format('d M Y') }}
+                                        </p>
 
                                         <div class="mt-1">
                                             @if ($crew->is_active)
@@ -195,26 +181,21 @@
                                     </div>
 
                                     <div class="text-end">
-                                        <div class="btn-group" role="group">
+                                        <a href="{{ route('crews.show', $crew) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('crews.edit', $crew) }}" class="btn btn-sm btn-warning mb-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
 
-                                            <a href="{{ route('crews.show', $crew) }}" class="btn btn-sm btn-info">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-
-                                            <a href="{{ route('crews.edit', $crew) }}" class="btn btn-sm btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-
-                                            <form action="{{ route('crews.destroy', $crew) }}" method="POST"
-                                                onsubmit="return confirm('Delete this crew?')" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-
-                                        </div>
+                                        <form action="{{ route('crews.destroy', $crew) }}" method="POST"
+                                            onsubmit="return confirm('Delete this crew?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
