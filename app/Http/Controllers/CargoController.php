@@ -12,8 +12,8 @@ class CargoController extends Controller
     public function index()
     {
         $cargos = Cargo::where('company_id', Auth::user()->company->id)
-            ->latest()
-            ->paginate(10); // <- penting
+            ->oldest()
+            ->paginate(100); // <- penting
 
         return view('cargos.index', compact('cargos'));
     }
