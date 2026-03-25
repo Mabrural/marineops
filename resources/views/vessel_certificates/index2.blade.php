@@ -136,38 +136,6 @@
                 </div>
             </div>
 
-            <style>
-                /* EXTREME COMPACT MODE (TD ONLY)*/
-
-                /* Jangan ubah header */
-                #certificateTable .table thead th {
-                    padding: 0.5rem 0.75rem !important;
-                    /* normal bootstrap */
-                    line-height: 1.3 !important;
-                }
-
-                /* Paksa hanya TD yang super dempet */
-                #certificateTable .table tbody td {
-                    padding: 1px 6px !important;
-                    line-height: 1 !important;
-                    vertical-align: middle !important;
-                }
-
-                /* Perkecil tinggi baris body saja */
-                #certificateTable .table tbody tr {
-                    height: 20px !important;
-                }
-
-                /* Hilangkan spacing tambahan */
-                #certificateTable .table tbody td .badge,
-                #certificateTable .table tbody td i,
-                #certificateTable .table tbody td .btn {
-                    margin: 0 !important;
-                    padding-top: 1px !important;
-                    padding-bottom: 1px !important;
-                }
-            </style>
-
             <div id="certificateTable">
                 <!-- Desktop Table -->
                 <div class="card d-none d-lg-block mt-3">
@@ -179,9 +147,9 @@
                                         <th width="5%">#</th>
                                         <th>Certificate</th>
                                         <th>Vessel</th>
-                                        <th>Issue Date</th>
-                                        <th>Expired Date</th>
+                                        <th>Validity</th>
                                         <th>Status</th>
+                                        <th>Created By / At</th>
                                         <th width="15%">Actions</th>
                                     </tr>
                                 </thead>
@@ -193,22 +161,21 @@
                                             </td>
 
                                             <td>
-                                                <a href="{{ asset('storage/' . $certificate->certificate_file) }}"
-                                                    target="_blank">
-                                                    <strong>{{ $certificate->name }}</strong>
-                                                </a>
+                                                <strong>{{ $certificate->name }}</strong>
                                             </td>
 
                                             <td>
                                                 {{ $certificate->vessel->name ?? '-' }}
                                             </td>
-                                            <td>
-                                                {{ $certificate->issue_date->format('d M Y') }}
-                                            </td>
-                                            <td>
-                                                {{ $certificate->expiry_date->format('d M Y') }}
-                                            </td>
 
+                                            <td>
+                                                <div class="small">
+                                                    Issue:
+                                                    {{ $certificate->issue_date->format('d M Y') }}<br>
+                                                    Expiry:
+                                                    {{ $certificate->expiry_date->format('d M Y') }}
+                                                </div>
+                                            </td>
 
                                             <td>
                                                 @if ($certificate->isExpired())
@@ -220,6 +187,14 @@
                                                 @endif
                                             </td>
 
+                                            <td>
+                                                <div class="small">
+                                                    {{ $certificate->creator->name ?? '-' }}<br>
+                                                    <span class="text-muted">
+                                                        {{ $certificate->created_at->format('d M Y') }}
+                                                    </span>
+                                                </div>
+                                            </td>
 
                                             <td>
                                                 @if ($certificate->certificate_file)
@@ -257,33 +232,22 @@
                     </div>
                 </div>
 
-                <!-- Mobile Card View -->
+                <!-- Mobile Card List -->
                 <div class="d-lg-none mt-3">
                     @forelse ($certificates as $certificate)
-                        <div class="card shadow-sm border-0 mb-3">
+                        <div class="card mb-2">
                             <div class="card-body">
-
-                                <!-- Header -->
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
-                                        <h6 class="fw-bold mb-1">
-                                            @if ($certificate->certificate_file)
-                                                <a href="{{ asset('storage/' . $certificate->certificate_file) }}"
-                                                    target="_blank">
-                                                    {{ $certificate->name }}
-                                                </a>
-                                            @else
-                                                {{ $certificate->name }}
-                                            @endif
-                                        </h6>
-
-                                        <small class="text-muted">
+                                        <h5 class="mb-1">{{ $certificate->name }}</h5>
+                                        <p class="mb-1 text-muted small">
                                             Vessel: {{ $certificate->vessel->name ?? '-' }}
-                                        </small>
-                                    </div>
+                                        </p>
+                                        <p class="mb-1 small">
+                                            Expiry:
+                                            {{ $certificate->expiry_date->format('d M Y') }}
+                                        </p>
 
-                                    <!-- Status -->
-                                    <div>
                                         @if ($certificate->isExpired())
                                             <span class="badge bg-danger">Expired</span>
                                         @elseif ($certificate->isExpiringSoon())
@@ -291,65 +255,41 @@
                                         @else
                                             <span class="badge bg-success">Valid</span>
                                         @endif
-                                    </div>
-                                </div>
 
-                                <hr class="my-2">
-
-                                <!-- Dates -->
-                                <div class="row small">
-                                    <div class="col-6">
-                                        <div class="text-muted">Issue Date</div>
-                                        <div class="fw-semibold">
-                                            {{ $certificate->issue_date->format('d M Y') }}
-                                        </div>
+                                        <p class="mb-0 text-muted small mt-2">
+                                            Created by {{ $certificate->creator->name ?? '-' }}<br>
+                                            {{ $certificate->created_at->format('d M Y') }}
+                                        </p>
                                     </div>
 
-                                    <div class="col-6">
-                                        <div class="text-muted">Expired Date</div>
-                                        <div class="fw-semibold">
-                                            {{ $certificate->expiry_date->format('d M Y') }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Actions -->
-                                <div class="mt-3">
-                                    <div class="btn-group w-100" role="group">
-
+                                    <div class="text-end">
                                         @if ($certificate->certificate_file)
                                             <a href="{{ asset('storage/' . $certificate->certificate_file) }}"
-                                                target="_blank" class="btn btn-info">
+                                                target="_blank" class="btn btn-sm btn-info mb-1">
                                                 <i class="fas fa-file-pdf"></i>
                                             </a>
                                         @endif
 
                                         <a href="{{ route('vessel-certificates.edit', $certificate) }}"
-                                            class="btn btn-warning">
+                                            class="btn btn-sm btn-warning mb-1">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
                                         <form action="{{ route('vessel-certificates.destroy', $certificate) }}"
-                                            method="POST" class="d-inline flex-fill" onsubmit="confirmDelete(event)">
+                                            method="POST" onsubmit="confirmDelete(event)">
                                             @csrf
                                             @method('DELETE')
-
-                                            <button type="submit" class="btn btn-danger w-100">
+                                            <button class="btn btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
-
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     @empty
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body text-center text-muted py-4">
-                                No vessel certificates registered yet
-                            </div>
+                        <div class="text-center text-muted py-4">
+                            No vessel certificates available
                         </div>
                     @endforelse
                 </div>

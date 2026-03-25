@@ -45,7 +45,7 @@ class VesselCertificateController extends Controller
             }
         }
 
-        $certificates = $query->latest()->paginate(10)->withQueryString();
+        $certificates = $query->oldest()->paginate(200)->withQueryString();
 
         $vessels = Vessel::where('company_id', Auth::user()->company->id)->orderBy('name')->get();
 
