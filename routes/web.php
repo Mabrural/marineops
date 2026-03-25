@@ -42,12 +42,6 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     return response()->file($path);
 })->where('filename', '.*');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
-
 Route::get('/dasbboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // super admin
