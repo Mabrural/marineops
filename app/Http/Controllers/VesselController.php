@@ -12,8 +12,8 @@ class VesselController extends Controller
     public function index()
     {
         $vessels = Vessel::where('company_id', Auth::user()->company->id)
-            ->latest()
-            ->paginate(10); // <- penting
+            ->oldest()
+            ->paginate(100); // <- penting
 
         return view('vessels.index', compact('vessels'));
     }
