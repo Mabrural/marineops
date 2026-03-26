@@ -103,6 +103,7 @@ Route::middleware(['auth', 'verified', 'non.platform.admin'])->group(function ()
 
     Route::resource('amprahans', AmprahanController::class);
     Route::get('/assets-management-export', [AssetController::class, 'export'])->name('assets-management.export');
+    Route::get('/vessel-certificates-export', [VesselCertificateController::class, 'export'])->name('vessel-certificates.export');
 });
 
 // filter global session set period

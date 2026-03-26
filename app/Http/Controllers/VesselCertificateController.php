@@ -7,20 +7,19 @@ use App\Models\VesselCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VesselCertificateController extends Controller
 {
     public function index(Request $request)
     {
-        $query = VesselCertificate::where('company_id', Auth::user()->company->id)
-            ->with(['vessel', 'creator']);
+        $query = VesselCertificate::where('company_id', Auth::user()->company->id)->with(['vessel', 'creator']);
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%'.$request->search.'%')
-                    ->orWhereHas('vessel', function ($v) use ($request) {
-                        $v->where('name', 'like', '%'.$request->search.'%');
-                    });
+                $q->where('name', 'like', '%' . $request->search . '%')->orWhereHas('vessel', function ($v) use ($request) {
+                    $v->where('name', 'like', '%' . $request->search . '%');
+                });
             });
         }
 
@@ -34,10 +33,7 @@ class VesselCertificateController extends Controller
             }
 
             if ($request->status === 'expiring') {
-                $query->whereBetween('expiry_date', [
-                    now()->startOfDay(),
-                    now()->addDays(30)->endOfDay(),
-                ]);
+                $query->whereBetween('expiry_date', [now()->startOfDay(), now()->addDays(30)->endOfDay()]);
             }
 
             if ($request->status === 'valid') {
@@ -47,7 +43,9 @@ class VesselCertificateController extends Controller
 
         $certificates = $query->oldest()->paginate(200)->withQueryString();
 
-        $vessels = Vessel::where('company_id', Auth::user()->company->id)->orderBy('name')->get();
+        $vessels = Vessel::where('company_id', Auth::user()->company->id)
+            ->orderBy('name')
+            ->get();
 
         return view('vessel_certificates.index', compact('certificates', 'vessels'));
     }
@@ -74,8 +72,7 @@ class VesselCertificateController extends Controller
         $filePath = null;
 
         if ($request->hasFile('certificate_file')) {
-            $filePath = $request->file('certificate_file')
-                ->store('vessel-certificates', 'public');
+            $filePath = $request->file('certificate_file')->store('vessel-certificates', 'public');
         }
 
         VesselCertificate::create([
@@ -88,8 +85,7 @@ class VesselCertificateController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        return redirect()->route('vessel-certificates.index')
-            ->with('success', 'Vessel certificate created successfully.');
+        return redirect()->route('vessel-certificates.index')->with('success', 'Vessel certificate created successfully.');
     }
 
     public function edit(VesselCertificate $vesselCertificate)
@@ -115,12 +111,7 @@ class VesselCertificateController extends Controller
             'certificate_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        $data = $request->only([
-            'vessel_id',
-            'name',
-            'issue_date',
-            'expiry_date',
-        ]);
+        $data = $request->only(['vessel_id', 'name', 'issue_date', 'expiry_date']);
 
         if ($request->hasFile('certificate_file')) {
             // delete old file
@@ -128,14 +119,12 @@ class VesselCertificateController extends Controller
                 Storage::disk('public')->delete($vesselCertificate->certificate_file);
             }
 
-            $data['certificate_file'] = $request->file('certificate_file')
-                ->store('vessel-certificates', 'public');
+            $data['certificate_file'] = $request->file('certificate_file')->store('vessel-certificates', 'public');
         }
 
         $vesselCertificate->update($data);
 
-        return redirect()->route('vessel-certificates.index')
-            ->with('success', 'Vessel certificate updated successfully.');
+        return redirect()->route('vessel-certificates.index')->with('success', 'Vessel certificate updated successfully.');
     }
 
     public function destroy(VesselCertificate $vesselCertificate)
@@ -148,8 +137,7 @@ class VesselCertificateController extends Controller
 
         $vesselCertificate->delete();
 
-        return redirect()->route('vessel-certificates.index')
-            ->with('success', 'Vessel certificate deleted successfully.');
+        return redirect()->route('vessel-certificates.index')->with('success', 'Vessel certificate deleted successfully.');
     }
 
     /**
@@ -160,5 +148,74 @@ class VesselCertificateController extends Controller
         if ($vesselCertificate->company_id !== Auth::user()->company->id) {
             abort(403);
         }
+    }
+
+    public function export(Request $request)
+    {
+        $query = VesselCertificate::where('company_id', Auth::user()->company->id)->with(['vessel', 'creator']);
+
+        /*
+    =========================
+    SEARCH
+    =========================
+    */
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')->orWhereHas('vessel', function ($v) use ($request) {
+                    $v->where('name', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        /*
+    =========================
+    FILTER VESSEL
+    =========================
+    */
+
+        if ($request->filled('vessel_id')) {
+            $query->where('vessel_id', $request->vessel_id);
+        }
+
+        /*
+    =========================
+    FILTER STATUS
+    =========================
+    */
+
+        if ($request->filled('status')) {
+            if ($request->status === 'expired') {
+                $query->whereDate('expiry_date', '<', now()->startOfDay());
+            }
+
+            if ($request->status === 'expiring') {
+                $query->whereBetween('expiry_date', [now()->startOfDay(), now()->addDays(30)->endOfDay()]);
+            }
+
+            if ($request->status === 'valid') {
+                $query->whereDate('expiry_date', '>', now()->addDays(30)->endOfDay());
+            }
+        }
+
+        /*
+    =========================
+    ORDER — SAMA DENGAN INDEX
+    =========================
+    */
+
+        $certificates = $query
+            ->oldest() // sama seperti index
+            ->get();
+
+        /*
+    =========================
+    PDF
+    =========================
+    */
+
+        $pdf = Pdf::loadView('pdf.vessel-certificates', compact('certificates'))->setPaper('a4', 'landscape');
+
+        return $pdf->download('vessel-certificates-list.pdf');
     }
 }

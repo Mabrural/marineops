@@ -15,16 +15,22 @@
                         Certificates registered for company vessels
                     </p>
                 </div>
-                <div>
+                <div class="btn-group" role="group">
                     <a href="{{ route('vessel-certificates.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus me-1"></i>
                         Add Certificate
+                    </a>
+
+                    <a href="{{ route('vessel-certificates.export') }}?search=" id="exportPdfBtn"
+                        class="btn btn-danger btn-sm">
+                        <i class="fas fa-file-pdf me-1"></i>
+                        Export PDF
                     </a>
                 </div>
             </div>
             <div class="row mt-3">
                 <!-- VALID -->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-1">
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
@@ -43,7 +49,7 @@
                 </div>
 
                 <!-- EXPIRING SOON -->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-1">
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
@@ -62,7 +68,7 @@
                 </div>
 
                 <!-- EXPIRED -->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-1">
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
@@ -92,7 +98,7 @@
             </style>
 
             <!-- FILTER BAR -->
-            <div class="card mt-3">
+            <div class="card mt-2">
                 <div class="card-body">
                     <div class="row g-2 align-items-end">
 
@@ -454,6 +460,26 @@
         $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             loadCertificates($(this).attr('href'));
+        });
+    </script>
+
+    <script>
+        $('#exportPdfBtn').on('click', function(e) {
+
+            e.preventDefault();
+
+            const params = new URLSearchParams({
+
+                search: $('#searchInput').val(),
+                vessel_id: $('#vesselFilter').val(),
+                status: $('#statusFilter').val()
+
+            });
+
+            window.location.href =
+                "{{ route('vessel-certificates.export') }}?" +
+                params.toString();
+
         });
     </script>
 @endsection
