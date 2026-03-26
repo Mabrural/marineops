@@ -12,8 +12,9 @@
                     <h3 class="fw-bold mb-0">Asset List</h3>
                     <p class="text-muted mb-0">Assets registered for this company</p>
                 </div>
-                <div>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createAssetModal">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#createAssetModal">
                         <i class="fas fa-plus me-1"></i>
                         Add Asset
                     </button>
@@ -24,10 +25,6 @@
                     </a>
                 </div>
             </div>
-
-
-
-
 
             <!-- Filter Card -->
             <div class="card mt-3">
@@ -214,7 +211,8 @@
                                         @csrf
 
                                         <input type="hidden" name="current_search" value="{{ request('search') }}">
-                                        <input type="hidden" name="current_vessel_id" value="{{ request('vessel_id') }}">
+                                        <input type="hidden" name="current_vessel_id"
+                                            value="{{ request('vessel_id') }}">
                                         <input type="hidden" name="current_asset_group_id"
                                             value="{{ request('asset_group_id') }}">
                                         <input type="hidden" name="current_page" value="{{ request('page') }}">
