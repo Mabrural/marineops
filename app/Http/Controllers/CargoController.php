@@ -73,10 +73,26 @@ class CargoController extends Controller
     /**
      * Simple company ownership check
      */
+    // protected function authorizeClient(Cargo $cargo)
+    // {
+    //     if ($cargo->company_id !== Auth::user()->company->id) {
+    //         abort(403);
+    //     }
+    // }
     protected function authorizeClient(Cargo $cargo)
     {
-        if ($cargo->company_id !== Auth::user()->company->id) {
-            abort(403);
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'User not authenticated.');
+        }
+
+        if (!$user->company) {
+            abort(403, 'User has no company.');
+        }
+
+        if ((int) $cargo->company_id !== (int) $user->company->id) {
+            abort(403, 'Forbidden: different company.');
         }
     }
 }
