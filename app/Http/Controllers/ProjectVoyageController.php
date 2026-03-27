@@ -71,12 +71,29 @@ class ProjectVoyageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project, ProjectVoyage $voyage)
+    // public function update(Request $request, Project $project, ProjectVoyage $voyage)
+    // {
+    //     // Security check (multi-company safety)
+    //     if ($voyage->project_id !== $project->id) {
+    //         abort(403);
+    //     }
+
+    //     $validated = $request->validate([
+    //         'spal_number' => 'required|string|max:255',
+    //         'cargo_id' => 'required|exists:cargos,id',
+    //         'loading_port_id' => 'required|exists:ports,id',
+    //         'discharge_port_id' => 'required|exists:ports,id',
+    //         'quantity' => 'required|numeric|min:0',
+    //         'unit' => 'required|string|max:50',
+    //     ]);
+
+    //     $voyage->update($validated);
+
+    //     return redirect()->route('projects.show', $project->uuid)->with('success', 'Voyage updated successfully.');
+    // }
+    public function update(Request $request, Project $project, $voyageId)
     {
-        // Security check (multi-company safety)
-        if ($voyage->project_id !== $project->id) {
-            abort(403);
-        }
+        $voyage = $project->voyages()->where('id', $voyageId)->firstOrFail();
 
         $validated = $request->validate([
             'spal_number' => 'required|string|max:255',
