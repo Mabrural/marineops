@@ -76,10 +76,26 @@ class ClientController extends Controller
     /**
      * Simple company ownership check
      */
+    // protected function authorizeClient(Client $client)
+    // {
+    //     if ($client->company_id !== Auth::user()->company->id) {
+    //         abort(403);
+    //     }
+    // }
     protected function authorizeClient(Client $client)
     {
-        if ($client->company_id !== Auth::user()->company->id) {
-            abort(403);
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'User not authenticated.');
+        }
+
+        if (!$user->company) {
+            abort(403, 'User has no company.');
+        }
+
+        if ((int) $client->company_id !== (int) $user->company->id) {
+            abort(403, 'Forbidden: different company.');
         }
     }
 }
