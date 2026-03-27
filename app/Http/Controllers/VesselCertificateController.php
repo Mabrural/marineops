@@ -143,10 +143,26 @@ class VesselCertificateController extends Controller
     /**
      * Simple company ownership check
      */
+    // protected function authorizeCompany(VesselCertificate $vesselCertificate)
+    // {
+    //     if ($vesselCertificate->company_id !== Auth::user()->company->id) {
+    //         abort(403);
+    //     }
+    // }
     protected function authorizeCompany(VesselCertificate $vesselCertificate)
     {
-        if ($vesselCertificate->company_id !== Auth::user()->company->id) {
-            abort(403);
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'User not authenticated.');
+        }
+
+        if (!$user->company) {
+            abort(403, 'User has no company.');
+        }
+
+        if ((int) $vesselCertificate->company_id !== (int) $user->company->id) {
+            abort(403, 'Forbidden: different company.');
         }
     }
 
