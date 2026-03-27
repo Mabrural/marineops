@@ -80,23 +80,55 @@ class ProjectVesselController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project, ProjectVessel $projectVessel)
+    // public function destroy(Project $project, ProjectVessel $projectVessel)
+    // {
+    //     if ($projectVessel->project_id !== $project->id) {
+    //         return response()->json(
+    //             [
+    //                 'success' => false,
+    //                 'message' => 'Invalid vessel for this project.',
+    //             ],
+    //             403,
+    //         );
+    //     }
+
+    //     $projectVessel->delete();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Vessel removed successfully.',
+    //     ]);
+    // }
+    public function destroy(Project $project, $projectVesselId)
     {
-        if ($projectVessel->project_id !== $project->id) {
+        $projectVessel = ProjectVessel::where('id', $projectVesselId)->where('project_id', $project->id)->first();
+
+        if (!$projectVessel) {
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'Invalid vessel for this project.',
+                    'message' => 'Vessel not found or not related to this project.',
                 ],
-                403,
+                404,
             );
         }
 
-        $projectVessel->delete();
+        try {
+            $projectVessel->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Vessel removed successfully.',
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Vessel removed successfully.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Delete failed.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
+        }
     }
 }
