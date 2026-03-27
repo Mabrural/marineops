@@ -121,11 +121,20 @@ class ProjectTimesheetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project, ProjectTimesheet $timesheet)
+    // public function destroy(Project $project, ProjectTimesheet $timesheet)
+    // {
+    //     if ($timesheet->project_id !== $project->id) {
+    //         abort(403);
+    //     }
+
+    //     $timesheet->delete();
+
+    //     return redirect()->route('projects.show', $project->uuid)->with('success', 'Timesheet deleted successfully.');
+    // }
+    public function destroy(Project $project, $timesheetId)
     {
-        if ($timesheet->project_id !== $project->id) {
-            abort(403);
-        }
+        // Ambil timesheet yang benar-benar milik project
+        $timesheet = $project->timesheets()->where('id', $timesheetId)->firstOrFail();
 
         $timesheet->delete();
 
