@@ -73,12 +73,33 @@ class ProjectTimesheetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project, ProjectTimesheet $timesheet)
+    // public function update(Request $request, Project $project, ProjectTimesheet $timesheet)
+    // {
+    //     // Security check
+    //     if ($timesheet->project_id !== $project->id || $timesheet->company_id !== $project->company_id) {
+    //         abort(403);
+    //     }
+
+    //     $validated = $request->validate([
+    //         'datetime' => 'required|date',
+    //         'position' => 'required|string|max:50',
+    //         'status' => 'required|string|max:255',
+    //     ]);
+
+    //     // Pastikan period tetap dari session
+    //     $periodId = session('active_period_id');
+
+    //     if (!$periodId || $periodId != $timesheet->period_id) {
+    //         return back()->with('error', 'You cannot edit timesheet from different period.');
+    //     }
+
+    //     $timesheet->update($validated);
+
+    //     return redirect()->route('projects.show', $project->uuid)->with('success', 'Timesheet updated successfully.');
+    // }
+    public function update(Request $request, Project $project, $timesheetId)
     {
-        // Security check
-        if ($timesheet->project_id !== $project->id || $timesheet->company_id !== $project->company_id) {
-            abort(403);
-        }
+        $timesheet = $project->timesheets()->where('company_id', $project->company_id)->where('id', $timesheetId)->firstOrFail();
 
         $validated = $request->validate([
             'datetime' => 'required|date',
@@ -86,10 +107,9 @@ class ProjectTimesheetController extends Controller
             'status' => 'required|string|max:255',
         ]);
 
-        // Pastikan period tetap dari session
         $periodId = session('active_period_id');
 
-        if (!$periodId || $periodId != $timesheet->period_id) {
+        if (!$periodId || (int) $periodId !== (int) $timesheet->period_id) {
             return back()->with('error', 'You cannot edit timesheet from different period.');
         }
 
