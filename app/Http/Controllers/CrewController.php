@@ -11,16 +11,15 @@ class CrewController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Crew::where('company_id', Auth::user()->company->id)
-            ->with(['vessel', 'creator']);
+        $query = Crew::where('company_id', Auth::user()->company->id)->with(['vessel', 'creator']);
 
         // SEARCH (name / nationality / vessel)
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('nationality', 'like', '%'.$request->search.'%')
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('nationality', 'like', '%' . $request->search . '%')
                     ->orWhereHas('vessel', function ($v) use ($request) {
-                        $v->where('name', 'like', '%'.$request->search.'%');
+                        $v->where('name', 'like', '%' . $request->search . '%');
                     });
             });
         }
@@ -92,8 +91,7 @@ class CrewController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        return redirect()->route('crews.index')
-            ->with('success', 'Crew created successfully.');
+        return redirect()->route('crews.index')->with('success', 'Crew created successfully.');
     }
 
     public function edit(Crew $crew)
@@ -126,23 +124,9 @@ class CrewController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $crew->update($request->only([
-            'vessel_id',
-            'name',
-            'gender',
-            'date_of_birth',
-            'nationality',
-            'seafarer_code',
-            'seafarer_book_number',
-            'seafarer_book_expired_at',
-            'position',
-            'certificate',
-            'certificate_number',
-            'is_active',
-        ]));
+        $crew->update($request->only(['vessel_id', 'name', 'gender', 'date_of_birth', 'nationality', 'seafarer_code', 'seafarer_book_number', 'seafarer_book_expired_at', 'position', 'certificate', 'certificate_number', 'is_active']));
 
-        return redirect()->route('crews.index')
-            ->with('success', 'Crew updated successfully.');
+        return redirect()->route('crews.index')->with('success', 'Crew updated successfully.');
     }
 
     public function show(Crew $crew)
@@ -160,17 +144,32 @@ class CrewController extends Controller
 
         $crew->delete();
 
-        return redirect()->route('crews.index')
-            ->with('success', 'Crew deleted successfully.');
+        return redirect()->route('crews.index')->with('success', 'Crew deleted successfully.');
     }
 
     /**
      * Simple company ownership check
      */
+    // protected function authorizeClient(Crew $crew)
+    // {
+    //     if ($crew->company_id !== Auth::user()->company->id) {
+    //         abort(403);
+    //     }
+    // }
     protected function authorizeClient(Crew $crew)
     {
-        if ($crew->company_id !== Auth::user()->company->id) {
-            abort(403);
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403, 'User not authenticated.');
+        }
+
+        if (!$user->company) {
+            abort(403, 'User has no company.');
+        }
+
+        if ((int) $crew->company_id !== (int) $user->company->id) {
+            abort(403, 'Forbidden: different company.');
         }
     }
 }
