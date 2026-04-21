@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 26, 2026 at 06:31 AM
+-- Generation Time: Apr 21, 2026 at 06:47 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -206,12 +206,8 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('marineops-cache-mabruralmutaqi@gmail.com|127.0.0.1', 'i:1;', 1769398685),
-('marineops-cache-mabruralmutaqi@gmail.com|127.0.0.1:timer', 'i:1769398685;', 1769398685),
-('marineops-cache-operasional@globalmaritim.com|127.0.0.1', 'i:1;', 1772000442),
-('marineops-cache-operasional@globalmaritim.com|127.0.0.1:timer', 'i:1772000442;', 1772000442),
-('marineops-cache-ptglobalmaritimnusantara@gmail.com|127.0.0.1', 'i:5;', 1770264640),
-('marineops-cache-ptglobalmaritimnusantara@gmail.com|127.0.0.1:timer', 'i:1770264640;', 1770264640);
+('marineops-cache-admin@marineops.id|127.0.0.1', 'i:1;', 1776754041),
+('marineops-cache-admin@marineops.id|127.0.0.1:timer', 'i:1776754041;', 1776754041);
 
 -- --------------------------------------------------------
 
@@ -274,7 +270,7 @@ INSERT INTO `clients` (`id`, `company_id`, `name`, `address`, `created_by`, `cre
 (6, 9, 'PT Tamatech Waste Industry', 'Nongsa', 6, '2026-01-19 02:09:29', '2026-01-19 02:14:02'),
 (7, 9, 'PT Berkat Cahaya Indah', 'Dumai', 6, '2026-01-19 02:09:40', '2026-01-19 02:13:53'),
 (9, 9, 'PT Mito Energi Indonesia', NULL, 6, '2026-01-19 02:12:24', '2026-01-19 02:15:12'),
-(12, 9, 'PT Petrolindo Energy Mandiri', 'Jl. Central Raya No. 17, Komplek The Centro Town House, Kel. Sukajadi, Kec. Batam Kota', 6, '2026-03-25 07:26:37', '2026-03-25 07:26:37');
+(12, 9, 'PT Petrolindo Energy Mandiri', 'Jl. Central Raya No. 17, Komplek The Centro Town House, Kel. Sukajadi, Kec. Batam Kota', 6, '2026-03-25 07:26:37', '2026-03-27 04:13:13');
 
 -- --------------------------------------------------------
 
@@ -330,7 +326,7 @@ CREATE TABLE `crews` (
 --
 
 INSERT INTO `crews` (`id`, `company_id`, `vessel_id`, `name`, `gender`, `date_of_birth`, `nationality`, `seafarer_code`, `seafarer_book_number`, `seafarer_book_expired_at`, `position`, `certificate`, `certificate_number`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
-(17, 9, 7, 'KAESANG', 'Female', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2026-03-04 02:56:58', '2026-03-25 07:02:54');
+(17, 9, 7, 'KAESANG', 'Female', NULL, 'Indonesia', NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2026-03-04 02:56:58', '2026-03-27 03:58:08');
 
 -- --------------------------------------------------------
 
@@ -550,8 +546,9 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `uuid`, `company_id`, `period_id`, `client_id`, `project_number`, `type`, `start_date`, `end_date`, `contract_value`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
-(10, '15fe81e8-7a56-47ee-92e1-23f97a6df29a', 9, 13, 9, 1, 'freight_charter', '2026-02-02', '2026-02-17', 650000000.00, 'finished', 6, '2026-02-05 03:55:50', '2026-02-05 07:35:46'),
-(11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'active', 6, '2026-02-05 07:32:26', '2026-02-26 03:44:26');
+(10, '15fe81e8-7a56-47ee-92e1-23f97a6df29a', 9, 13, 9, 1, 'freight_charter', '2026-02-02', '2026-02-17', 650000000.00, 'finished', 6, '2026-02-05 03:55:50', '2026-03-27 04:48:22'),
+(11, 'e5499adb-89b2-4dd0-9ef0-2f4577a2af31', 9, 13, 6, 2, 'freight_charter', NULL, NULL, 550000000.00, 'active', 6, '2026-02-05 07:32:26', '2026-02-26 03:44:26'),
+(42, 'fd904ecd-4aec-4248-b932-5875fcfeed79', 9, 13, 12, 3, 'freight_charter', '2026-03-27', '2026-04-27', 2000000000.00, 'draft', 6, '2026-03-27 06:16:30', '2026-03-27 06:16:30');
 
 -- --------------------------------------------------------
 
@@ -679,7 +676,8 @@ INSERT INTO `project_timesheets` (`id`, `company_id`, `period_id`, `project_id`,
 (56, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:27', '2026-02-27 03:59:27'),
 (57, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 6, '2026-02-27 03:59:37', '2026-02-27 03:59:37'),
 (59, 9, 13, 11, '2026-02-27 10:59:00', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5', 6, '2026-02-27 03:59:58', '2026-02-27 04:17:59'),
-(60, 9, 13, 11, '2026-02-27 11:11:00', 'wwwww', 'wwwwwwwwwww', 6, '2026-02-27 04:11:33', '2026-03-02 02:53:04');
+(60, 9, 13, 11, '2026-02-27 11:11:00', 'wwwww', 'wwwwwwwwwww', 6, '2026-02-27 04:11:33', '2026-03-02 02:53:04'),
+(62, 9, 13, 42, '2026-03-27 13:45:00', 'Batam', 'Stanby', 6, '2026-03-27 06:45:49', '2026-03-27 06:45:49');
 
 -- --------------------------------------------------------
 
@@ -733,7 +731,8 @@ CREATE TABLE `project_voyages` (
 --
 
 INSERT INTO `project_voyages` (`id`, `company_id`, `period_id`, `project_id`, `spal_number`, `cargo_id`, `loading_port_id`, `discharge_port_id`, `quantity`, `unit`, `created_by`, `created_at`, `updated_at`) VALUES
-(7, 9, 13, 11, '002/MMM-BCI/VI/2026', 4, 7, 4, 1800226, 'L', 6, '2026-02-26 07:37:26', '2026-02-26 08:38:40');
+(7, 9, 13, 11, '002/MMM-BCI/VI/2026', 4, 7, 4, 1800226, 'L', 6, '2026-02-26 07:37:26', '2026-02-26 08:38:40'),
+(10, 9, 13, 42, '001/MMM-BCI/VI/2026', 4, 7, 2, 1500, 'MT', 6, '2026-03-27 06:34:48', '2026-03-27 06:34:48');
 
 -- --------------------------------------------------------
 
@@ -755,8 +754,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('7azyednFtmhCG8lqOrcf2CP3frpJbcMfCwsw8oel', NULL, '127.0.0.1', 'Microsoft Office Excel 2014', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiQkd1RnZKMmpYMFpRZXY3TUpaU2psNDk2SzFabjVmM0lIRmJHblFDVCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1774498589),
-('YDbv0g5R1CDLPiZyEU38BAV9EbraPk1gLWzz2Xue', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNnB0SlJnTURvRDNXd3BsTlZyRVhNaFVyTkxVUUlicnlXeVQ2NmlzSiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wb3J0cyI7czo1OiJyb3V0ZSI7czoxMToicG9ydHMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O3M6MTY6ImFjdGl2ZV9wZXJpb2RfaWQiO2k6MTM7fQ==', 1774506492);
+('HKcyPGozhV1uQ0PzdXnLYix8NGOQwA0dkGyaelK0', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQTVjVUtiV2ZpS0VoRzRSc2R4NDQyM21PdERXVGNyeEp3dEJib09HYiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6OTQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdG9yYWdlL3Zlc3NlbC1jZXJ0aWZpY2F0ZXMvaVg3SUhFaE8zeTREWGZtRHdFU3BOUkNQSGhhbjQ2NE82dHpRdkl3UC5wZGYiO3M6NToicm91dGUiO047fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czoxNjoiYWN0aXZlX3BlcmlvZF9pZCI7aToxMDt9', 1774596359),
+('zrnCSfQlevg33BKqJqJRzmmfo9MyUhKoJl8d9Jec', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMEdEY1cyZDVMNUJRZFU5aWJQN3RtUXpMbUt5eTA5NzFqODNnNnlZWiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fX0=', 1776754019);
 
 -- --------------------------------------------------------
 
@@ -782,7 +781,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `is_platform_admin`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'superadmin@marineops.id', NULL, '$2y$12$Baywm5M0PKwRUJQwH7s4zuu0T.e3Th93sVbICWmfyQ2kaDRV54yZi', NULL, 1, 1, '2026-01-13 21:11:34', '2026-01-19 01:31:59'),
+(1, 'Admin', 'admin@marineops.id', NULL, '$2y$12$Baywm5M0PKwRUJQwH7s4zuu0T.e3Th93sVbICWmfyQ2kaDRV54yZi', NULL, 1, 1, '2026-01-13 21:11:34', '2026-04-21 06:46:42'),
 (6, 'Operasion Global Maritim', 'operasion@globalmaritim.com', NULL, '$2y$12$EO/aTjNo1j51.el88TpOXuavX0mBH/mbmVe1/QKwaroo.YkTp5992', NULL, 0, 1, '2026-01-18 21:56:35', '2026-01-22 01:17:36'),
 (7, 'Operasion Mitra Maritim', 'operasion@mitramaritim.com', NULL, '$2y$12$UKsKyob8GdqACYMO0XnB1erzlDkNYAZ94fr8YCoFs/vhCWW4csTGi', NULL, 0, 1, '2026-01-19 00:29:49', '2026-01-19 01:19:44');
 
@@ -882,7 +881,10 @@ INSERT INTO `vessel_certificates` (`id`, `company_id`, `vessel_id`, `name`, `iss
 (51, 11, 8, 'KLAS BKI LOADLINE', '2024-03-15', '2028-11-23', 'vessel-certificates/e6RwZZmY5UVZlpYDuqcc5mPFpqGq9p6ysVrjzIqj.pdf', 7, '2026-03-26 04:10:54', '2026-03-26 04:10:54'),
 (52, 11, 8, 'KLAS BKI LAMBUNG', '2024-03-15', '2028-11-23', 'vessel-certificates/SdDYQdtPHtaGD212ceYfTDtE6ELAfbJkYmjvpEAb.pdf', 7, '2026-03-26 04:12:19', '2026-03-26 04:12:19'),
 (53, 11, 8, 'SAFE MANNING', '2025-04-08', '2026-04-07', 'vessel-certificates/nBetHRQKDu5YIDMp2BAoWLHxvLFuQADdkTiIrDut.pdf', 7, '2026-03-26 04:13:14', '2026-03-26 04:13:14'),
-(54, 11, 8, 'SURAT UKUR', '1998-04-05', '2050-04-05', 'vessel-certificates/gjEEaf0G3CsPcZPtwVoqFXMnK0kvV343J805Wa07.pdf', 7, '2026-03-26 04:14:09', '2026-03-26 04:14:09');
+(54, 11, 8, 'SURAT UKUR', '1998-04-05', '2050-04-05', 'vessel-certificates/gjEEaf0G3CsPcZPtwVoqFXMnK0kvV343J805Wa07.pdf', 7, '2026-03-26 04:14:09', '2026-03-26 04:14:09'),
+(55, 9, 7, 'LOADLINE CERTIFICATE', '2026-03-01', '2026-04-25', 'vessel-certificates/EdPIowBoMcKVSu5b6qpqwlDYutLfzEIZilSexT72.pdf', 6, '2026-03-26 07:02:31', '2026-03-26 07:02:31'),
+(56, 9, 7, 'SURAT LAUT', '2026-03-02', '2026-04-02', 'vessel-certificates/YS40bnNYsao2WN8rGd6zT7q1IJ5cp8cy5M3NVRQB.pdf', 6, '2026-03-26 07:03:45', '2026-03-26 07:03:45'),
+(57, 9, 7, 'ANTIFOULING', '2026-02-26', '2026-03-26', 'vessel-certificates/BXLrhEhRSu7dwXZbHVZ17sCeHZpG3jXUjRMgUctk.pdf', 6, '2026-03-26 07:04:34', '2026-03-26 07:04:34');
 
 --
 -- Indexes for dumped tables
@@ -1142,7 +1144,7 @@ ALTER TABLE `amprahans`
 -- AUTO_INCREMENT for table `assets`
 --
 ALTER TABLE `assets`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `asset_groups`
@@ -1154,19 +1156,19 @@ ALTER TABLE `asset_groups`
 -- AUTO_INCREMENT for table `asset_maintenance_logs`
 --
 ALTER TABLE `asset_maintenance_logs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `cargos`
 --
 ALTER TABLE `cargos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -1178,7 +1180,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `crews`
 --
 ALTER TABLE `crews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1202,7 +1204,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1214,13 +1216,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `ports`
 --
 ALTER TABLE `ports`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `project_document_types`
@@ -1238,19 +1240,19 @@ ALTER TABLE `project_document_uploads`
 -- AUTO_INCREMENT for table `project_timesheets`
 --
 ALTER TABLE `project_timesheets`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `project_vessels`
 --
 ALTER TABLE `project_vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `project_voyages`
 --
 ALTER TABLE `project_voyages`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1268,13 +1270,13 @@ ALTER TABLE `user_companies`
 -- AUTO_INCREMENT for table `vessels`
 --
 ALTER TABLE `vessels`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `vessel_certificates`
 --
 ALTER TABLE `vessel_certificates`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- Constraints for dumped tables
