@@ -169,104 +169,37 @@
         document.addEventListener('DOMContentLoaded', function() {
             const calendarEl = document.getElementById('calendar');
 
-            // Gunakan company_id user yang login sebagai key localStorage
-            const companyId = "{{ Auth::user()->company->id ?? 'default' }}";
-            const storageKey = `calendar_events_company_${companyId}`;
-
-            /**
-             * Ambil data event dari localStorage
-             */
-            function getEvents() {
-                const events = localStorage.getItem(storageKey);
-                return events ? JSON.parse(events) : [];
-            }
-
-            /**
-             * Simpan data event ke localStorage
-             */
-            function saveEvents(events) {
-                localStorage.setItem(storageKey, JSON.stringify(events));
-            }
-
-            /**
-             * Inisialisasi FullCalendar
-             */
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 height: 'auto',
                 locale: 'en',
-                selectable: true,
-                editable: false,
-                navLinks: true,
-                dayMaxEvents: true,
-
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-
                 buttonText: {
                     today: 'Today',
                     month: 'Month',
                     week: 'Week',
                     day: 'Day'
                 },
+                selectable: true,
+                editable: false,
+                navLinks: true,
+                dayMaxEvents: true,
 
-                // Load event dari localStorage
-                events: getEvents(),
-
-                /**
-                 * Klik tanggal untuk menambah agenda
-                 */
-                dateClick: function(info) {
-                    const title = prompt(
-                        `Masukkan agenda untuk tanggal ${info.dateStr}:`,
-                        ''
-                    );
-
-                    if (title && title.trim() !== '') {
-                        const newEvent = {
-                            id: Date.now().toString(),
-                            title: title.trim(),
-                            start: info.dateStr,
-                            allDay: true
-                        };
-
-                        // Tambahkan ke kalender
-                        calendar.addEvent(newEvent);
-
-                        // Simpan ke localStorage
-                        const events = getEvents();
-                        events.push(newEvent);
-                        saveEvents(events);
-
-                        alert('Agenda berhasil disimpan.');
+                // Contoh event
+                events: [{
+                        title: 'Project Meeting',
+                        start: new Date().toISOString().split('T')[0]
+                    },
+                    {
+                        title: 'Vessel Inspection',
+                        start: new Date(new Date().setDate(new Date().getDate() + 3))
+                            .toISOString().split('T')[0]
                     }
-                },
-
-                /**
-                 * Klik event untuk lihat atau hapus
-                 */
-                eventClick: function(info) {
-                    const event = info.event;
-
-                    const action = confirm(
-                        `Agenda:\n${event.title}\n\nKlik OK untuk menghapus agenda ini.`
-                    );
-
-                    if (action) {
-                        // Hapus dari kalender
-                        event.remove();
-
-                        // Hapus dari localStorage
-                        let events = getEvents();
-                        events = events.filter(e => e.id !== event.id);
-                        saveEvents(events);
-
-                        alert('Agenda berhasil dihapus.');
-                    }
-                }
+                ]
             });
 
             calendar.render();
