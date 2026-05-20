@@ -4,7 +4,7 @@
     <div class="container">
         <div class="page-inner">
             <!-- Header -->
-            <div class="d-flex align-items-left align-items-md-center flex-column flex-row pt-2 pb-4">
+            <div class="d-flex align-items-left align-items-md-left flex-column flex-row pt-2 pb-4">
                 <div>
                     <h3 class="fw-bold mb-3">Dashboard</h3>
                     <h6 class="op-7 mb-2">Overview of your system’s performance and activity summary</h6>
