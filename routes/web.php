@@ -22,6 +22,7 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetMaintenanceLogController;
 use App\Http\Controllers\AmprahanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -43,6 +44,11 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
 })->where('filename', '.*');
 
 Route::get('/dasbboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+// Agenda routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('agendas', AgendaController::class);
+    Route::post('/agendas/date-range', [AgendaController::class, 'getByDateRange'])->name('agendas.date-range');
+});
 
 // super admin
 Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {

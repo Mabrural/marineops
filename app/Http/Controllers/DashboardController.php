@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\Asset;
 use App\Models\User;
+use App\Models\Agenda;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -24,13 +25,15 @@ class DashboardController extends Controller
             $totalProjects = 0;
             $totalAssets = 0;
             $totalUsers = 0;
+            $agendas = [];
 
             return view('dashboard.index', compact(
                 'totalVessels',
                 'totalClients',
                 'totalProjects',
                 'totalAssets',
-                'totalUsers'
+                'totalUsers',
+                'agendas'
             ));
         }
 
@@ -40,13 +43,19 @@ class DashboardController extends Controller
         $totalProjects = Project::where('company_id', Auth::user()->company->id)->count();
         $totalAssets = Asset::where('company_id', Auth::user()->company->id)->count();
         $totalUsers = User::count();
+        
+        // Get user's agendas
+        $agendas = Agenda::where('created_by', Auth::id())
+            ->orderBy('start_date', 'asc')
+            ->get();
 
         return view('dashboard.index', compact(
             'totalVessels',
             'totalClients',
             'totalProjects',
             'totalAssets',
-            'totalUsers'
+            'totalUsers',
+            'agendas'
         ));
     }
 }
