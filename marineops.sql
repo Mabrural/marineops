@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 19, 2026 at 06:12 AM
+-- Generation Time: Jun 02, 2026 at 10:24 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `marineops`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agendas`
+--
+
+CREATE TABLE `agendas` (
+  `id` bigint UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
+  `all_day` tinyint(1) NOT NULL DEFAULT '1',
+  `color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '#1572E8',
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -403,7 +422,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2026_03_02_104753_create_asset_groups_table', 19),
 (27, '2026_03_02_115249_create_assets_table', 20),
 (28, '2026_03_03_103200_create_asset_maintenance_logs_table', 21),
-(29, '2026_03_04_152137_create_amprahans_table', 22);
+(29, '2026_03_04_152137_create_amprahans_table', 22),
+(30, '2026_06_02_170811_create_agendas_table', 23);
 
 -- --------------------------------------------------------
 
@@ -666,9 +686,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('pbuGLU7PVWfR7CQem4pG5IE7HjhbMGz2WqDC6ndS', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZGM0SlhnaUg5TmhjM2VIMG44akJ2UmdmbWV0VjIwRlNPRWR1V1V5MCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fX0=', 1779171140),
-('w9tX7x3h6oYqRw79pcKQyJlG9sxvkLeFd3gbmXz6', 7, '180.242.192.34', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiODd6TnVhRGpIazZZZGV0MXFCaE9xRGppMTlOSVUwQlNUeURWZEhsUiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6OTc6Imh0dHBzOi8vYXBwLm1hcmluZW9wcy5pZC9zdG9yYWdlL3Zlc3NlbC1jZXJ0aWZpY2F0ZXMvYXhKejZ2eGFXeFFlOXJGSjZkZHFoM0txeWFjTjljZ0tCcUNrU1NObC5wZGYiO3M6NToicm91dGUiO047fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czoxNjoiYWN0aXZlX3BlcmlvZF9pZCI7aToxMDt9', 1779166062),
-('zxFbUCYCLBvcMmTKwwN8cZLXDYQFcN53nnP4fTCI', 7, '180.242.192.34', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoibGZQTlRuVnNIdno0UFdZc0dDOUVQSkZPUWVRVHE4MDFHS2lyT1lJQyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDQ6Imh0dHBzOi8vYXBwLm1hcmluZW9wcy5pZC92ZXNzZWwtY2VydGlmaWNhdGVzIjtzOjU6InJvdXRlIjtzOjI1OiJ2ZXNzZWwtY2VydGlmaWNhdGVzLmluZGV4Ijt9czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czoxNjoiYWN0aXZlX3BlcmlvZF9pZCI7aToxMDt9', 1779164808);
+('L7HKnETSrbkRCSZysBUfKHkPa1HmfdrIsx8OUDGc', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Edg/148.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoieXhXRkNvOTZmM3RMcExaSFp4eE5TY3d2cDVQWmhWVWx0WFlwSVoyZCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZ2VuZGFzIjtzOjU6InJvdXRlIjtzOjEzOiJhZ2VuZGFzLmluZGV4Ijt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NztzOjE2OiJhY3RpdmVfcGVyaW9kX2lkIjtpOjEwO30=', 1780395889);
 
 -- --------------------------------------------------------
 
@@ -799,6 +817,13 @@ INSERT INTO `vessel_certificates` (`id`, `company_id`, `vessel_id`, `name`, `iss
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `agendas`
+--
+ALTER TABLE `agendas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `agendas_created_by_foreign` (`created_by`);
 
 --
 -- Indexes for table `amprahans`
@@ -1045,6 +1070,12 @@ ALTER TABLE `vessel_certificates`
 --
 
 --
+-- AUTO_INCREMENT for table `agendas`
+--
+ALTER TABLE `agendas`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `amprahans`
 --
 ALTER TABLE `amprahans`
@@ -1108,7 +1139,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `periods`
@@ -1191,6 +1222,12 @@ ALTER TABLE `vessel_certificates`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `agendas`
+--
+ALTER TABLE `agendas`
+  ADD CONSTRAINT `agendas_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `amprahans`
