@@ -1,248 +1,40 @@
-<!-- Sidebar -->
-<div class="sidebar" data-background-color="">
-    <div class="sidebar-logo">
-        <!-- Logo Header -->
-        <div class="logo-header" data-background-color="">
-            <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ asset('assets/img/marineops/marine-ops-text-light.svg') }}" alt="navbar brand"
-                    class="navbar-brand" height="20" />
-            </a>
-            <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
-                    <i class="gg-menu-right"></i>
-                </button>
-                <button class="btn btn-toggle sidenav-toggler">
-                    <i class="gg-menu-left"></i>
-                </button>
-            </div>
-            <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
-            </button>
-        </div>
-        <!-- End Logo Header -->
+<aside class="app-sidebar" id="appSidebar">
+    <div class="sidebar-brand">
+        <a href="{{ route('dashboard') }}" class="brand-link">
+            <img src="{{ asset('assets/img/marineops/marineops-logo-light.svg') }}" alt="MarineOps">
+        </a>
+        <button class="btn btn-icon text-white d-lg-none" type="button" data-sidebar-close aria-label="Close navigation"><i class="fas fa-times"></i></button>
     </div>
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
-        <div class="sidebar-content">
-            <ul class="nav nav-secondary">
-                @if (!Auth::user()->is_platform_admin)
-                    <div class="sidebar-company text-center py-2 mb-2">
-                        <p class="mb-0 text-muted" style="font-size: 11px;">Company Name:</p>
-                        <h6 class="mb-0 text-dark fw-semibold">
-                            {{ Auth::user()->company?->name ?? 'Not Assign' }}
-                        </h6>
-                    </div>
-                @endif
 
+    <nav class="sidebar-nav" aria-label="Primary navigation">
+        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
 
-                <!-- Dashboard -->
-                <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard') }}">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+        @if (! Auth::user()->is_platform_admin)
+            <p class="nav-label">Master data</p>
+            <a class="nav-link {{ request()->routeIs('clients.*') ? 'active' : '' }}" href="{{ route('clients.index') }}"><i class="fas fa-user-tie"></i><span>Clients</span></a>
+            <a class="nav-link {{ request()->routeIs('ports.*') ? 'active' : '' }}" href="{{ route('ports.index') }}"><i class="fas fa-anchor"></i><span>Ports</span></a>
+            <a class="nav-link {{ request()->routeIs('vessels.*') ? 'active' : '' }}" href="{{ route('vessels.index') }}"><i class="fas fa-ship"></i><span>Vessel Registry</span></a>
+            <a class="nav-link {{ request()->routeIs('cargos.*') ? 'active' : '' }}" href="{{ route('cargos.index') }}"><i class="fas fa-box"></i><span>Cargo</span></a>
+            <a class="nav-link {{ request()->routeIs('periods.*') ? 'active' : '' }}" href="{{ route('periods.index') }}"><i class="far fa-calendar"></i><span>Periods</span></a>
 
-                @if (!Auth::user()->is_platform_admin)
-                    <!-- MASTER DATA -->
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                        <h4 class="text-section">Master Data</h4>
-                    </li>
+            <p class="nav-label">Operations</p>
+            <a class="nav-link {{ request()->routeIs('projects.*') ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram"></i><span>Projects</span></a>
+            <a class="nav-link {{ request()->routeIs('crews.*') ? 'active' : '' }}" href="{{ route('crews.index') }}"><i class="fas fa-users"></i><span>Crew</span></a>
+            <a class="nav-link {{ request()->routeIs('assets-management.*') ? 'active' : '' }}" href="{{ route('assets-management.index') }}"><i class="fas fa-cubes"></i><span>Assets</span></a>
+            <a class="nav-link {{ request()->routeIs('amprahans.*') ? 'active' : '' }}" href="{{ route('amprahans.index') }}"><i class="fas fa-clipboard-list"></i><span>Amprahan</span></a>
 
-
-                    {{-- <li class="nav-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
-                    <a href="{{ route('companies.index') }}">
-                        <i class="fas fa-building"></i>
-                        <p>Company</p>
-                    </a>
-                </li> --}}
-
-                    <li class="nav-item {{ request()->routeIs('clients.*') ? 'active' : '' }}">
-                        <a href="{{ route('clients.index') }}">
-                            <i class="fas fa-user-tie"></i>
-                            <p>Client</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('ports.*') ? 'active' : '' }}">
-                        <a href="{{ route('ports.index') }}">
-                            <i class="fas fa-anchor"></i>
-                            <p>Port</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('vessels.*') ? 'active' : '' }}">
-                        <a href="{{ route('vessels.index') }}">
-                            <i class="fas fa-ship"></i>
-                            <p>Vessel Registry</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('cargos.*') ? 'active' : '' }}">
-                        <a href="{{ route('cargos.index') }}">
-                            <i class="fas fa-boxes"></i>
-                            <p>Cargo</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('periods.*') ? 'active' : '' }}">
-                        <a href="{{ route('periods.index') }}">
-                            <i class="fas fa-calendar-check"></i>
-                            <p>Period</p>
-                        </a>
-                    </li>
-
-
-
-                    <!-- OPERATIONS -->
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                        <h4 class="text-section">Operations</h4>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('projects.*') ? 'active' : '' }}">
-                        <a href="{{ route('projects.index') }}">
-                            <i class="fas fa-project-diagram"></i>
-                            <p>Project</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('crews.*') ? 'active' : '' }}">
-                        <a href="{{ route('crews.index') }}">
-                            <i class="fas fa-users"></i>
-                            <p>Crew</p>
-                        </a>
-                    </li>
-
-                    @php
-                        $inventoryActive =
-                            request()->routeIs('assets-management.*') || request()->routeIs('amprahans.*') ;
-                    @endphp
-
-                    <!-- INVENTORY MANAGEMENT -->
-                    <li class="nav-item {{ $inventoryActive ? 'active' : '' }}">
-                        <a data-bs-toggle="collapse" href="#inventory"
-                            class="{{ $inventoryActive ? '' : 'collapsed' }}"
-                            aria-expanded="{{ $inventoryActive ? 'true' : 'false' }}">
-
-                            <i class="fas fa-box"></i>
-                            <p>Inventory</p>
-                            <span class="caret"></span>
-                        </a>
-
-                        <div class="collapse {{ $inventoryActive ? 'show' : '' }}" id="inventory">
-                            <ul class="nav nav-collapse">
-
-                                <li class="{{ request()->routeIs('assets-management.*') ? 'active' : '' }}">
-                                    <a href="{{ route('assets-management.index') }}">
-                                        <span class="sub-item">Asset</span>
-                                    </a>
-                                </li>
-
-                                <li class="{{ request()->routeIs('amprahans.*') ? 'active' : '' }}">
-                                    <a href="{{ route('amprahans.index') }}">
-                                        <span class="sub-item">Amprahan</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- MONITORING -->
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                        <h4 class="text-section">Monitoring</h4>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('vessel-certificates.*') ? 'active' : '' }}">
-                        <a href="{{ route('vessel-certificates.index') }}">
-                            <i class="fas fa-file-alt"></i>
-                            <p>Certificate Monitoring</p>
-                        </a>
-                    </li>
-
-                    <!-- REPORT -->
-                    {{-- <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#report">
-                            <i class="fas fa-chart-bar"></i>
-                            <p>Reports</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="report">
-                            <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="#">
-                                        <span class="sub-item">Project Performance Report</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="sub-item">Voyage Activity Report</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="sub-item">Vessel Utilization Report</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="sub-item">Crew Timesheet Report</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li> --}}
-                @endif
-
-                @if (Auth::user()->is_platform_admin == true)
-                    <li class="nav-item {{ request()->routeIs('document-types.*') ? 'active' : '' }}">
-                        <a href="{{ route('document-types.index') }}">
-                            <i class="fas fa-file-alt"></i>
-                            <p>Document Types</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('asset-groups.*') ? 'active' : '' }}">
-                        <a href="{{ route('asset-groups.index') }}">
-                            <i class="fas fa-sitemap"></i>
-                            <p>Asset Group</p>
-                        </a>
-                    </li>
-
-                    <!-- USER ACCESS -->
-                    <li
-                        class="nav-item {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'active' : '' }}">
-                        <a data-bs-toggle="collapse" href="#user"
-                            class="{{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? '' : 'collapsed' }}">
-                            <i class="fas fa-users-cog"></i>
-                            <p>User & Access</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse {{ request()->routeIs('user-management.*') || request()->routeIs('user-company-assign.*') || request()->routeIs('companies.*') ? 'show' : '' }}"
-                            id="user">
-                            <ul class="nav nav-collapse">
-                                <li class="{{ request()->routeIs('companies.*') ? 'active' : '' }}">
-                                    <a href="{{ route('companies.index') }}">
-                                        <span class="sub-item">Company</span>
-                                    </a>
-                                </li>
-                                <li class="{{ request()->routeIs('user-management.*') ? 'active' : '' }}">
-                                    <a href="{{ route('user-management.index') }}">
-                                        <span class="sub-item">User Management</span>
-                                    </a>
-                                </li>
-                                <li class="{{ request()->routeIs('user-company-assign.*') ? 'active' : '' }}">
-                                    <a href="{{ route('user-company-assign.index') }}">
-                                        <span class="sub-item">User Company Assignment</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                @endif
-            </ul>
-
-        </div>
-    </div>
-</div>
-<!-- End Sidebar -->
+            <p class="nav-label">Monitoring</p>
+            <a class="nav-link {{ request()->routeIs('vessel-certificates.*') ? 'active' : '' }}" href="{{ route('vessel-certificates.index') }}"><i class="fas fa-certificate"></i><span>Certificate Monitoring</span></a>
+        @else
+            <p class="nav-label">Administration</p>
+            <a class="nav-link {{ request()->routeIs('backup-restore.*') ? 'active' : '' }}" href="{{ route('backup-restore.index') }}"><i class="fas fa-database"></i><span>Backup & Restore</span></a>
+            <a class="nav-link {{ request()->routeIs('document-types.*') ? 'active' : '' }}" href="{{ route('document-types.index') }}"><i class="fas fa-file-alt"></i><span>Document Types</span></a>
+            <a class="nav-link {{ request()->routeIs('asset-groups.*') ? 'active' : '' }}" href="{{ route('asset-groups.index') }}"><i class="fas fa-layer-group"></i><span>Asset Groups</span></a>
+            <p class="nav-label">User & access</p>
+            <a class="nav-link {{ request()->routeIs('companies.*') ? 'active' : '' }}" href="{{ route('companies.index') }}"><i class="far fa-building"></i><span>Companies</span></a>
+            <a class="nav-link {{ request()->routeIs('user-management.*') ? 'active' : '' }}" href="{{ route('user-management.index') }}"><i class="fas fa-users-cog"></i><span>User Management</span></a>
+            <a class="nav-link {{ request()->routeIs('user-company-assign.*') ? 'active' : '' }}" href="{{ route('user-company-assign.index') }}"><i class="fas fa-link"></i><span>Company Assignment</span></a>
+        @endif
+    </nav>
+</aside>
+<div class="sidebar-backdrop" data-sidebar-close></div>

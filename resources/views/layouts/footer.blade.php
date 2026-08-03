@@ -1,10 +1,4 @@
-<footer class="footer">
-    <div class="container-fluid d-flex justify-content-between">
-        <div class="copyright">
-            &copy; {{ now()->year }} MarineOps - All Right Reserved
-        </div>
-        <div>
-            Developed by <strong>Muhammad Mabrur Al Mutaqi</strong>
-        </div>
-    </div>
+<footer class="app-footer">
+    <span>© {{ now()->year }} MarineOps</span>
+    <span>Marine operations, clearly managed.</span>
 </footer>

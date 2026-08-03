@@ -83,6 +83,19 @@
                                     <!-- Issue Date -->
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="lokasi">Lokasi</label>
+                                            <input type="text" class="form-control @error('lokasi') is-invalid @enderror"
+                                                id="lokasi" name="lokasi"
+                                                value="{{ old('lokasi', $vesselCertificate->lokasi) }}">
+                                            @error('lokasi')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Issue Date -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="issue_date">
                                                 Issue Date <span class="text-danger">*</span>
                                             </label>
@@ -144,6 +157,37 @@
                                                 Leave empty if you don't want to change the file
                                             </small>
                                             @error('certificate_file')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Current Photo</label><br>
+                                            @if ($vesselCertificate->foto)
+                                                <img src="{{ Storage::url($vesselCertificate->foto) }}" alt="Certificate photo"
+                                                    class="img-thumbnail mb-2" style="max-height: 180px;">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="remove_foto"
+                                                        value="1" id="remove_foto">
+                                                    <label class="form-check-label text-danger" for="remove_foto">
+                                                        Remove current photo
+                                                    </label>
+                                                </div>
+                                            @else
+                                                <p class="text-muted">-</p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="foto">Replace Photo</label>
+                                            <input type="file" class="form-control @error('foto') is-invalid @enderror"
+                                                id="foto" name="foto" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                                            <small class="text-muted">Leave empty if you don't want to change the photo</small>
+                                            @error('foto')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>

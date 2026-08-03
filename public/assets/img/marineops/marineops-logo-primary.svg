@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 180" role="img" aria-labelledby="title desc">
+  <title id="title">MarineOps</title>
+  <desc id="desc">MarineOps maritime operations logo.</desc>
+  <g transform="translate(12 10)">
+    <rect width="160" height="160" rx="42" fill="#073b5c"/>
+    <circle cx="80" cy="72" r="46" fill="none" stroke="#8be5f7" stroke-width="7"/>
+    <path d="M80 25l10 39-10 13-10-13 10-39zm0 94l-10-39 10-13 10 13-10 39zM33 72l39-10 13 10-13 10-39-10zm94 0l-39 10-13-10 13-10 39 10z" fill="#fff"/>
+    <path d="M43 125c11-12 23-18 37-18 15 0 28 6 37 18" fill="none" stroke="#22d3ee" stroke-linecap="round" stroke-width="10"/>
+    <circle cx="80" cy="72" r="8" fill="#22d3ee" stroke="#fff" stroke-width="4"/>
+  </g>
+  <text x="204" y="91" fill="#073b5c" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" letter-spacing="2">MARINE</text>
+  <text x="204" y="140" fill="#0b7da7" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" letter-spacing="9">OPS</text>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "name": "MarineOps",
+  "short_name": "MarineOps",
+  "start_url": "/dasbboard",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#0b3b60",
+  "icons": [
+    { "src": "/assets/img/marineops/marineops-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/img/marineops/marineops-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

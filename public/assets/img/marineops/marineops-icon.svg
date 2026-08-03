@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">MarineOps</title>
+  <desc id="desc">A maritime navigation mark with a compass and wave.</desc>
+  <rect width="512" height="512" rx="112" fill="#073b5c"/>
+  <circle cx="256" cy="248" r="150" fill="none" stroke="#7dd3fc" stroke-width="18" opacity=".9"/>
+  <path d="M256 91l28 112-28 35-28-35 28-112zm0 330l-28-112 28-35 28 35-28 112zM99 248l112-28 35 28-35 28-112-28zm314 0l-112 28-35-28 35-28 112 28z" fill="#fff"/>
+  <path d="M147 336c30-31 69-46 109-46 42 0 80 16 109 46" fill="none" stroke="#22d3ee" stroke-linecap="round" stroke-width="24"/>
+  <path d="M187 364c20-15 43-23 69-23s49 8 69 23" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="16"/>
+  <circle cx="256" cy="248" r="19" fill="#22d3ee" stroke="#fff" stroke-width="10"/>
+</svg>

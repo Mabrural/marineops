@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 @include('layouts.head')
 
 <body>
-    <div class="wrapper">
+    <div class="app-shell">
         @include('layouts.sidebar')
 
-        <div class="main-panel">
+        <div class="app-main">
             @include('layouts.navbar')
 
-            @yield('container')
+            <main class="app-content" id="main-content">
+                @yield('container')
+            </main>
 
             @include('layouts.footer')
         </div>
-
-        {{-- @include('layouts.custom-template') --}}
     </div>
+
     @include('layouts.script')
     @stack('scripts')
 </body>
-
 </html>

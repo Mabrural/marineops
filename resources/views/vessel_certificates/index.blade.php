@@ -185,6 +185,8 @@
                                         <th width="5%">#</th>
                                         <th>Certificate</th>
                                         <th>Vessel</th>
+                                        <th>Lokasi</th>
+                                        <th>Foto</th>
                                         <th>Issue Date</th>
                                         <th>Expired Date</th>
                                         <th>Status</th>
@@ -207,6 +209,15 @@
 
                                             <td>
                                                 {{ $certificate->vessel->name ?? '-' }}
+                                            </td>
+                                            <td>{{ $certificate->lokasi ?: '-' }}</td>
+                                            <td>
+                                                @if ($certificate->foto)
+                                                    <img src="{{ Storage::url($certificate->foto) }}" alt="Certificate photo"
+                                                        class="img-thumbnail" style="width: 42px; height: 42px; object-fit: cover;">
+                                                @else
+                                                    -
+                                                @endif
                                             </td>
                                             <td>
                                                 {{ $certificate->issue_date->format('d M Y') }}
@@ -252,7 +263,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center py-4 text-muted">
+                                            <td colspan="9" class="text-center py-4 text-muted">
                                                 No vessel certificates registered yet
                                             </td>
                                         </tr>
@@ -283,9 +294,12 @@
                                             @endif
                                         </h6>
 
-                                        <small class="text-muted">
-                                            Vessel: {{ $certificate->vessel->name ?? '-' }}
-                                        </small>
+                                         <small class="text-muted">
+                                             Vessel: {{ $certificate->vessel->name ?? '-' }}
+                                         </small>
+                                         <small class="text-muted d-block">
+                                             Lokasi: {{ $certificate->lokasi ?: '-' }}
+                                         </small>
                                     </div>
 
                                     <!-- Status -->
@@ -303,12 +317,21 @@
                                 <hr class="my-2">
 
                                 <!-- Dates -->
-                                <div class="row small">
+                                 <div class="row small">
                                     <div class="col-6">
                                         <div class="text-muted">Issue Date</div>
                                         <div class="fw-semibold">
                                             {{ $certificate->issue_date->format('d M Y') }}
-                                        </div>
+                                 </div>
+
+                                 <div class="mt-2">
+                                     @if ($certificate->foto)
+                                         <img src="{{ Storage::url($certificate->foto) }}" alt="Certificate photo"
+                                             class="img-thumbnail" style="max-height: 120px;">
+                                     @else
+                                         <span class="text-muted">Foto: -</span>
+                                     @endif
+                                 </div>
                                     </div>
 
                                     <div class="col-6">

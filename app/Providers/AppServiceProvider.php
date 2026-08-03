@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (Auth::check() && ! session()->has('active_period_id')) {
+        if (Auth::check() && ! session()->has('active_period_id') && Auth::user()->company) {
 
             $latestPeriod = Period::where('company_id', Auth::user()->company->id)
                 ->latest('created_at') // atau ->orderBy('year', 'desc')

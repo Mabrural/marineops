@@ -16,9 +16,11 @@ class VesselCertificate extends Model
         'company_id',
         'vessel_id',
         'name',
+        'lokasi',
         'issue_date',
         'expiry_date',
         'certificate_file',
+        'foto',
         'created_by',
     ];
 

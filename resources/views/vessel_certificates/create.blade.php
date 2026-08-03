@@ -88,6 +88,22 @@
                                 <!-- Issue Date -->
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="lokasi">Lokasi</label>
+                                        <input type="text"
+                                            class="form-control @error('lokasi') is-invalid @enderror"
+                                            id="lokasi"
+                                            name="lokasi"
+                                            value="{{ old('lokasi') }}"
+                                            placeholder="Optional">
+                                        @error('lokasi')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Issue Date -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="issue_date">
                                             Issue Date <span class="text-danger">*</span>
                                         </label>
@@ -137,6 +153,21 @@
                                             Allowed file: PDF, JPG, PNG (max 5MB)
                                         </small>
                                         @error('certificate_file')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="foto">Foto</label>
+                                        <input type="file"
+                                            class="form-control @error('foto') is-invalid @enderror"
+                                            id="foto"
+                                            name="foto"
+                                            accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                                        <small class="text-muted">Optional. Allowed file: JPG, PNG (max 5MB)</small>
+                                        @error('foto')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>

@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
         // ==================================================
         // SET ACTIVE PERIOD HANYA JIKA BUKAN PLATFORM ADMIN
         // ==================================================
-        if (! $user->is_platform_admin) {
+        if (! $user->is_platform_admin && $user->company) {
             $latestPeriod = Period::where('company_id', $user->company->id)
                 ->latest('created_at')
                 ->first();

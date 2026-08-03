@@ -1,118 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <meta charset="UTF-8">
-    <title>MarineOps</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" href="{{ asset('assets/img/marineops/favicon-primary.svg') }}" type="image/x-icon" />
-
-    <!-- Fonts and icons -->
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons"
-                ],
-                urls: ["{{ asset('assets/css/fonts.min.css') }}"]
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>
-
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
-
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            overflow-x: hidden;
-            background-color: #f5f6fa;
-        }
-
-        .profile-page {
-            padding-top: 50px;
-            padding-bottom: 50px;
-        }
-
-        .card-profile {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-            background-color: #fff;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            color: #343a40;
-        }
-
-        @media (max-width: 576px) {
-            .section-title {
-                font-size: 18px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container profile-page">
-        <div class="text-center mb-5 mt-2">
-            <h2 class="mt-3">My Profile</h2>
-            <p class="text-muted">Manage your account settings</p>
-
-            <a href="{{ route('dashboard') }}" class="btn btn-outline-primary mt-3">
-                ← Back to Dashboard
-            </a>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-
-                <!-- Update Profile Info -->
-                <div class="card card-profile p-4 mb-4">
-                    <div class="section-title">Update Profile Information</div>
-                    @include('profile.partials.update-profile-information-form')
+@section('container')
+    <div class="container">
+        <div class="page-inner">
+            <div class="page-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <p class="eyebrow mb-1">Account settings</p>
+                    <h4 class="page-title mb-1">My Profile</h4>
+                    <p class="text-muted mb-0">Keep your personal information and password up to date.</p>
                 </div>
+                <a href="{{ route('dashboard') }}" class="btn btn-outline-primary"><i class="fas fa-arrow-left me-1"></i>Back to Dashboard</a>
+            </div>
 
-                <!-- Update Password -->
-                <div class="card card-profile p-4 mb-4">
-                    <div class="section-title">Update Password</div>
-                    @include('profile.partials.update-password-form')
-                </div><br>
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-9">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="user-avatar flex-shrink-0">{{ strtoupper(mb_substr($user->name, 0, 1)) }}</span>
+                                <div>
+                                    <div class="card-title mb-1">Profile information</div>
+                                    <p class="text-muted small mb-0">Name and email used for your MarineOps account.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            @include('profile.partials.update-profile-information-form')
+                        </div>
+                    </div>
 
-                <!-- Delete Account -->
-                {{-- <div class="card card-profile p-4 mb-4">
-                    <div class="section-title">Delete Account</div>
-                    @include('profile.partials.delete-user-form')
-                </div> --}}
-
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="card-title mb-1">Password</div>
+                            <p class="text-muted small mb-0">Use a strong password that you do not use elsewhere.</p>
+                        </div>
+                        <div class="card-body p-4">
+                            @include('profile.partials.update-password-form')
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- JS Files -->
-    <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/kaiadmin.min.js') }}"></script>
-</body>
-
-</html>
+@endsection

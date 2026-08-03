@@ -1,130 +1,19 @@
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>MarineOps</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" href="{{ asset('assets/img/marineops/favicon-primary.svg') }}" type="image/x-icon" />
-
-    <!-- Fonts and icons -->
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons"
-                ],
-                urls: ["{{ asset('assets/css/fonts.min.css') }}"]
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>
-
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b3b60">
+    <title>Sign in · MarineOps</title>
+    <link rel="icon" href="{{ asset('assets/img/marineops/marineops-icon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fonts.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/marineops.css') }}">
     <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            position: relative;
-            background-color: #f0f2f5;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('{{ asset('assets/img/pexels-tomfisk-3840441.jpg') }}') no-repeat center center;
-            background-size: cover;
-            opacity: 0.15;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-
-        .login-page {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
-            background: #ffffff;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .login-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-logo img {
-            margin-top: 1.0rem;
-            max-width: 68%;
-        }
-
-        .login-subtitle {
-            text-align: center;
-            font-size: 13px;
-            color: #6c757d;
-            margin-bottom: 15px;
-        }
-
-        .form-control {
-            height: 45px;
-            border-radius: 6px;
-        }
-
-        .btn-login {
-            height: 45px;
-            border-radius: 6px;
-            font-weight: 600;
-            width: 100%;
-        }
-
-        .form-check-label {
-            margin-left: 5px;
-        }
-
-        .btn-reset {
-            height: 45px;
-            border-radius: 6px;
-            font-weight: 600;
-            width: 100%;
-        }
-        
-        @media (max-width: 576px) {
-            .login-card {
-                padding: 1.5rem;
-                border-radius: 8px;
-            }
-
-            .login-logo img {
-                margin-top: 1.0rem;
-                height: 2.0rem;
-            }
-        }
+        .login-page { min-height:100vh; display:grid; place-items:center; padding:24px; background:radial-gradient(circle at top right,#d8effa 0,transparent 35%),#f6f8fa; }
+        .login-card { width:min(100%,430px); padding:32px; border:1px solid #e4ebf0; border-radius:20px; background:#fff; box-shadow:0 24px 60px rgba(11,59,96,.12); }
+        .login-logo { text-align:center; margin-bottom:22px; }.login-logo img { width:180px; max-width:80%; }.login-subtitle { color:#6d7f8d; text-align:center; margin-bottom:28px; }
+        .input-icon { position:relative; }.input-icon-addon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#6d7f8d; z-index:2; }.input-icon .form-control { padding-left:40px; }
+        .btn-login { width:100%; min-height:44px; }
+        @media (max-width:575.98px) { .login-page { padding:16px; }.login-card { padding:24px 20px; border-radius:16px; } }
     </style>
 </head>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupRestoreController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
@@ -52,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
 
 // super admin
 Route::middleware(['auth', 'verified', 'platform.admin'])->group(function () {
+    Route::get('/backup-restore', [BackupRestoreController::class, 'index'])->name('backup-restore.index');
+    Route::post('/backup-restore/backup', [BackupRestoreController::class, 'store'])->name('backup-restore.store');
+    Route::post('/backup-restore/restore', [BackupRestoreController::class, 'restore'])->name('backup-restore.restore');
+    Route::post('/backup-restore/reset', [BackupRestoreController::class, 'reset'])->name('backup-restore.reset');
+
     Route::resource('companies', CompanyController::class);
 
     Route::resource('user-management', UserController::class);

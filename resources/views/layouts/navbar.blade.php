@@ -1,226 +1,93 @@
-<div class="main-header">
-    <div class="main-header-logo">
-        <!-- Logo Header -->
-        <div class="logo-header" data-background-color="dark">
-            <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ asset('assets/img/marineops/marine-ops-text-light.svg') }}" alt="navbar brand"
-                    class="navbar-brand" height="20" />
-            </a>
-            <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
-                    <i class="gg-menu-right"></i>
-                </button>
-                <button class="btn btn-toggle sidenav-toggler">
-                    <i class="gg-menu-left"></i>
-                </button>
-            </div>
-            <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
-            </button>
+@php
+    $isPlatformAdmin = Auth::user()->is_platform_admin;
+    $periods = collect();
+    $activePeriod = null;
+
+    if (! $isPlatformAdmin && Auth::user()->company) {
+        $periods = \App\Models\Period::where('company_id', Auth::user()->company->id)->latest('created_at')->get();
+        $activePeriod = $periods->firstWhere('id', session('active_period_id'));
+    }
+@endphp
+
+<header class="app-header">
+    <div class="container-fluid d-flex align-items-center gap-2 h-100">
+        <button class="btn btn-icon d-lg-none" type="button" data-sidebar-toggle aria-label="Open navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="app-header-title d-none d-md-block">
+            <span class="text-uppercase">Marine Operations</span>
+            @if (! $isPlatformAdmin)
+                <small>{{ Auth::user()->company?->name ?? 'No company assigned' }}</small>
+            @endif
         </div>
-        <!-- End Logo Header -->
-    </div>
-    <!-- Navbar Header -->
-    <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
-        <div class="container-fluid">
-            {{-- <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <button type="submit" class="btn btn-search pe-1">
-                            <i class="fa fa-search search-icon"></i>
-                        </button>
-                    </div>
-                    <input type="text" placeholder="Search ..." class="form-control" />
-                </div>
-            </nav> --}}
-            @if (!Auth::user()->is_platform_admin)
-                <nav class="navbar navbar-header-left navbar-expand-lg p-0 d-none d-lg-flex">
-                    <span class="fw-semibold text-white">
-                        Monitor Your Marine Operations <br>
-                        <small>{{ Auth::user()->company?->name ?? 'Not Assign' }}</small>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+            @if (! $isPlatformAdmin)
+                <button type="button" class="period-context" data-bs-toggle="modal" data-bs-target="#periodContextModal">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>
+                        <small>Active period</small>
+                        <strong>{{ $activePeriod?->name ?? 'Choose period' }}</strong>
                     </span>
-                </nav>
+                    <i class="fas fa-pen"></i>
+                </button>
             @endif
 
-            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                {{-- <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false" aria-haspopup="true">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-search animated fadeIn">
-                        <form class="navbar-left navbar-form nav-search">
-                            <div class="input-group">
-                                <input type="text" placeholder="Search ..." class="form-control" />
-                            </div>
+            <div class="dropdown">
+                <button class="user-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="user-avatar">{{ strtoupper(mb_substr(Auth::user()->name ?? 'U', 0, 1)) }}</span>
+                    <span class="d-none d-sm-inline text-start">
+                        <small>Signed in as</small>
+                        <strong>{{ Auth::user()->name ?? '' }}</strong>
+                    </span>
+                    <i class="fas fa-chevron-down small"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                    <li><h6 class="dropdown-header">{{ Auth::user()->email ?? '' }}</h6></li>
+                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="far fa-user me-2"></i>Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                         </form>
-                    </ul>
-                </li> --}}
-
-                {{-- <li class="nav-item topbar-icon dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell"></i>
-                        <span class="notification">4</span>
-                    </a>
-                    <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-                        <li>
-                            <div class="dropdown-title">
-                                You have 4 new notification
-                            </div>
-                        </li>
-                        <li>
-                            <div class="notif-scroll scrollbar-outer">
-                                <div class="notif-center">
-                                    <a href="#">
-                                        <div class="notif-icon notif-primary">
-                                            <i class="fa fa-user-plus"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block"> New user registered </span>
-                                            <span class="time">5 minutes ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-success">
-                                            <i class="fa fa-comment"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block">
-                                                Rahmad commented on Admin
-                                            </span>
-                                            <span class="time">12 minutes ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-img">
-                                            <img src="{{ asset('assets/img/profile2.jpg') }}" alt="Img Profile" />
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block">
-                                                Reza send messages to you
-                                            </span>
-                                            <span class="time">12 minutes ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-danger">
-                                            <i class="fa fa-heart"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block"> Farrah liked Admin </span>
-                                            <span class="time">17 minutes ago</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="see-all" href="javascript:void(0);">See all notifications<i
-                                    class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-                @php
-                    use Illuminate\Support\Facades\Auth;
-                @endphp
-
-                @if (!Auth::user()->is_platform_admin)
-                    @php
-                        $periods = \App\Models\Period::where('company_id', Auth::user()->company->id)
-                            ->orderBy('created_at', 'desc')
-                            ->get();
-
-                        $activePeriodId = session('active_period_id');
-                        $activePeriod = $periods->firstWhere('id', $activePeriodId);
-                    @endphp
-
-                    <li class="nav-item dropdown me-3">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="dropdownPeriod" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ $activePeriod?->name ?? 'Pilih Periode' }}
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownPeriod">
-                            @forelse ($periods as $period)
-                                <li>
-                                    <form action="{{ route('set.period') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="period_id" value="{{ $period->id }}">
-
-                                        <button type="submit"
-                                            class="dropdown-item {{ $period->id == $activePeriodId ? 'active fw-bold' : '' }}">
-                                            {{ $period->name }}
-                                        </button>
-                                    </form>
-                                </li>
-                            @empty
-                                <li>
-                                    <span class="dropdown-item text-muted">
-                                        Belum ada periode
-                                    </span>
-                                </li>
-                            @endforelse
-                        </ul>
                     </li>
-                @endif
-
-
-                <style>
-                    #dropdownPeriod::after {
-                        color: #fff !important;
-                        border-top-color: #fff !important;
-                    }
-                </style>
-                <li class="nav-item topbar-user dropdown hidden-caret">
-                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
-                        aria-expanded="false">
-                        <div
-                            class="avatar-sm d-flex align-items-center justify-content-center bg-primary rounded-circle">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
-
-                        <span class="profile-username">
-                            <span class="op-7">Hi,</span>
-                            <span class="fw-bold">{{ Auth::user()->name ?? '' }}</span>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user animated fadeIn">
-                        <div class="dropdown-user-scroll scrollbar-outer">
-                            <li>
-                                <div class="user-box">
-                                    <div
-                                        class="avatar-lg d-flex align-items-center justify-content-center bg-primary rounded-circle">
-                                        <i class="fas fa-user fa-2x text-white"></i>
-                                    </div>
-
-                                    <div class="u-text">
-                                        <h4>{{ Auth::user()->name ?? '' }}</h4>
-                                        <p class="text-muted">{{ Auth::user()->email ?? '' }}</p>
-                                        <a href="{{ route('profile.edit') }}"
-                                            class="btn btn-xs btn-secondary btn-sm">View Profile</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}">Edit
-                                    Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item"
-                                        onclick="event.preventDefault(); this.closest('form').submit();">
-                                        Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </div>
-                    </ul>
-                </li>
-            </ul>
+                </ul>
+            </div>
         </div>
-    </nav>
-    <!-- End Navbar -->
-</div>
+    </div>
+</header>
+
+@if (! $isPlatformAdmin)
+    <div class="modal fade" id="periodContextModal" tabindex="-1" aria-labelledby="periodContextTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <div>
+                        <p class="eyebrow mb-1">Working context</p>
+                        <h5 class="modal-title" id="periodContextTitle">Choose active period</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Projects, voyages, and timesheets are shown for the selected period.</p>
+                    <div class="period-list">
+                        @forelse ($periods as $period)
+                            <form action="{{ route('set.period') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="period_id" value="{{ $period->id }}">
+                                <button type="submit" class="period-option {{ $period->id == session('active_period_id') ? 'is-active' : '' }}">
+                                    <span><strong>{{ $period->name }}</strong><small>Created {{ $period->created_at?->format('d M Y') }}</small></span>
+                                    @if ($period->id == session('active_period_id')) <i class="fas fa-check-circle"></i> @endif
+                                </button>
+                            </form>
+                        @empty
+                            <p class="text-muted mb-0">No period is available yet.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif

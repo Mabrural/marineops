@@ -64,9 +64,11 @@ class VesselCertificateController extends Controller
         $request->validate([
             'vessel_id' => 'required|exists:vessels,id',
             'name' => 'required|string|max:100',
+            'lokasi' => 'nullable|string|max:255',
             'issue_date' => 'required|date',
             'expiry_date' => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $filePath = null;
@@ -75,13 +77,21 @@ class VesselCertificateController extends Controller
             $filePath = $request->file('certificate_file')->store('vessel-certificates', 'public');
         }
 
+        $photoPath = null;
+
+        if ($request->hasFile('foto')) {
+            $photoPath = $request->file('foto')->store('vessel-certificates', 'public');
+        }
+
         VesselCertificate::create([
             'company_id' => Auth::user()->company->id,
             'vessel_id' => $request->vessel_id,
             'name' => $request->name,
+            'lokasi' => $request->lokasi,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
             'certificate_file' => $filePath,
+            'foto' => $photoPath,
             'created_by' => Auth::id(),
         ]);
 
@@ -106,12 +116,15 @@ class VesselCertificateController extends Controller
         $request->validate([
             'vessel_id' => 'required|exists:vessels,id',
             'name' => 'required|string|max:100',
+            'lokasi' => 'nullable|string|max:255',
             'issue_date' => 'required|date',
             'expiry_date' => 'required|date|after_or_equal:issue_date',
             'certificate_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'remove_foto' => 'nullable|boolean',
         ]);
 
-        $data = $request->only(['vessel_id', 'name', 'issue_date', 'expiry_date']);
+        $data = $request->only(['vessel_id', 'name', 'lokasi', 'issue_date', 'expiry_date']);
 
         if ($request->hasFile('certificate_file')) {
             // delete old file
@@ -120,6 +133,17 @@ class VesselCertificateController extends Controller
             }
 
             $data['certificate_file'] = $request->file('certificate_file')->store('vessel-certificates', 'public');
+        }
+
+        if ($request->hasFile('foto')) {
+            if ($vesselCertificate->foto) {
+                Storage::disk('public')->delete($vesselCertificate->foto);
+            }
+
+            $data['foto'] = $request->file('foto')->store('vessel-certificates', 'public');
+        } elseif ($request->boolean('remove_foto') && $vesselCertificate->foto) {
+            Storage::disk('public')->delete($vesselCertificate->foto);
+            $data['foto'] = null;
         }
 
         $vesselCertificate->update($data);
@@ -133,6 +157,10 @@ class VesselCertificateController extends Controller
 
         if ($vesselCertificate->certificate_file) {
             Storage::disk('public')->delete($vesselCertificate->certificate_file);
+        }
+
+        if ($vesselCertificate->foto) {
+            Storage::disk('public')->delete($vesselCertificate->foto);
         }
 
         $vesselCertificate->delete();
