@@ -7,6 +7,7 @@ use App\Models\VesselCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class VesselCertificateController extends Controller
@@ -62,7 +63,10 @@ class VesselCertificateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vessel_id' => 'required|exists:vessels,id',
+            'vessel_id' => [
+                'required',
+                Rule::exists('vessels', 'id')->where('company_id', Auth::user()->company->id),
+            ],
             'name' => 'required|string|max:100',
             'lokasi' => 'nullable|string|max:255',
             'issue_date' => 'required|date',
@@ -114,7 +118,10 @@ class VesselCertificateController extends Controller
         $this->authorizeCompany($vesselCertificate);
 
         $request->validate([
-            'vessel_id' => 'required|exists:vessels,id',
+            'vessel_id' => [
+                'required',
+                Rule::exists('vessels', 'id')->where('company_id', Auth::user()->company->id),
+            ],
             'name' => 'required|string|max:100',
             'lokasi' => 'nullable|string|max:255',
             'issue_date' => 'required|date',

@@ -217,4 +217,41 @@ class BackupRestoreAndCertificateFeatureTest extends TestCase
         $this->assertNull($certificate->foto);
         Storage::disk('public')->assertMissing($replacementPhoto);
     }
+
+    public function test_certificate_can_be_deleted_with_its_attachments(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create(['is_platform_admin' => false]);
+        $company = Company::create(['name' => 'Operating Company', 'is_active' => true, 'created_by' => $user->id]);
+        DB::table('user_companies')->insert([
+            'user_id' => $user->id,
+            'company_id' => $company->id,
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $vessel = Vessel::create(['company_id' => $company->id, 'name' => 'MV Test', 'created_by' => $user->id]);
+        $certificateFile = 'vessel-certificates/certificate.pdf';
+        $photoFile = 'vessel-certificates/photo.jpg';
+        Storage::disk('public')->put($certificateFile, 'certificate');
+        Storage::disk('public')->put($photoFile, 'photo');
+        $certificate = VesselCertificate::create([
+            'company_id' => $company->id,
+            'vessel_id' => $vessel->id,
+            'name' => 'Safety Certificate',
+            'issue_date' => '2026-01-01',
+            'expiry_date' => '2027-01-01',
+            'certificate_file' => $certificateFile,
+            'foto' => $photoFile,
+            'created_by' => $user->id,
+        ]);
+
+        $this->actingAs($user)->delete(route('vessel-certificates.destroy', $certificate))
+            ->assertRedirect(route('vessel-certificates.index'));
+
+        $this->assertDatabaseMissing('vessel_certificates', ['id' => $certificate->id]);
+        Storage::disk('public')->assertMissing($certificateFile);
+        Storage::disk('public')->assertMissing($photoFile);
+    }
 }
