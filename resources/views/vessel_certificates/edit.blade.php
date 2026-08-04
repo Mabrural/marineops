@@ -154,7 +154,7 @@
                                                 class="form-control @error('certificate_file') is-invalid @enderror"
                                                 id="certificate_file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png">
                                             <small class="text-muted">
-                                                Leave empty if you don't want to change the file
+                                                Leave empty if you don't want to change the file. Allowed certificate file: PDF, JPG, JPEG, PNG (max 5MB)
                                             </small>
                                             @error('certificate_file')
                                                 <span class="invalid-feedback">{{ $message }}</span>
@@ -186,7 +186,7 @@
                                             <label for="foto">Replace Photo</label>
                                             <input type="file" class="form-control @error('foto') is-invalid @enderror"
                                                 id="foto" name="foto" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
-                                            <small class="text-muted">Leave empty if you don't want to change the photo</small>
+                                            <small class="text-muted">Leave empty if you don't want to change the photo. Allowed photo file: JPG, JPEG, PNG (max 5MB)</small>
                                             @error('foto')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror

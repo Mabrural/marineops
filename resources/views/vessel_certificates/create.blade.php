@@ -150,7 +150,7 @@
                                             accept=".pdf,.jpg,.jpeg,.png"
                                             required>
                                         <small class="text-muted">
-                                            Allowed file: PDF, JPG, PNG (max 5MB)
+                                            Allowed certificate file: PDF, JPG, JPEG, PNG (max 5MB)
                                         </small>
                                         @error('certificate_file')
                                             <span class="invalid-feedback">{{ $message }}</span>
@@ -166,7 +166,7 @@
                                             id="foto"
                                             name="foto"
                                             accept=".jpg,.jpeg,.png,image/jpeg,image/png">
-                                        <small class="text-muted">Optional. Allowed file: JPG, PNG (max 5MB)</small>
+                                        <small class="text-muted">Optional. Allowed photo file: JPG, JPEG, PNG (max 5MB)</small>
                                         @error('foto')
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror

@@ -218,6 +218,56 @@ class BackupRestoreAndCertificateFeatureTest extends TestCase
         Storage::disk('public')->assertMissing($replacementPhoto);
     }
 
+    public function test_certificate_and_photo_accept_jpeg_files_when_created_and_updated(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create(['is_platform_admin' => false]);
+        $company = Company::create(['name' => 'JPEG Company', 'is_active' => true, 'created_by' => $user->id]);
+        DB::table('user_companies')->insert([
+            'user_id' => $user->id,
+            'company_id' => $company->id,
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $vessel = Vessel::create(['company_id' => $company->id, 'name' => 'MV JPEG', 'created_by' => $user->id]);
+
+        $this->actingAs($user)->post(route('vessel-certificates.store'), [
+            'vessel_id' => $vessel->id,
+            'name' => 'JPEG Certificate',
+            'issue_date' => '2026-01-01',
+            'expiry_date' => '2027-01-01',
+            'certificate_file' => UploadedFile::fake()->image('certificate.jpeg'),
+            'foto' => UploadedFile::fake()->image('photo.jpeg'),
+        ])->assertRedirect(route('vessel-certificates.index'));
+
+        $certificate = VesselCertificate::where('name', 'JPEG Certificate')->firstOrFail();
+        $originalCertificateFile = $certificate->certificate_file;
+        $originalPhoto = $certificate->foto;
+
+        Storage::disk('public')->assertExists($originalCertificateFile);
+        Storage::disk('public')->assertExists($originalPhoto);
+
+        $this->actingAs($user)->put(route('vessel-certificates.update', $certificate), [
+            'vessel_id' => $vessel->id,
+            'name' => 'Updated JPEG Certificate',
+            'issue_date' => '2026-01-01',
+            'expiry_date' => '2027-01-01',
+            'certificate_file' => UploadedFile::fake()->image('replacement-certificate.jpeg'),
+            'foto' => UploadedFile::fake()->image('replacement-photo.jpeg'),
+        ])->assertRedirect(route('vessel-certificates.index'));
+
+        $certificate->refresh();
+
+        $this->assertNotSame($originalCertificateFile, $certificate->certificate_file);
+        $this->assertNotSame($originalPhoto, $certificate->foto);
+        Storage::disk('public')->assertMissing($originalCertificateFile);
+        Storage::disk('public')->assertMissing($originalPhoto);
+        Storage::disk('public')->assertExists($certificate->certificate_file);
+        Storage::disk('public')->assertExists($certificate->foto);
+    }
+
     public function test_certificate_can_be_deleted_with_its_attachments(): void
     {
         Storage::fake('public');
